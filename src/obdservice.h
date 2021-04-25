@@ -2,7 +2,10 @@
 #define OBDSERVICE_H
 
 #include <QObject>
+#include <QtBluetooth/qbluetoothserviceinfo.h>
+
 #include "obdresult.h"
+#include "btbackend.h"
 
 class ObdService : public QObject
 {
@@ -25,7 +28,10 @@ public:
 
 signals:
     void updateUI(ObdResult *resul);
-    void error(QString &reason);
+    void serviceError(QString reason);
+
+private:
+    BtBackend *backend;
 };
 
 #endif // OBDSERVICE_H

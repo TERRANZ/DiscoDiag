@@ -2,8 +2,12 @@
 #define BTBACKEND_H
 
 #include <QObject>
-#include <QtBluetooth/qbluetoothserviceinfo.h>
-#include <QtBluetooth/qbluetoothsocket.h>
+#include <QList>
+#include <QBluetoothServiceInfo>
+#include <QBluetoothSocket>
+#include <QBluetoothHostInfo>
+#include <QBluetoothLocalDevice>
+#include <QBluetoothAddress>
 
 #include "command/abstractcommand.h"
 
@@ -15,6 +19,7 @@ public:
 
     void startClient(const QBluetoothServiceInfo &remoteService);
     void stopClient();
+    QList<QBluetoothAddress> listAdapters();
 
 public slots:
     void sendMessage(const QString &message);

@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    service = new ObdService(this);
 }
 
 MainWindow::~MainWindow()
@@ -13,3 +14,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::on_action_3_triggered()
+{
+    service->startService();
+}

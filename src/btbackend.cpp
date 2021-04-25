@@ -52,6 +52,18 @@ void BtBackend::stopClient()
     socket = nullptr;
 }
 
+QList<QBluetoothAddress> BtBackend::listAdapters()
+{
+    QList<QBluetoothHostInfo> devices = QBluetoothLocalDevice::allDevices();
+    QList<QBluetoothAddress> result = QList<QBluetoothAddress>();
+    if ( devices.size() > 0 ) {
+        foreach (QBluetoothHostInfo info, devices) {
+            result.append(info.address());
+        }
+    }
+    return result;
+}
+
 void BtBackend::onSocketErrorOccurred(QBluetoothSocket::SocketError) {
 
 }
