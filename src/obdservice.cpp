@@ -60,13 +60,16 @@ void ObdService::startConnectionSeq()
 
         if (connectionState == ConnectionState::INWORK)
         {
+            stop = true;
         }
         if (connectionState == ConnectionState::ERROR)
         {
+            stop = true;
         }
     }
 }
 
 void ObdService::doObdPreparationStep()
 {
+    backend->sendCommand()
 }

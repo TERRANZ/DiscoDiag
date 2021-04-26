@@ -8,18 +8,15 @@ class AbstractCommand
 public:
     AbstractCommand();
     virtual QString calculate() { return QString(""); }
-    QString GetRawData()
-    {
-        return rawData;
-    }
-    QString GetId()
-    {
-        return cmdId;
-    }
-    QString GetName()
-    {
-        return cmdName;
-    }
+
+    QString getCmdId() const;
+    void setCmdId(const QString &value);
+
+    QString getCmdName() const;
+    void setCmdName(const QString &value);
+
+    QString getRawData() const;
+    void setRawData(const QString &value);
 
 protected:
     QString cmdId;

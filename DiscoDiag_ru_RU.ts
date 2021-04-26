@@ -74,7 +74,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/remoteselector.cpp" line="84"/>
+        <location filename="src/remoteselector.cpp" line="76"/>
         <source>Select the chat service to connect to.</source>
         <translation type="unfinished"></translation>
     </message>

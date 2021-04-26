@@ -40,9 +40,10 @@ void BtBackend::readSocket()
     }
 }
 
-void BtBackend::sendMessage(const QString &message)
+void BtBackend::sendCommand(const AbstractCommand &command)
 {
-    QByteArray text = message.toUtf8() + '\n';
+    qDebug() << "Writing command " << command.getCmdId() << " " << command.getCmdName() << " to socket";
+    QByteArray text = command.getCmdId().toUtf8();
     socket->write(text);
 }
 

@@ -22,7 +22,7 @@ public:
     QList<QBluetoothAddress> listAdapters();
 
 public slots:
-    void sendMessage(const QString &message);
+    void sendCommand(const AbstractCommand &commmand);
 
 signals:
     void messageReceived(const QString &sender, const QString &message);
