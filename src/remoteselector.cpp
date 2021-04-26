@@ -2,7 +2,7 @@
 #include "ui_remoteselector.h"
 
 RemoteSelector::RemoteSelector(const QBluetoothAddress &localAdapter, QWidget *parent)
-    :   QDialog(parent), ui(new Ui::RemoteSelector)
+    : QDialog(parent), ui(new Ui::RemoteSelector)
 {
     ui->setupUi(this);
 
@@ -29,12 +29,12 @@ void RemoteSelector::startDiscovery()
     ui->remoteDevices->clear();
 
     m_discoveryAgent->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
-
 }
 
 void RemoteSelector::stopDiscovery()
 {
-    if (m_discoveryAgent){
+    if (m_discoveryAgent)
+    {
         m_discoveryAgent->stop();
     }
 }
@@ -46,7 +46,6 @@ QBluetoothServiceInfo RemoteSelector::service() const
 
 void RemoteSelector::serviceDiscovered(const QBluetoothServiceInfo &serviceInfo)
 {
-#if 0
     qDebug() << "Discovered service on"
              << serviceInfo.device().name() << serviceInfo.device().address().toString();
     qDebug() << "\tService name:" << serviceInfo.serviceName();
@@ -57,22 +56,16 @@ void RemoteSelector::serviceDiscovered(const QBluetoothServiceInfo &serviceInfo)
     qDebug() << "\tL2CAP protocol service multiplexer:"
              << serviceInfo.protocolServiceMultiplexer();
     qDebug() << "\tRFCOMM server channel:" << serviceInfo.serverChannel();
-#endif
-    const QBluetoothAddress address = serviceInfo.device().address();
-    for (const QBluetoothServiceInfo &info : qAsConst(m_discoveredServices)) {
-        if (info.device().address() == address)
-            return;
-    }
+    qDebug() << "\tService uuid: " << serviceInfo.serviceUuid();
 
     QString remoteName;
-    if (serviceInfo.device().name().isEmpty())
-        remoteName = address.toString();
-    else
-        remoteName = serviceInfo.device().name();
+    QString serviceName = serviceInfo.serviceName();
 
-    QListWidgetItem *item =
-        new QListWidgetItem(QString::fromLatin1("%1 %2").arg(remoteName,
-                                                             serviceInfo.serviceName()));
+    remoteName = serviceInfo.device().name();
+
+    qDebug() << "Adding to list remote name " << remoteName << " with serviceName " << serviceName;
+
+    QListWidgetItem *item = new QListWidgetItem(QString::fromLatin1("%1 %2").arg(remoteName, serviceName));
 
     m_discoveredServices.insert(item, serviceInfo);
     ui->remoteDevices->addItem(item);

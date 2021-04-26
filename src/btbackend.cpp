@@ -20,7 +20,6 @@ void BtBackend::startClient(const QBluetoothServiceInfo &remoteService)
     connect(socket, &QBluetoothSocket::disconnected, this, &BtBackend::disconnected);
     connect(socket, QOverload<QBluetoothSocket::SocketError>::of(&QBluetoothSocket::error),
             this, &BtBackend::onSocketErrorOccurred);
-
 }
 
 void BtBackend::connected()
@@ -33,7 +32,8 @@ void BtBackend::readSocket()
     if (!socket)
         return;
 
-    while (socket->canReadLine()) {
+    while (socket->canReadLine())
+    {
         QByteArray line = socket->readLine();
         emit messageReceived(socket->peerName(),
                              QString::fromUtf8(line.constData(), line.length()));
@@ -56,14 +56,16 @@ QList<QBluetoothAddress> BtBackend::listAdapters()
 {
     QList<QBluetoothHostInfo> devices = QBluetoothLocalDevice::allDevices();
     QList<QBluetoothAddress> result = QList<QBluetoothAddress>();
-    if ( devices.size() > 0 ) {
-        foreach (QBluetoothHostInfo info, devices) {
+    if (devices.size() > 0)
+    {
+        foreach (QBluetoothHostInfo info, devices)
+        {
             result.append(info.address());
         }
     }
     return result;
 }
 
-void BtBackend::onSocketErrorOccurred(QBluetoothSocket::SocketError) {
-
+void BtBackend::onSocketErrorOccurred(QBluetoothSocket::SocketError)
+{
 }

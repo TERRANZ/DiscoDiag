@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QBluetoothServiceInfo>
+#include <QThread>
 
 #include "obdresult.h"
 #include "btbackend.h"
@@ -12,7 +13,8 @@ class ObdService : public QObject
 {
     Q_OBJECT
 public:
-    enum ConnectionState {
+    enum ConnectionState
+    {
         NC = 0,
         DEV_SELECTED = 1,
         CONNECTED = 2,
@@ -33,9 +35,13 @@ signals:
 
 private slots:
     void messageReceived(const QString &sender, const QString &message);
+    void connected(const QString &name);
 
 private:
     BtBackend *backend;
+    ConnectionState connectionState = ConnectionState::NC;
+    void startConnectionSeq();
+    void doObdPreparationStep();
 };
 
 #endif // OBDSERVICE_H
