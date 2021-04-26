@@ -52,4 +52,31 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>RemoteSelector</name>
+    <message>
+        <location filename="src/remoteselector.ui" line="14"/>
+        <location filename="build/DiscoDiag_autogen/include/ui_remoteselector.h" line="60"/>
+        <source>Available chat services</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/remoteselector.ui" line="20"/>
+        <location filename="build/DiscoDiag_autogen/include/ui_remoteselector.h" line="61"/>
+        <location filename="src/remoteselector.cpp" line="25"/>
+        <source>Scanning...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/remoteselector.ui" line="30"/>
+        <location filename="build/DiscoDiag_autogen/include/ui_remoteselector.h" line="62"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/remoteselector.cpp" line="84"/>
+        <source>Select the chat service to connect to.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

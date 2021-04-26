@@ -45,6 +45,9 @@ set(PROJECT_SOURCES
         src/obdservice.h
         src/obdresult.cpp
         src/obdresult.h
+        src/remoteselector.cpp
+        src/remoteselector.h
+        src/remoteselector.ui
         ${TS_FILES}
 )
 

@@ -12,14 +12,24 @@ void ObdService::startService()
         qDebug() << "No adapters found";
         emit serviceError("No adapters found");
     } else {
-        foreach (QBluetoothAddress addr, adapters) {
-            qDebug() << addr.toString();
+        RemoteSelector remoteSelector(adapters.at(0));
+        remoteSelector.startDiscovery();
+        if (remoteSelector.exec() == QDialog::Accepted) {
+            QBluetoothServiceInfo service = remoteSelector.service();
+            qDebug() << "Connecting to service 2" << service.serviceName()
+                             << "on" << service.device().name();
+            backend = new BtBackend(this);
+            connect(backend, &BtBackend::messageReceived, this, &ObdService::messageReceived);
+            backend->startClient(service);
         }
     }
 }
 
 void ObdService::stopService()
 {
-
+    backend->stopClient();
 }
 
+void ObdService::messageReceived(const QString &sender, const QString &message) {
+    qDebug() << sender << " : " << message;
+}
