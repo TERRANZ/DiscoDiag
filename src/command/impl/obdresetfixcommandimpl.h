@@ -3,8 +3,7 @@
 
 #include "../abstractcommand.h"
 
-class ObdResetFixCommandImpl : public AbstractCommand
-{
+class ObdResetFixCommandImpl : public AbstractCommand {
 public:
     ObdResetFixCommandImpl();
 };

@@ -1,11 +1,9 @@
 #include "btbackend.h"
 
-BtBackend::BtBackend(QObject *parent) : QObject(parent)
-{
+BtBackend::BtBackend(QObject *parent) : QObject(parent) {
 }
 
-void BtBackend::startClient(const QBluetoothServiceInfo &remoteService)
-{
+void BtBackend::startClient(const QBluetoothServiceInfo &remoteService) {
     if (socket)
         return;
 
@@ -22,51 +20,42 @@ void BtBackend::startClient(const QBluetoothServiceInfo &remoteService)
             this, &BtBackend::onSocketErrorOccurred);
 }
 
-void BtBackend::connected()
-{
+void BtBackend::connected() {
     emit connected(socket->peerName());
 }
 
-void BtBackend::readSocket()
-{
+void BtBackend::readSocket() {
     if (!socket)
         return;
 
-    while (socket->canReadLine())
-    {
+    while (socket->canReadLine()) {
         QByteArray line = socket->readLine();
         emit messageReceived(socket->peerName(),
                              QString::fromUtf8(line.constData(), line.length()));
     }
 }
 
-void BtBackend::sendCommand(const AbstractCommand &command)
-{
+void BtBackend::sendCommand(const AbstractCommand &command) {
     qDebug() << "Writing command " << command.getCmdId() << " " << command.getCmdName() << " to socket";
     QByteArray text = command.getCmdId().toUtf8();
     socket->write(text);
 }
 
-void BtBackend::stopClient()
-{
+void BtBackend::stopClient() {
     delete socket;
     socket = nullptr;
 }
 
-QList<QBluetoothAddress> BtBackend::listAdapters()
-{
+QList<QBluetoothAddress> BtBackend::listAdapters() {
     QList<QBluetoothHostInfo> devices = QBluetoothLocalDevice::allDevices();
     QList<QBluetoothAddress> result = QList<QBluetoothAddress>();
-    if (devices.size() > 0)
-    {
-        foreach (QBluetoothHostInfo info, devices)
-        {
-            result.append(info.address());
-        }
+    if (devices.size() > 0) {
+                foreach (QBluetoothHostInfo info, devices) {
+                result.append(info.address());
+            }
     }
     return result;
 }
 
-void BtBackend::onSocketErrorOccurred(QBluetoothSocket::SocketError)
-{
+void BtBackend::onSocketErrorOccurred(QBluetoothSocket::SocketError) {
 }

@@ -2,8 +2,7 @@
 #include "ui_remoteselector.h"
 
 RemoteSelector::RemoteSelector(const QBluetoothAddress &localAdapter, QWidget *parent)
-    : QDialog(parent), ui(new Ui::RemoteSelector)
-{
+        : QDialog(parent), ui(new Ui::RemoteSelector) {
     ui->setupUi(this);
 
     m_discoveryAgent = new QBluetoothServiceDiscoveryAgent(localAdapter);
@@ -14,14 +13,12 @@ RemoteSelector::RemoteSelector(const QBluetoothAddress &localAdapter, QWidget *p
     connect(m_discoveryAgent, SIGNAL(canceled()), this, SLOT(discoveryFinished()));
 }
 
-RemoteSelector::~RemoteSelector()
-{
+RemoteSelector::~RemoteSelector() {
     delete ui;
     delete m_discoveryAgent;
 }
 
-void RemoteSelector::startDiscovery()
-{
+void RemoteSelector::startDiscovery() {
     ui->status->setText(tr("Scanning..."));
     if (m_discoveryAgent->isActive())
         m_discoveryAgent->stop();
@@ -31,21 +28,17 @@ void RemoteSelector::startDiscovery()
     m_discoveryAgent->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
 }
 
-void RemoteSelector::stopDiscovery()
-{
-    if (m_discoveryAgent)
-    {
+void RemoteSelector::stopDiscovery() {
+    if (m_discoveryAgent) {
         m_discoveryAgent->stop();
     }
 }
 
-QBluetoothServiceInfo RemoteSelector::service() const
-{
+QBluetoothServiceInfo RemoteSelector::service() const {
     return m_service;
 }
 
-void RemoteSelector::serviceDiscovered(const QBluetoothServiceInfo &serviceInfo)
-{
+void RemoteSelector::serviceDiscovered(const QBluetoothServiceInfo &serviceInfo) {
     qDebug() << "Discovered service on"
              << serviceInfo.device().name() << serviceInfo.device().address().toString();
     qDebug() << "\tService name:" << serviceInfo.serviceName();
@@ -71,13 +64,11 @@ void RemoteSelector::serviceDiscovered(const QBluetoothServiceInfo &serviceInfo)
     ui->remoteDevices->addItem(item);
 }
 
-void RemoteSelector::discoveryFinished()
-{
+void RemoteSelector::discoveryFinished() {
     ui->status->setText(tr("Select the chat service to connect to."));
 }
 
-void RemoteSelector::on_remoteDevices_itemActivated(QListWidgetItem *item)
-{
+void RemoteSelector::on_remoteDevices_itemActivated(QListWidgetItem *item) {
     qDebug() << "got click" << item->text();
     m_service = m_discoveredServices.value(item);
     if (m_discoveryAgent->isActive())
@@ -86,7 +77,6 @@ void RemoteSelector::on_remoteDevices_itemActivated(QListWidgetItem *item)
     accept();
 }
 
-void RemoteSelector::on_cancelButton_clicked()
-{
+void RemoteSelector::on_cancelButton_clicked() {
     reject();
 }

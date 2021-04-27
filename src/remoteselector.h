@@ -10,19 +10,21 @@
 #include <QListWidgetItem>
 
 namespace Ui {
-class RemoteSelector;
+    class RemoteSelector;
 }
 
-class RemoteSelector : public QDialog
-{
-    Q_OBJECT
+class RemoteSelector : public QDialog {
+Q_OBJECT
 
 public:
     explicit RemoteSelector(const QBluetoothAddress &localAdapter, QWidget *parent = nullptr);
+
     ~RemoteSelector();
 
     void startDiscovery();
+
     void stopDiscovery();
+
     QBluetoothServiceInfo service() const;
 
 private:
@@ -33,9 +35,13 @@ private:
     QMap<QListWidgetItem *, QBluetoothServiceInfo> m_discoveredServices;
 
 private slots:
+
     void serviceDiscovered(const QBluetoothServiceInfo &serviceInfo);
+
     void discoveryFinished();
+
     void on_remoteDevices_itemActivated(QListWidgetItem *item);
+
     void on_cancelButton_clicked();
 };
 
