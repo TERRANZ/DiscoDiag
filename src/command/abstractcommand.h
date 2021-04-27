@@ -6,7 +6,7 @@
 class AbstractCommand
 {
 public:
-    AbstractCommand();
+    AbstractCommand(const QString &cmdId, const QString &cmdName);
     virtual QString calculate() { return QString(""); }
 
     QString getCmdId() const;

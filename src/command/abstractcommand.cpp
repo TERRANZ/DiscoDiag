@@ -1,8 +1,9 @@
 #include "abstractcommand.h"
 
-AbstractCommand::AbstractCommand()
+AbstractCommand::AbstractCommand(const QString &cmdId, const QString &cmdName)
 {
-
+    this->cmdId = cmdId;
+    this->cmdName = cmdName;
 }
 
 QString AbstractCommand::getCmdId() const

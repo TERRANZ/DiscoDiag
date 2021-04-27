@@ -48,6 +48,8 @@ set(PROJECT_SOURCES
         src/remoteselector.cpp
         src/remoteselector.h
         src/remoteselector.ui
+        src/command/impl/obdresetfixcommandimpl.cpp
+        src/command/impl/obdresetfixcommandimpl.h
         ${TS_FILES}
 )
 
