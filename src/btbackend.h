@@ -16,11 +16,11 @@ Q_OBJECT
 public:
     explicit BtBackend(QObject *parent = nullptr);
 
-    void startClient(const QBluetoothServiceInfo &remoteService);
+    void startClient();
 
     void stopClient();
 
-    QList<QBluetoothAddress> listAdapters();
+    static QList<QBluetoothAddress> listAdapters();
 
 public slots:
 
@@ -46,6 +46,7 @@ private slots:
 
 private:
     QBluetoothSocket *socket = nullptr;
+    QString currCmdId = "";
 };
 
 #endif // BTBACKEND_H

@@ -24,14 +24,8 @@ void RemoteSelector::startDiscovery() {
         m_discoveryAgent->stop();
 
     ui->remoteDevices->clear();
-
+    
     m_discoveryAgent->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
-}
-
-void RemoteSelector::stopDiscovery() {
-    if (m_discoveryAgent) {
-        m_discoveryAgent->stop();
-    }
 }
 
 QBluetoothServiceInfo RemoteSelector::service() const {
@@ -58,7 +52,7 @@ void RemoteSelector::serviceDiscovered(const QBluetoothServiceInfo &serviceInfo)
 
     qDebug() << "Adding to list remote name " << remoteName << " with serviceName " << serviceName;
 
-    QListWidgetItem *item = new QListWidgetItem(QString::fromLatin1("%1 %2").arg(remoteName, serviceName));
+    auto *item = new QListWidgetItem(QString::fromLatin1("%1 %2").arg(remoteName, serviceName));
 
     m_discoveredServices.insert(item, serviceInfo);
     ui->remoteDevices->addItem(item);

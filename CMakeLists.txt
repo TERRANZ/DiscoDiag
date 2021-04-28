@@ -48,10 +48,10 @@ set(PROJECT_SOURCES
         src/remoteselector.cpp
         src/remoteselector.h
         src/remoteselector.ui
-        src/command/impl/obdresetfixcommandimpl.cpp
-        src/command/impl/obdresetfixcommandimpl.h
+        src/command/impl/ObdResetFixCommandImpl.cpp
+        src/command/impl/ObdResetFixCommandImpl.h
         ${TS_FILES}
-)
+        src/command/impl/SelectProtocolObdCommandImpl.cpp src/command/impl/SelectProtocolObdCommandImpl.h src/command/ObdParser.cpp src/command/ObdParser.h)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(DiscoDiag

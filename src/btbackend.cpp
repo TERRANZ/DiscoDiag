@@ -1,16 +1,18 @@
+#include <src/command/ObdParser.h>
 #include "btbackend.h"
 
 BtBackend::BtBackend(QObject *parent) : QObject(parent) {
 }
 
-void BtBackend::startClient(const QBluetoothServiceInfo &remoteService) {
+void BtBackend::startClient() {
     if (socket)
         return;
 
     // Connect to service
     socket = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol);
     qDebug() << "Create socket";
-    socket->connectToService(remoteService);
+    QBluetoothAddress address = QBluetoothAddress("00:1D:A5:1E:C7:FB");
+    socket->connectToService(address, QBluetoothUuid(QBluetoothUuid::SerialPort));
     qDebug() << "ConnectToService done";
 
     connect(socket, &QBluetoothSocket::readyRead, this, &BtBackend::readSocket);
@@ -29,13 +31,19 @@ void BtBackend::readSocket() {
         return;
 
     while (socket->canReadLine()) {
-        QByteArray line = socket->readLine();
-        emit messageReceived(socket->peerName(),
-                             QString::fromUtf8(line.constData(), line.length()));
+        const QByteArray line = socket->readLine();
+        const QString value = QString::fromUtf8(line.constData(), line.length());
+        qDebug() << value;
+        qDebug() << "Current stored command: " << currCmdId;
+        qDebug() << "CmdId: " << ObdParser::extractCommandId(value);
+        qDebug() << "DigitA: " << ObdParser::extractDigitA(value);
+        qDebug() << "DigitB: " << ObdParser::extractDigitB(value);
+        emit messageReceived(socket->peerName(), value);
     }
 }
 
 void BtBackend::sendCommand(const AbstractCommand &command) {
+    currCmdId = command.getCmdId();
     qDebug() << "Writing command " << command.getCmdId() << " " << command.getCmdName() << " to socket";
     QByteArray text = command.getCmdId().toUtf8();
     socket->write(text);
@@ -49,7 +57,7 @@ void BtBackend::stopClient() {
 QList<QBluetoothAddress> BtBackend::listAdapters() {
     QList<QBluetoothHostInfo> devices = QBluetoothLocalDevice::allDevices();
     QList<QBluetoothAddress> result = QList<QBluetoothAddress>();
-    if (devices.size() > 0) {
+    if (!devices.empty()) {
                 foreach (QBluetoothHostInfo info, devices) {
                 result.append(info.address());
             }

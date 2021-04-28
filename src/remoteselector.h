@@ -23,8 +23,6 @@ public:
 
     void startDiscovery();
 
-    void stopDiscovery();
-
     QBluetoothServiceInfo service() const;
 
 private:

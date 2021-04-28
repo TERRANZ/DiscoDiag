@@ -1,4 +1,4 @@
-#include "src/command/impl/obdresetfixcommandimpl.h"
+#include "src/command/impl/ObdResetFixCommandImpl.h"
 #include "obdservice.h"
 
 ObdService::ObdService(QObject *parent) : QObject(parent) {
@@ -6,24 +6,16 @@ ObdService::ObdService(QObject *parent) : QObject(parent) {
 }
 
 void ObdService::startService() {
-    QList<QBluetoothAddress> adapters = backend->listAdapters();
-    if (adapters.size() == 0) {
+    QList<QBluetoothAddress> adapters = BtBackend::listAdapters();
+    if (adapters.empty()) {
         qDebug() << "No adapters found";
         emit serviceError("No adapters found");
     } else {
-        RemoteSelector remoteSelector(adapters.at(0));
-        remoteSelector.startDiscovery();
-        if (remoteSelector.exec() == QDialog::Accepted) {
-            QBluetoothServiceInfo service = remoteSelector.service();
-            qDebug() << "Connecting to service 2" << service.serviceName()
-                     << "on" << service.device().name();
-            qDebug() << "Device uuid " << service.serviceUuid();
-            backend = new BtBackend(this);
-            connect(backend, &BtBackend::messageReceived, this, &ObdService::messageReceived);
-            connect(backend, QOverload<const QString &>::of(&BtBackend::connected), this, &ObdService::connected);
-            connectionState = ConnectionState::DEV_SELECTED;
-            backend->startClient(service);
-        }
+        backend = new BtBackend(this);
+        connect(backend, &BtBackend::messageReceived, this, &ObdService::messageReceived);
+        connect(backend, QOverload<const QString &>::of(&BtBackend::connected), this, &ObdService::connected);
+        connectionState = ConnectionState::DEV_SELECTED;
+        backend->startClient();
     }
 }
 
@@ -38,6 +30,8 @@ void ObdService::messageReceived(const QString &sender, const QString &message) 
 void ObdService::connected(const QString &name) {
     qDebug() << "Connected";
     connectionState = ConnectionState::CONNECTED;
+
+    startConnectionSeq();
 }
 
 void ObdService::startConnectionSeq() {
