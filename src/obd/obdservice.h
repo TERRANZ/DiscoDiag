@@ -6,8 +6,8 @@
 #include <QThread>
 
 #include "obdresult.h"
-#include "btbackend.h"
-#include "remoteselector.h"
+#include "src/bt/btbackend.h"
+#include "src/ui/remoteselector.h"
 
 class ObdService : public QObject {
 Q_OBJECT
@@ -15,10 +15,11 @@ public:
     enum ConnectionState {
         NC = 0,
         DEV_SELECTED = 1,
-        CONNECTED = 2,
-        RESETTED = 3,
-        PROTOCOL_SELECTED = 4,
-        INWORK = 5,
+        DEV_CONFIG = 2,
+        CONNECTED = 3,
+        RESETTED = 4,
+        PROTOCOL_SELECTED = 5,
+        INWORK = 6,
         ERROR = -1
     };
 
@@ -30,7 +31,7 @@ public:
 
 signals:
 
-    void updateUI(ObdResult *resul);
+    void updateUI(ObdResult *result);
 
     void serviceError(QString reason);
 

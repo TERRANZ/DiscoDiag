@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "obdservice.h"
+#include "src/obd/obdservice.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

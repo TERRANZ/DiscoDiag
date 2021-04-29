@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
+    service->stopService();
     delete ui;
 }
 

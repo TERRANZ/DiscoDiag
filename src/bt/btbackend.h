@@ -9,7 +9,7 @@
 #include <QBluetoothLocalDevice>
 #include <QBluetoothAddress>
 
-#include "command/abstractcommand.h"
+#include "src/command/abstractcommand.h"
 
 class BtBackend : public QObject {
 Q_OBJECT

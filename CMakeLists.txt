@@ -33,25 +33,25 @@ set(TS_FILES DiscoDiag_ru_RU.ts)
 
 set(PROJECT_SOURCES
         src/main.cpp
-        src/mainwindow.cpp
-        src/mainwindow.h
-        src/mainwindow.ui
-        src/btbackend.cpp
-        src/btbackend.h
+        src/ui/mainwindow.cpp
+        src/ui/mainwindow.h
+        src/ui/mainwindow.ui
+        src/bt/btbackend.cpp
+        src/bt/btbackend.h
         src/command/abstractcommand.cpp
         src/command/abstractcommand.h
         src/command/commandIds.h
-        src/obdservice.cpp
-        src/obdservice.h
-        src/obdresult.cpp
-        src/obdresult.h
-        src/remoteselector.cpp
-        src/remoteselector.h
-        src/remoteselector.ui
+        src/obd/obdservice.cpp
+        src/obd/obdservice.h
+        src/obd/obdresult.cpp
+        src/obd/obdresult.h
+        src/ui/remoteselector.cpp
+        src/ui/remoteselector.h
+        src/ui/remoteselector.ui
         src/command/impl/ObdResetFixCommandImpl.cpp
         src/command/impl/ObdResetFixCommandImpl.h
         ${TS_FILES}
-        src/command/impl/SelectProtocolObdCommandImpl.cpp src/command/impl/SelectProtocolObdCommandImpl.h src/command/ObdParser.cpp src/command/ObdParser.h)
+        src/command/impl/SelectProtocolObdCommandImpl.cpp src/command/impl/SelectProtocolObdCommandImpl.h src/command/ObdParser.cpp src/command/ObdParser.h src/command/impl/SelectControlModuleCommandImpl.cpp src/command/impl/SelectControlModuleCommandImpl.h src/command/impl/DisplayHeaderCommandImpl.cpp src/command/impl/DisplayHeaderCommandImpl.h)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(DiscoDiag

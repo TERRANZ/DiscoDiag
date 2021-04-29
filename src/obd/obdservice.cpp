@@ -1,4 +1,6 @@
-#include "src/command/impl/ObdResetFixCommandImpl.h"
+#include <src/command/impl/SelectProtocolObdCommandImpl.h>
+#include <src/command/impl/ObdResetFixCommandImpl.h>
+#include <src/command/impl/DisplayHeaderCommandImpl.h>
 #include "obdservice.h"
 
 ObdService::ObdService(QObject *parent) : QObject(parent) {
@@ -25,11 +27,34 @@ void ObdService::stopService() {
 
 void ObdService::messageReceived(const QString &sender, const QString &message) {
     qDebug() << sender << " : " << message;
+    switch (connectionState) {
+        case CONNECTED:
+            qDebug() << "Connection state CONNECTED => RESETTED";
+            connectionState = RESETTED;
+            break;
+        case RESETTED:
+            qDebug() << "Connection state RESETTED => DEV_CONFIG";
+            connectionState = DEV_CONFIG;
+            break;
+        case DEV_CONFIG:
+            qDebug() << "Connection state DEV_CONFIG => PROTOCOL_SELECTED";
+            connectionState = PROTOCOL_SELECTED;
+            break;
+        case PROTOCOL_SELECTED:
+            qDebug() << "Connection state PROTOCOL_SELECTED => INWORK";
+            connectionState = INWORK;
+            break;
+        case INWORK:
+            emit updateUI(new ObdResult());
+            break;
+        case ERROR:
+            break;
+    }
 }
 
 void ObdService::connected(const QString &name) {
     qDebug() << "Connected";
-    connectionState = ConnectionState::CONNECTED;
+    connectionState = CONNECTED;
 
     startConnectionSeq();
 }
@@ -52,5 +77,16 @@ void ObdService::startConnectionSeq() {
 }
 
 void ObdService::doObdPreparationStep() {
-    backend->sendCommand(ObdResetFixCommandImpl());
+    switch (connectionState) {
+        case CONNECTED:
+            backend->sendCommand(ObdResetFixCommandImpl());
+            break;
+        case DEV_CONFIG:
+            backend->sendCommand(DisplayHeaderCommandImpl());
+            break;
+        case RESETTED:
+            backend->sendCommand(SelectProtocolObdCommandImpl());
+            break;
+
+    }
 }
