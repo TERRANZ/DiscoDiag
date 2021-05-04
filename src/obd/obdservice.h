@@ -8,6 +8,7 @@
 #include "obdresult.h"
 #include "src/bt/btbackend.h"
 #include "src/ui/remoteselector.h"
+#include <src/command/impl/SelectControlModuleCommandImpl.h>
 
 class ObdService : public QObject {
 Q_OBJECT

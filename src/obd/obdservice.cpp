@@ -53,18 +53,21 @@ void ObdService::messageReceived(const QString &sender, const QString &message) 
 }
 
 void ObdService::connected(const QString &name) {
-    qDebug() << "Connected";
+    qDebug() << "Connected to:" << name;
     connectionState = CONNECTED;
 
 //    startConnectionSeq();
     backend->sendCommand(ObdResetFixCommandImpl());
+    backend->sendCommand(DisplayHeaderCommandImpl());
+    backend->sendCommand(SelectProtocolObdCommandImpl());
+    backend->sendCommand(SelectControlModuleCommandImpl());
 }
 
 void ObdService::startConnectionSeq() {
     qDebug() << "Starting OBD Connection sequence";
     bool stop = false;
     while (!stop) {
-        QThread::msleep(500);
+//        QThread::msleep(5000);
 
         doObdPreparationStep();
 
