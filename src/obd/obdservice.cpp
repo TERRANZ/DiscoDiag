@@ -56,7 +56,8 @@ void ObdService::connected(const QString &name) {
     qDebug() << "Connected";
     connectionState = CONNECTED;
 
-    startConnectionSeq();
+//    startConnectionSeq();
+    backend->sendCommand(ObdResetFixCommandImpl());
 }
 
 void ObdService::startConnectionSeq() {
