@@ -4,7 +4,8 @@
 #include "src/command/abstractcommand.h"
 
 class RearDiffBlockCommandImpl : AbstractCommand {
-
+public:
+    RearDiffBlockCommandImpl();
 };
 
 

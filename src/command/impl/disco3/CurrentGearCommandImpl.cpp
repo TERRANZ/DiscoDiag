@@ -1,5 +1,4 @@
-//
-// Created by terranz on 05.05.2021.
-//
-
+#include <src/command/commandIds.h>
 #include "CurrentGearCommandImpl.h"
+
+CurrentGearCommandImpl::CurrentGearCommandImpl() : AbstractCommand(CURR_GEAR, "Current gear") {}

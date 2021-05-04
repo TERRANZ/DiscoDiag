@@ -4,7 +4,8 @@
 #include "src/command/abstractcommand.h"
 
 class CurrentGearCommandImpl : public AbstractCommand {
-
+public:
+    CurrentGearCommandImpl();
 };
 
 

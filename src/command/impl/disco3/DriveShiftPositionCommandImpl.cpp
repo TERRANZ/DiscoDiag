@@ -1,5 +1,5 @@
-//
-// Created by terranz on 05.05.2021.
-//
-
+#include <src/command/commandIds.h>
 #include "DriveShiftPositionCommandImpl.h"
+
+DriveShiftPositionCommandImpl::DriveShiftPositionCommandImpl() : AbstractCommand(DRIVE_SHIFT_POS,
+                                                                                 "Drive Shift Position") {}

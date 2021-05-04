@@ -1,5 +1,6 @@
-//
-// Created by terranz on 05.05.2021.
-//
-
+#include <src/command/commandIds.h>
 #include "TransferCaseRotEngCommandImpl.h"
+
+TransferCaseRotEngCommandImpl::TransferCaseRotEngCommandImpl() : AbstractCommand(TC_ROT_ENG, "Transfer case rotation") {
+
+}

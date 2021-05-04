@@ -1,5 +1,4 @@
-//
-// Created by terranz on 05.05.2021.
-//
-
+#include <src/command/commandIds.h>
 #include "RearDiffTempCommandImpl.h"
+
+RearDiffTempCommandImpl::RearDiffTempCommandImpl() : AbstractCommand(RD_TEMP, "Read Diff Temperature") {};

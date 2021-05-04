@@ -1,5 +1,7 @@
-//
-// Created by terranz on 05.05.2021.
-//
-
+#include <src/command/commandIds.h>
 #include "SuspensionHeightCommandImpl.h"
+
+SuspensionHeightCommandImpl::SuspensionHeightCommandImpl(QString &wheel) : AbstractCommand(SUSP_HEIGHT + wheel,
+                                                                                           "Suspension height") {
+
+}

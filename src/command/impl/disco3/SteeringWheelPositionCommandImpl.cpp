@@ -1,5 +1,7 @@
-//
-// Created by terranz on 05.05.2021.
-//
-
+#include <src/command/commandIds.h>
 #include "SteeringWheelPositionCommandImpl.h"
+
+SteeringWheelPositionCommandImpl::SteeringWheelPositionCommandImpl() : AbstractCommand(STEERING_WHEEL_POS,
+                                                                                       "Steering Wheel position") {
+
+}
