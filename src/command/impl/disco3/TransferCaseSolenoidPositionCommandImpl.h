@@ -1,0 +1,11 @@
+#ifndef DISCODIAG_TRANSFERCASESOLENOIDPOSITIONCOMMANDIMPL_H
+#define DISCODIAG_TRANSFERCASESOLENOIDPOSITIONCOMMANDIMPL_H
+
+#include "src/command/abstractcommand.h"
+
+class TransferCaseSolenoidPositionCommandImpl : AbstractCommand {
+
+};
+
+
+#endif //DISCODIAG_TRANSFERCASESOLENOIDPOSITIONCOMMANDIMPL_H
