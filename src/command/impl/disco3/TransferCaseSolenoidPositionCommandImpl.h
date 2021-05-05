@@ -6,6 +6,8 @@
 class TransferCaseSolenoidPositionCommandImpl : public AbstractCommand {
 public:
     TransferCaseSolenoidPositionCommandImpl();
+
+    QString calculate(const QString &value) const override;
 };
 
 

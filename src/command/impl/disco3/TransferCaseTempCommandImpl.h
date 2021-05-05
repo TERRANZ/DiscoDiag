@@ -6,6 +6,8 @@
 class TransferCaseTempCommandImpl : public AbstractCommand {
 public:
     TransferCaseTempCommandImpl();
+
+    QString calculate(const QString &value) const override;
 };
 
 
