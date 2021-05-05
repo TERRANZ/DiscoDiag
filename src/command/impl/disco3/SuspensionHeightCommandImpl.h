@@ -3,7 +3,7 @@
 
 #include "src/command/abstractcommand.h"
 
-class SuspensionHeightCommandImpl : AbstractCommand {
+class SuspensionHeightCommandImpl : public AbstractCommand {
 public:
     SuspensionHeightCommandImpl(QString &wheel);
 };

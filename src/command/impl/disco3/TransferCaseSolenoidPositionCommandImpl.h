@@ -3,7 +3,7 @@
 
 #include "src/command/abstractcommand.h"
 
-class TransferCaseSolenoidPositionCommandImpl : AbstractCommand {
+class TransferCaseSolenoidPositionCommandImpl : public AbstractCommand {
 public:
     TransferCaseSolenoidPositionCommandImpl();
 };

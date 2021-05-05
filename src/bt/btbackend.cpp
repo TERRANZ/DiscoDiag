@@ -30,16 +30,11 @@ void BtBackend::readSocket() {
     if (!socket)
         return;
 
-//    while (socket->canReadLine()) {
     const QByteArray line = socket->readAll();
     const QString value = QString::fromUtf8(line.constData(), line.length());
     qDebug() << "Received from obd: " << value;
     qDebug() << "Current stored command: " << currCmdId;
-//    qDebug() << "CmdId: " << ObdParser::extractCommandId(value);
-//    qDebug() << "DigitA: " << ObdParser::extractDigitA(value);
-//    qDebug() << "DigitB: " << ObdParser::extractDigitB(value);
-    emit messageReceived(socket->peerName(), value);
-//    }
+    emit messageReceived(currCmdId, value);
 }
 
 void BtBackend::sendCommand(const AbstractCommand &command) {

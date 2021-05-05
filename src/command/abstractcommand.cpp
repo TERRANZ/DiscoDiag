@@ -29,3 +29,6 @@ QString AbstractCommand::getRawData() const {
 void AbstractCommand::setRawData(const QString &value) {
     rawData = value;
 }
+
+AbstractCommand::AbstractCommand() {
+}

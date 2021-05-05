@@ -3,7 +3,7 @@
 
 #include "src/command/abstractcommand.h"
 
-class GearBoxTempCommandImpl : AbstractCommand {
+class GearBoxTempCommandImpl : public AbstractCommand {
 public:
     GearBoxTempCommandImpl();
 };

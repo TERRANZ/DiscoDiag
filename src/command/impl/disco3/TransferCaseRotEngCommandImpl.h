@@ -3,9 +3,11 @@
 
 #include "src/command/abstractcommand.h"
 
-class TransferCaseRotEngCommandImpl : AbstractCommand {
+class TransferCaseRotEngCommandImpl : public AbstractCommand {
 public:
     TransferCaseRotEngCommandImpl();
+
+    QString calculate(const QString &value) const override;
 };
 
 

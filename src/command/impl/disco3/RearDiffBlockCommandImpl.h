@@ -3,7 +3,7 @@
 
 #include "src/command/abstractcommand.h"
 
-class RearDiffBlockCommandImpl : AbstractCommand {
+class RearDiffBlockCommandImpl : public AbstractCommand {
 public:
     RearDiffBlockCommandImpl();
 };

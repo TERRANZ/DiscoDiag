@@ -28,7 +28,7 @@ public slots:
 
 signals:
 
-    void messageReceived(const QString &sender, const QString &message);
+    void messageReceived(const QString &cmdId, const QString &message);
 
     void connected(const QString &name);
 

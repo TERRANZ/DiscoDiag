@@ -3,7 +3,7 @@
 
 #include "src/command/abstractcommand.h"
 
-class DriveShiftPositionCommandImpl : AbstractCommand {
+class DriveShiftPositionCommandImpl : public AbstractCommand {
 public:
     DriveShiftPositionCommandImpl();
 };
