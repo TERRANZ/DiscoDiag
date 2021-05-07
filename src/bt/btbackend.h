@@ -47,6 +47,8 @@ private slots:
 private:
     QBluetoothSocket *socket = nullptr;
     QString currCmdId = "";
+    QByteArray line = QByteArray();
+    bool readComplete = false;
 };
 
 #endif // BTBACKEND_H

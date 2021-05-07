@@ -37,6 +37,13 @@ void ObdService::stopService() {
 
 void ObdService::messageReceived(const QString &sender, const QString &message) {
     qDebug() << sender << " : " << message;
+
+    processMessage(sender, message);
+
+    doObdLoop();
+}
+
+void ObdService::processMessage(const QString &sender, const QString &message) {
     switch (connectionState) {
         case CONNECTED:
             qDebug() << "Connection state CONNECTED => RESETTED";
@@ -69,14 +76,10 @@ void ObdService::connected(const QString &name) {
     qDebug() << "Connected to:" << name;
     connectionState = CONNECTED;
 
-    startConnectionSeq();
-
-    if (connectionState == ConnectionState::INWORK) {
-        doObdLoop();
-    }
+    doObdLoop();
 }
 
-void ObdService::doObdLoop() {
+void ObdService::sendDiscoCommands() {
     backend->sendCommand(
             SelectControlModuleCommandImpl(TRANSFER_CASE_CONTROL_MODULE, "Change CM to Transfer Case"));
     backend->sendCommand(commands.value(TC_TEMP));
@@ -84,20 +87,14 @@ void ObdService::doObdLoop() {
     backend->sendCommand(commands.value(TC_SOL_POS));
 }
 
-void ObdService::startConnectionSeq() {
-    qDebug() << "Starting OBD Connection sequence";
-    bool stop = false;
-    while (!stop) {
-        QThread::msleep(5000);
+void ObdService::doObdLoop() {
+    doObdPreparationStep();
 
-        doObdPreparationStep();
-
-        if (connectionState == ConnectionState::INWORK) {
-            stop = true;
-        }
-        if (connectionState == ConnectionState::ERROR) {
-            stop = true;
-        }
+    if (connectionState == ConnectionState::INWORK) {
+//        sendDiscoCommands();
+    }
+    if (connectionState == ConnectionState::ERROR) {
+        return;
     }
 }
 
@@ -112,6 +109,5 @@ void ObdService::doObdPreparationStep() {
         case RESETTED:
             backend->sendCommand(SelectProtocolObdCommandImpl());
             break;
-
     }
 }

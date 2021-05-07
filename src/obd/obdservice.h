@@ -46,11 +46,13 @@ private:
     ConnectionState connectionState = ConnectionState::NC;
     QMap<QString, AbstractCommand> commands = QMap<QString, AbstractCommand>();
 
-    void startConnectionSeq();
+    void doObdLoop();
 
     void doObdPreparationStep();
 
-    void doObdLoop();
+    void sendDiscoCommands();
+
+    void processMessage(const QString &sender, const QString &message);
 };
 
 #endif // OBDSERVICE_H

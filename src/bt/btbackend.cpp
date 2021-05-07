@@ -29,12 +29,26 @@ void BtBackend::connected() {
 void BtBackend::readSocket() {
     if (!socket)
         return;
-
-    const QByteArray line = socket->readAll();
-    const QString value = QString::fromUtf8(line.constData(), line.length());
-    qDebug() << "Received from obd: " << value;
-    qDebug() << "Current stored command: " << currCmdId;
-    emit messageReceived(currCmdId, value);
+//    qDebug() << "readSocket()" << socket->canReadLine();
+//    if (socket->canReadLine()) {
+    while (socket->bytesAvailable() > 0) {
+        line.append(socket->readAll());
+        const QString value = QString::fromLatin1(line.constData(), line.length());
+        qDebug() << "Received from obd: " << value;
+        qDebug() << "Hex: " << line.toHex();
+        if (line.endsWith(QString("\r\r>").toLatin1())) {
+            readComplete = true;
+        } else {
+            qDebug() << "Read is not complete, current buffer: " << QString::fromLatin1(line.constData(), line.length());
+        }
+    }
+//
+    if (readComplete) {
+        emit messageReceived(currCmdId, QString::fromLatin1(line.constData(), line.length()));
+        line.clear();
+        readComplete = false;
+        qDebug() << "Read complete";
+    }
 }
 
 void BtBackend::sendCommand(const AbstractCommand &command) {
