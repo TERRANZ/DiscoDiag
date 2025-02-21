@@ -3,17 +3,15 @@
 #include <src/command/commandIds.h>
 #include <src/command/impl/DisplayHeaderCommandImpl.h>
 #include <src/command/impl/ObdResetFixCommandImpl.h>
-#include <src/command/impl/SelectControlModuleCommandImpl.h>
 #include <src/command/impl/SelectProtocolObdCommandImpl.h>
-#include <src/command/impl/disco3/TransferCaseRotEngCommandImpl.h>
-#include <src/command/impl/disco3/TransferCaseSolenoidPositionCommandImpl.h>
-#include <src/command/impl/disco3/TransferCaseTempCommandImpl.h>
+
+#include "src/command/impl/CoolantTempCommandImpl.h"
 
 ObdService::ObdService(QObject *parent) : QObject(parent) {
     backend = new BtBackend(this);
-    commands.insert(TC_TEMP, TransferCaseTempCommandImpl());
-    commands.insert(TC_ROT_ENG, TransferCaseRotEngCommandImpl());
-    commands.insert(TC_SOL_POS, TransferCaseSolenoidPositionCommandImpl());
+    // commands.insert(TC_TEMP, TransferCaseTempCommandImpl());
+    // commands.insert(TC_ROT_ENG, TransferCaseRotEngCommandImpl());
+    // commands.insert(TC_SOL_POS, TransferCaseSolenoidPositionCommandImpl());
 }
 
 void ObdService::startService() {
@@ -51,11 +49,7 @@ void ObdService::processMessage(const QString &sender, const QString &message) {
             connectionState = DEV_CONFIG;
             break;
         case DEV_CONFIG:
-            qDebug() << "Connection state DEV_CONFIG => PROTOCOL_SELECTED";
-            connectionState = PROTOCOL_SELECTED;
-            break;
-        case PROTOCOL_SELECTED:
-            qDebug() << "Connection state PROTOCOL_SELECTED => INWORK";
+            qDebug() << "Connection state DEV_CONFIG => INWORK";
             connectionState = INWORK;
             break;
         case INWORK: {
@@ -63,6 +57,7 @@ void ObdService::processMessage(const QString &sender, const QString &message) {
             qDebug() << "Command " << sender
                     << " completed with result: " << calculated;
             emit updateUI(new ObdResult());
+            QThread::msleep(1000);
         }
         break;
         case ERROR:
@@ -77,19 +72,13 @@ void ObdService::connected(const QString &name) {
     doObdLoop();
 }
 
-void ObdService::sendDiscoCommands() {
-    backend->sendCommand(SelectControlModuleCommandImpl(
-        TRANSFER_CASE_CONTROL_MODULE, "Change CM to Transfer Case"));
-    backend->sendCommand(commands.value(TC_TEMP));
-    backend->sendCommand(commands.value(TC_ROT_ENG));
-    backend->sendCommand(commands.value(TC_SOL_POS));
-}
 
 void ObdService::doObdLoop() {
     doObdPreparationStep();
 
     if (connectionState == INWORK) {
-        sendDiscoCommands();
+        // sendDiscoCommands();
+        backend->sendCommand(CoolantTempCommandImpl());
     }
     if (connectionState == ERROR) {
     }

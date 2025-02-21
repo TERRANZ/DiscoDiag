@@ -55,31 +55,11 @@ set(PROJECT_SOURCES
         src/command/impl/SelectProtocolObdCommandImpl.h
         src/command/ObdParser.cpp
         src/command/ObdParser.h
-        src/command/impl/SelectControlModuleCommandImpl.cpp
-        src/command/impl/SelectControlModuleCommandImpl.h
         src/command/impl/DisplayHeaderCommandImpl.cpp
         src/command/impl/DisplayHeaderCommandImpl.h
-        src/command/impl/disco3/TransferCaseTempCommandImpl.cpp
-        src/command/impl/disco3/TransferCaseTempCommandImpl.h
-        src/command/impl/disco3/CurrentGearCommandImpl.cpp
-        src/command/impl/disco3/CurrentGearCommandImpl.h
-        src/command/impl/disco3/DriveShiftPositionCommandImpl.cpp
-        src/command/impl/disco3/DriveShiftPositionCommandImpl.h
-        src/command/impl/disco3/GearBoxTempCommandImpl.cpp
-        src/command/impl/disco3/GearBoxTempCommandImpl.h
-        src/command/impl/disco3/RearDiffBlockCommandImpl.cpp
-        src/command/impl/disco3/RearDiffBlockCommandImpl.h
-        src/command/impl/disco3/RearDiffTempCommandImpl.cpp
-        src/command/impl/disco3/RearDiffTempCommandImpl.h
-        src/command/impl/disco3/SteeringWheelPositionCommandImpl.cpp
-        src/command/impl/disco3/SteeringWheelPositionCommandImpl.h
-        src/command/impl/disco3/SuspensionHeightCommandImpl.cpp
-        src/command/impl/disco3/SuspensionHeightCommandImpl.h
-        src/command/impl/disco3/TransferCaseRotEngCommandImpl.cpp
-        src/command/impl/disco3/TransferCaseRotEngCommandImpl.h
-        src/command/impl/disco3/TransferCaseSolenoidPositionCommandImpl.cpp
-        src/command/impl/disco3/TransferCaseSolenoidPositionCommandImpl.h)
-
+        src/command/impl/CoolantTempCommandImpl.cpp
+        src/command/impl/CoolantTempCommandImpl.h
+)
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(DiscoDiag
             ${PROJECT_SOURCES}

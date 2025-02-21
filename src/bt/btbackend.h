@@ -45,7 +45,7 @@ private slots:
 private:
     QBluetoothSocket *socket = nullptr;
     QString currCmdId = "";
-    QByteArray line = QByteArray();
+    QString line = "";
     bool readComplete = false;
 };
 
