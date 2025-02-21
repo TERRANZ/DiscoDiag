@@ -56,10 +56,9 @@ void BtBackend::readSocket() {
 
 void BtBackend::sendCommand(const AbstractCommand &command) {
     currCmdId = command.getCmdId();
-    qDebug() << "Writing command " << command.getCmdId() << " "
-            << command.getCmdName() << " to socket";
+    qDebug() << "Writing command " << command.getCmdId() << " " << command.getCmdName() << " to socket";
     const auto text = command.getCmdId().toUtf8();
-    auto written = socket->write(text);
+    const auto written = socket->write(text);
     qDebug() << "Written " << written << " bytes to socket";
 }
 

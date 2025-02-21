@@ -40,7 +40,7 @@ private slots:
 
     void connected();
 
-    void onSocketErrorOccurred(QBluetoothSocket::SocketError error);
+    static void onSocketErrorOccurred(QBluetoothSocket::SocketError error);
 
 private:
     QBluetoothSocket *socket = nullptr;
