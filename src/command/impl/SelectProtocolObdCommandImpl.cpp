@@ -1,4 +1,4 @@
 #include "SelectProtocolObdCommandImpl.h"
 
-SelectProtocolObdCommandImpl::SelectProtocolObdCommandImpl() : AbstractCommand("ATSP7", "Select Protocol Command") {
+SelectProtocolObdCommandImpl::SelectProtocolObdCommandImpl() : AbstractCommand("ATSP6", "Select Protocol Command") {
 }

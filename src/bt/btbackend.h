@@ -1,18 +1,19 @@
 #ifndef BTBACKEND_H
 #define BTBACKEND_H
 
-#include <QObject>
-#include <QList>
-#include <QBluetoothServiceInfo>
-#include <QBluetoothSocket>
+#include <QBluetoothAddress>
 #include <QBluetoothHostInfo>
 #include <QBluetoothLocalDevice>
-#include <QBluetoothAddress>
+#include <QBluetoothServiceInfo>
+#include <QBluetoothSocket>
+#include <QList>
+#include <QObject>
 
 #include "src/command/abstractcommand.h"
 
 class BtBackend : public QObject {
-Q_OBJECT
+    Q_OBJECT
+
 public:
     explicit BtBackend(QObject *parent = nullptr);
 
@@ -23,11 +24,9 @@ public:
     static QList<QBluetoothAddress> listAdapters();
 
 public slots:
-
-    void sendCommand(const AbstractCommand &commmand);
+    void sendCommand(const AbstractCommand &command);
 
 signals:
-
     void messageReceived(const QString &cmdId, const QString &message);
 
     void connected(const QString &name);
@@ -37,12 +36,11 @@ signals:
     void socketErrorOccurred(const QString &errorString);
 
 private slots:
-
     void readSocket();
 
     void connected();
 
-    void onSocketErrorOccurred(QBluetoothSocket::SocketError);
+    void onSocketErrorOccurred(QBluetoothSocket::SocketError error);
 
 private:
     QBluetoothSocket *socket = nullptr;
