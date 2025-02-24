@@ -48,17 +48,17 @@ set(PROJECT_SOURCES
         src/ui/remoteselector.cpp
         src/ui/remoteselector.h
         src/ui/remoteselector.ui
-        src/command/impl/ObdResetFixCommandImpl.cpp
-        src/command/impl/ObdResetFixCommandImpl.h
+        src/command/impl/obdresetfixcommandimpl.cpp
+        src/command/impl/obdresetfixcommandimpl.h
         ${TS_FILES}
-        src/command/impl/SelectProtocolObdCommandImpl.cpp
-        src/command/impl/SelectProtocolObdCommandImpl.h
+        src/command/impl/selectprotocolobdcommandimpl.cpp
+        src/command/impl/selectprotocolobdcommandimpl.h
         src/command/ObdParser.cpp
         src/command/ObdParser.h
-        src/command/impl/DisplayHeaderCommandImpl.cpp
-        src/command/impl/DisplayHeaderCommandImpl.h
-        src/command/impl/CoolantTempCommandImpl.cpp
-        src/command/impl/CoolantTempCommandImpl.h
+        src/command/impl/displayheadercommandimpl.cpp
+        src/command/impl/displayheadercommandimpl.h
+        src/command/impl/coolanttempcommandimpl.cpp
+        src/command/impl/coolanttempcommandimpl.h
 )
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(DiscoDiag

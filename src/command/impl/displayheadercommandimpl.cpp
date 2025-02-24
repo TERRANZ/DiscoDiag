@@ -1,4 +1,4 @@
-#include "DisplayHeaderCommandImpl.h"
+#include "displayheadercommandimpl.h"
 
 DisplayHeaderCommandImpl::DisplayHeaderCommandImpl() : AbstractCommand("ATH1", "Set display headers parameter.") {
 

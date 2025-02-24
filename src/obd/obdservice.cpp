@@ -1,11 +1,11 @@
 #include "obdservice.h"
 #include <qthread.h>
 #include <src/command/commandIds.h>
-#include <src/command/impl/DisplayHeaderCommandImpl.h>
-#include <src/command/impl/ObdResetFixCommandImpl.h>
-#include <src/command/impl/SelectProtocolObdCommandImpl.h>
+#include <src/command/impl/displayheadercommandimpl.h>
+#include <src/command/impl/obdresetfixcommandimpl.h>
+#include <src/command/impl/selectprotocolobdcommandimpl.h>
 
-#include "src/command/impl/CoolantTempCommandImpl.h"
+#include "src/command/impl/coolanttempcommandimpl.h"
 
 ObdService::ObdService(QObject *parent) : QObject(parent) {
     backend = new BtBackend(this);
