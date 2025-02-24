@@ -10,3 +10,6 @@ build:
   stage: build
   script:
     - mkdir build && cd build && cmake .. && make -j
+  artifacts:
+    paths:
+      - build/DiscoDiag
