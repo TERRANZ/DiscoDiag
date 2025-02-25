@@ -53,8 +53,8 @@ set(PROJECT_SOURCES
         ${TS_FILES}
         src/command/impl/selectprotocolobdcommandimpl.cpp
         src/command/impl/selectprotocolobdcommandimpl.h
-        src/command/ObdParser.cpp
-        src/command/ObdParser.h
+        src/command/obdparser.cpp
+        src/command/obdparser.h
         src/command/impl/displayheadercommandimpl.cpp
         src/command/impl/displayheadercommandimpl.h
         src/command/impl/coolanttempcommandimpl.cpp

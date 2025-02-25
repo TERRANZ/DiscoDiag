@@ -4,5 +4,7 @@
 
 #include "coolanttempcommandimpl.h"
 
-CoolantTempCommandImpl::CoolantTempCommandImpl() : AbstractCommand("22F405", "Coolant temp command") {
+#include "src/command/commandIds.h"
+
+CoolantTempCommandImpl::CoolantTempCommandImpl() : AbstractCommand(CMD_COOLANT_TEMPERATURE, "Coolant temp command") {
 }

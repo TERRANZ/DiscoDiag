@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <qcontainerfwd.h>
 #include <qlogging.h>
-#include <src/command/ObdParser.h>
+#include <src/command/obdparser.h>
 
 BtBackend::BtBackend(QObject *parent) : QObject(parent) {
 }
@@ -33,7 +33,7 @@ void BtBackend::readSocket() {
     if (!socket)
         return;
     while (socket->bytesAvailable() > 0) {
-        line.append(socket->readAll().replace("\r", " "));
+        line.append(socket->readAll());
         // const auto value = QString::fromLatin1(line.constData(), line.length());
         // qDebug() << "Received from obd: " << value;
         // qDebug() << "Hex: " << line.toHex();
@@ -58,12 +58,13 @@ void BtBackend::readSocket() {
 void BtBackend::sendCommand(const AbstractCommand &command) {
     currCmdId = command.getCmdId();
     // qDebug() << "Writing command " << command.getCmdId() << " " << command.getCmdName() << " to socket";
-    const auto cmd = new QString(command.getCmdId() + "\r");
-    const auto written = socket->write(cmd->toUtf8());
+    const auto cmd = QString(command.getCmdId() + "\r");
+    const auto written = socket->write(cmd.toUtf8());
     // qDebug() << "Written " << written << " bytes to socket";
 }
 
 void BtBackend::stopClient() {
+    socket->disconnectFromService();
     delete socket;
     socket = nullptr;
 }

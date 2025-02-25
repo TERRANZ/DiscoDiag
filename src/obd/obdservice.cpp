@@ -10,9 +10,7 @@
 
 ObdService::ObdService(QObject *parent) : QObject(parent) {
     backend = new BtBackend(this);
-    // commands.insert(TC_TEMP, TransferCaseTempCommandImpl());
-    // commands.insert(TC_ROT_ENG, TransferCaseRotEngCommandImpl());
-    // commands.insert(TC_SOL_POS, TransferCaseSolenoidPositionCommandImpl());
+    commands.insert(CMD_COOLANT_TEMPERATURE, CoolantTempCommandImpl());
 }
 
 void ObdService::startService() {
@@ -58,6 +56,7 @@ void ObdService::processMessage(const QString &sender, const QString &message) {
             qDebug() << "Command " << sender
                     << " completed with result: " << calculated;
             auto result = ObdResult();
+            result.rawValue = calculated;
             emit updateUI(result);
             QThread::msleep(1000);
         }
@@ -79,7 +78,11 @@ void ObdService::doObdLoop() {
     doObdPreparationStep();
 
     if (connectionState == INWORK) {
-        backend->sendCommand(CoolantTempCommandImpl());
+        // backend->sendCommand();
+        for (auto command : commands) {
+            backend->sendCommand(command);
+            QThread::msleep(200);
+        }
     }
     if (connectionState == ERROR) {
     }

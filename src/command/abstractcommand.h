@@ -4,6 +4,7 @@
 #include <QString>
 
 class AbstractCommand {
+
 public:
     virtual ~AbstractCommand() = default;
 

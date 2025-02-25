@@ -4,5 +4,5 @@
 
 #include "extparamscommandimpl.h"
 
-ExtParamsCommandImpl::ExtParamsCommandImpl() : AbstractCommand("22F405", "Extended params command") {
+ExtParamsCommandImpl::ExtParamsCommandImpl() : AbstractCommand("", "Extended params command") {
 }

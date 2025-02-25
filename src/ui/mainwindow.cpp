@@ -14,8 +14,8 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_action_start_triggered() {
-    auto *thread = new QThread;
-    service->moveToThread(thread);
+    // auto *thread = new QThread;
+    // service->moveToThread(thread);
     service->startService();
 }
 
