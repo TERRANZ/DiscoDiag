@@ -6,3 +6,7 @@
 
 ExtParamsCommandImpl::ExtParamsCommandImpl() : AbstractCommand("", "Extended params command") {
 }
+
+QString ExtParamsCommandImpl::calculate(const QString &value) {
+    return AbstractCommand::calculate(value);
+}

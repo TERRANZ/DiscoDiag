@@ -6,6 +6,8 @@
 class ObdResetFixCommandImpl : public AbstractCommand {
 public:
     ObdResetFixCommandImpl();
+
+    QString calculate(const QString &value) override;
 };
 
 #endif // OBDRESETFIXCOMMANDIMPL_H

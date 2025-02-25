@@ -33,7 +33,7 @@ void BtBackend::readSocket() {
     if (!socket)
         return;
     while (socket->bytesAvailable() > 0) {
-        line.append(socket->readAll());
+        line.append(socket->readAll().replace("\r", " "));
         // const auto value = QString::fromLatin1(line.constData(), line.length());
         // qDebug() << "Received from obd: " << value;
         // qDebug() << "Hex: " << line.toHex();

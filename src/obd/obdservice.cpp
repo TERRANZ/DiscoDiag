@@ -52,7 +52,8 @@ void ObdService::processMessage(const QString &sender, const QString &message) {
             connectionState = INWORK;
             break;
         case INWORK: {
-            QString calculated = commands.value(sender).calculate(message);
+            auto cmd = commands.value(sender);
+            const QString calculated = cmd.calculate(message);
             qDebug() << "Command " << sender
                     << " completed with result: " << calculated;
             auto result = ObdResult();

@@ -12,7 +12,7 @@ public:
 
     AbstractCommand(const QString &cmdId, const QString &cmdName);
 
-    virtual QString calculate(const QString &value) const { return {""}; }
+    virtual QString calculate(const QString &value)  { return {""}; }
 
     QString getCmdId() const;
 

@@ -6,6 +6,8 @@
 class SelectProtocolObdCommandImpl : public AbstractCommand {
 public:
     SelectProtocolObdCommandImpl();
+
+    QString calculate(const QString &value) override;
 };
 
 #endif //SELECTPROTOCOLOBDCOMMANDIMPL_H

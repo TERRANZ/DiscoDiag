@@ -10,6 +10,8 @@
 class ExtParamsCommandImpl final : public AbstractCommand {
 public:
     ExtParamsCommandImpl();
+
+    QString calculate(const QString &value) override;
 };
 
 
