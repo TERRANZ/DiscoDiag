@@ -3,13 +3,17 @@
 
 #include <QMainWindow>
 #include "src/obd/obdservice.h"
-
+#include "src/obd/obdresult.h"
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+
+namespace Ui {
+    class MainWindow;
+}
+
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -17,9 +21,11 @@ public:
     ~MainWindow();
 
 private slots:
-
     void on_action_start_triggered();
+
     void on_action_exit_triggered();
+
+    void on_update_ui(ObdResult &result);
 
 private:
     Ui::MainWindow *ui;

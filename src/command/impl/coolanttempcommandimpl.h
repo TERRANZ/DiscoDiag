@@ -7,7 +7,7 @@
 #include "src/command/abstractcommand.h"
 
 
-class CoolantTempCommandImpl : public AbstractCommand {
+class CoolantTempCommandImpl final : public AbstractCommand {
 public:
     CoolantTempCommandImpl();
 };

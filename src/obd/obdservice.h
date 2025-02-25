@@ -1,8 +1,6 @@
 #ifndef OBDSERVICE_H
 #define OBDSERVICE_H
 
-#include <QObject>
-#include <QBluetoothServiceInfo>
 #include <QThread>
 
 #include "obdresult.h"
@@ -10,7 +8,8 @@
 #include "src/ui/remoteselector.h"
 
 class ObdService : public QObject {
-Q_OBJECT
+    Q_OBJECT
+
 public:
     enum ConnectionState {
         NC = 0,
@@ -30,13 +29,11 @@ public:
     void stopService();
 
 signals:
-
-    void updateUI(ObdResult *result);
+    void updateUI(ObdResult &result);
 
     void serviceError(QString reason);
 
 private slots:
-
     void messageReceived(const QString &sender, const QString &message);
 
     void connected(const QString &name);

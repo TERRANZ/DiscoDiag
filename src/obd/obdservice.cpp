@@ -6,6 +6,7 @@
 #include <src/command/impl/selectprotocolobdcommandimpl.h>
 
 #include "src/command/impl/coolanttempcommandimpl.h"
+#include "src/ui/mainwindow.h"
 
 ObdService::ObdService(QObject *parent) : QObject(parent) {
     backend = new BtBackend(this);
@@ -56,7 +57,8 @@ void ObdService::processMessage(const QString &sender, const QString &message) {
             QString calculated = commands.value(sender).calculate(message);
             qDebug() << "Command " << sender
                     << " completed with result: " << calculated;
-            emit updateUI(new ObdResult());
+            auto result = ObdResult();
+            emit updateUI(result);
             QThread::msleep(1000);
         }
         break;
@@ -77,7 +79,6 @@ void ObdService::doObdLoop() {
     doObdPreparationStep();
 
     if (connectionState == INWORK) {
-        // sendDiscoCommands();
         backend->sendCommand(CoolantTempCommandImpl());
     }
     if (connectionState == ERROR) {

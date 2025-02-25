@@ -59,6 +59,8 @@ set(PROJECT_SOURCES
         src/command/impl/displayheadercommandimpl.h
         src/command/impl/coolanttempcommandimpl.cpp
         src/command/impl/coolanttempcommandimpl.h
+        src/command/impl/extparamscommandimpl.cpp
+        src/command/impl/extparamscommandimpl.h
 )
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(DiscoDiag
