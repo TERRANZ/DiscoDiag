@@ -4,32 +4,32 @@
 #include <QString>
 
 class AbstractCommand {
-
 public:
     virtual ~AbstractCommand() = default;
 
     AbstractCommand();
 
-    AbstractCommand(const QString &cmdId, const QString &cmdName);
+    AbstractCommand(const QString &cmdId, const QString &cmdName) {
+        m_cmdId = cmdId;
+        m_cmdName = cmdName;
+    }
 
-    virtual QString calculate(const QString &value)  { return {""}; }
+    virtual QString calculate(const QString &value) { return {""}; }
 
-    QString getCmdId() const;
-
-    void setCmdId(const QString &value);
-
-    QString getCmdName() const;
+    QString getCmdId() const { return m_cmdId; }
+    QString getCmdName() const { return m_cmdName; }
+    QString getRawData() const { return m_rawData; }
 
     void setCmdName(const QString &value);
 
-    QString getRawData() const;
+    void setCmdId(const QString &value);
 
     void setRawData(const QString &value);
 
 protected:
-    QString cmdId;
-    QString cmdName;
-    QString rawData;
+    QString m_cmdId;
+    QString m_cmdName;
+    QString m_rawData;
 };
 
 #endif // ABSTRACTCOMMAND_H

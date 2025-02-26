@@ -2,7 +2,6 @@
 #include <cstdio>
 #include <qcontainerfwd.h>
 #include <qlogging.h>
-#include <src/command/obdparser.h>
 
 BtBackend::BtBackend(QObject *parent) : QObject(parent) {
 }
@@ -55,10 +54,10 @@ void BtBackend::readSocket() {
     }
 }
 
-void BtBackend::sendCommand(const AbstractCommand &command) {
-    currCmdId = command.getCmdId();
+void BtBackend::sendCommand(const AbstractCommand *command) {
+    currCmdId = command->getCmdId();
     // qDebug() << "Writing command " << command.getCmdId() << " " << command.getCmdName() << " to socket";
-    const auto cmd = QString(command.getCmdId() + "\r");
+    const auto cmd = QString(command->getCmdId() + "\r");
     const auto written = socket->write(cmd.toUtf8());
     // qDebug() << "Written " << written << " bytes to socket";
 }

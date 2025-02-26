@@ -38,7 +38,6 @@ set(PROJECT_SOURCES
         src/ui/mainwindow.ui
         src/bt/btbackend.cpp
         src/bt/btbackend.h
-        src/command/abstractcommand.cpp
         src/command/abstractcommand.h
         src/command/commandIds.h
         src/obd/obdservice.cpp
@@ -53,8 +52,8 @@ set(PROJECT_SOURCES
         ${TS_FILES}
         src/command/impl/selectprotocolobdcommandimpl.cpp
         src/command/impl/selectprotocolobdcommandimpl.h
-        src/command/obdparser.cpp
-        src/command/obdparser.h
+        src/obd/obdparser.cpp
+        src/obd/obdparser.h
         src/command/impl/displayheadercommandimpl.cpp
         src/command/impl/displayheadercommandimpl.h
         src/command/impl/coolanttempcommandimpl.cpp

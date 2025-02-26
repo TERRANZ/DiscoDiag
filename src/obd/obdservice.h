@@ -40,8 +40,8 @@ private slots:
 
 private:
     BtBackend *backend;
-    ConnectionState connectionState = ConnectionState::NC;
-    QMap<QString, AbstractCommand> commands = QMap<QString, AbstractCommand>();
+    ConnectionState connectionState = NC;
+    QMap<QString, AbstractCommand *> commands = QMap<QString, AbstractCommand *>();
 
     void doObdLoop();
 
