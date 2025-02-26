@@ -52,7 +52,6 @@ set(PROJECT_SOURCES
         ${TS_FILES}
         src/command/impl/selectprotocolobdcommandimpl.cpp
         src/command/impl/selectprotocolobdcommandimpl.h
-        src/obd/obdparser.cpp
         src/obd/obdparser.h
         src/command/impl/displayheadercommandimpl.cpp
         src/command/impl/displayheadercommandimpl.h
