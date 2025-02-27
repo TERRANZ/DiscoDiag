@@ -7,9 +7,8 @@
 #include <QList>
 
 #include "src/command/commandIds.h"
-#include "../../obd/obdparser.h"
 
-CoolantTempCommandImpl::CoolantTempCommandImpl() : AbstractCommand(CMD_COOLANT_TEMPERATURE, "Coolant temp command") {
+CoolantTempCommandImpl::CoolantTempCommandImpl() : AbstractCommand(CMD_TEMP_COOLANT, "Coolant temp command") {
 }
 
 QString CoolantTempCommandImpl::calculate(const QString &value) {

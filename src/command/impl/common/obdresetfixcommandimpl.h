@@ -1,7 +1,6 @@
 #ifndef OBDRESETFIXCOMMANDIMPL_H
 #define OBDRESETFIXCOMMANDIMPL_H
-
-#include "../abstractcommand.h"
+#include "src/command/abstractcommand.h"
 
 class ObdResetFixCommandImpl : public AbstractCommand {
 public:

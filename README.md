@@ -1,2 +1,2 @@
 # DiscoDiag
-LR Discovery diag tools written in C++ and Qt5
+LR Discovery diag tools written in C++ and Qt6

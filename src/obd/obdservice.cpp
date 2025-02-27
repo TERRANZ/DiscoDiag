@@ -1,16 +1,16 @@
 #include "obdservice.h"
 #include <qthread.h>
 #include <src/command/commandIds.h>
-#include <src/command/impl/displayheadercommandimpl.h>
-#include <src/command/impl/obdresetfixcommandimpl.h>
-#include <src/command/impl/selectprotocolobdcommandimpl.h>
 
-#include "src/command/impl/coolanttempcommandimpl.h"
+#include "src/command/impl/common/displayheadercommandimpl.h"
+#include "src/command/impl/common/obdresetfixcommandimpl.h"
+#include "src/command/impl/common/selectprotocolobdcommandimpl.h"
+#include "src/command/impl/lr322/coolanttempcommandimpl.h"
 #include "src/ui/mainwindow.h"
 
 ObdService::ObdService(QObject *parent) : QObject(parent) {
     backend = new BtBackend(this);
-    commands.insert(CMD_COOLANT_TEMPERATURE, new CoolantTempCommandImpl());
+    commands.insert(CMD_TEMP_COOLANT, new CoolantTempCommandImpl());
 }
 
 void ObdService::startService() {
@@ -80,7 +80,7 @@ void ObdService::doObdLoop() {
 
     if (connectionState == INWORK) {
         // backend->sendCommand();
-        for (auto command : commands) {
+        for (auto command: commands) {
             backend->sendCommand(command);
             QThread::msleep(200);
         }

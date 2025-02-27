@@ -5,7 +5,7 @@
 #include <QStringList>
 
 class ObdParser {
-    // <head> ecu          A
+    // <echo> ecu          A
     // 22F405 7E8 04 62 01 81
 public:
     static int extractDigitA(const QString &data) {
@@ -17,8 +17,7 @@ public:
     }
 
     static int getIntAtPos(const QString &data, const int pos) {
-        const QStringList &split = data.split(QChar(' '));
-        if (split.size() <= pos) {
+        if (const QStringList &split = data.split(QChar(' ')); split.size() <= pos) {
             const QString &result = split.at(pos);
             bool ok;
             return result.toInt(&ok, 16);
