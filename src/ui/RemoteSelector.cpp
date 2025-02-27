@@ -1,4 +1,4 @@
-#include "remoteselector.h"
+#include "RemoteSelector.h"
 #include "ui_remoteselector.h"
 
 RemoteSelector::RemoteSelector(const QBluetoothAddress &localAdapter, QWidget *parent)

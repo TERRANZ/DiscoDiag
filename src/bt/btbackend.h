@@ -9,7 +9,7 @@
 #include <QList>
 #include <QObject>
 
-#include "src/command/abstractcommand.h"
+#include "src/command/AbstractCommand.h"
 
 class BtBackend : public QObject {
     Q_OBJECT

@@ -1,4 +1,4 @@
-#include "obdresult.h"
+#include "ObdResult.h"
 
 ObdResult::ObdResult() {
 }

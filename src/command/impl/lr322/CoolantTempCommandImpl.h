@@ -4,7 +4,7 @@
 
 #ifndef AIRTEMPCOMMANDIMPL_H
 #define AIRTEMPCOMMANDIMPL_H
-#include "src/command/abstractcommand.h"
+#include "src/command/AbstractCommand.h"
 
 
 class CoolantTempCommandImpl final : public AbstractCommand {

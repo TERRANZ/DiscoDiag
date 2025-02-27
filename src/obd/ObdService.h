@@ -3,9 +3,9 @@
 
 #include <QThread>
 
-#include "obdresult.h"
+#include "ObdResult.h"
 #include "src/bt/btbackend.h"
-#include "src/ui/remoteselector.h"
+#include "src/ui/RemoteSelector.h"
 
 class ObdService : public QObject {
     Q_OBJECT

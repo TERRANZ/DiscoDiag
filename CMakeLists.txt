@@ -33,32 +33,56 @@ set(TS_FILES DiscoDiag_ru_RU.ts)
 
 set(PROJECT_SOURCES
         src/main.cpp
-        src/ui/mainwindow.cpp
-        src/ui/mainwindow.h
+        src/ui/MainWindow.cpp
+        src/ui/MainWindow.h
         src/ui/mainwindow.ui
         src/bt/btbackend.cpp
         src/bt/btbackend.h
-        src/command/abstractcommand.h
+        src/command/AbstractCommand.h
         src/command/commandIds.h
-        src/obd/obdservice.cpp
-        src/obd/obdservice.h
-        src/obd/obdresult.cpp
-        src/obd/obdresult.h
-        src/ui/remoteselector.cpp
-        src/ui/remoteselector.h
+        src/obd/ObdService.cpp
+        src/obd/ObdService.h
+        src/obd/ObdResult.cpp
+        src/obd/ObdResult.h
+        src/ui/RemoteSelector.cpp
+        src/ui/RemoteSelector.h
         src/ui/remoteselector.ui
-        src/command/impl/common/obdresetfixcommandimpl.cpp
-        src/command/impl/common/obdresetfixcommandimpl.h
+        src/command/impl/common/ObdResetFixCommandImpl.cpp
+        src/command/impl/common/ObdResetFixCommandImpl.h
         ${TS_FILES}
-        src/command/impl/common/selectprotocolobdcommandimpl.cpp
-        src/command/impl/common/selectprotocolobdcommandimpl.h
-        src/obd/obdparser.h
-        src/command/impl/common/displayheadercommandimpl.cpp
-        src/command/impl/common/displayheadercommandimpl.h
-        src/command/impl/lr322/coolanttempcommandimpl.cpp
-        src/command/impl/lr322/coolanttempcommandimpl.h
-        src/command/impl/common/extparamscommandimpl.cpp
-        src/command/impl/common/extparamscommandimpl.h
+        src/command/impl/common/SelectProtocolObdCommandImpl.cpp
+        src/command/impl/common/SelectProtocolObdCommandImpl.h
+        src/obd/ObdParser.h
+        src/command/impl/common/DisplayHeaderCommandImpl.cpp
+        src/command/impl/common/DisplayHeaderCommandImpl.h
+        src/command/impl/lr322/CoolantTempCommandImpl.cpp
+        src/command/impl/lr322/CoolantTempCommandImpl.h
+        src/command/impl/common/ExtParamsCommandImpl.cpp
+        src/command/impl/common/ExtParamsCommandImpl.h
+        src/command/impl/lr322/OilTempCommandImpl.cpp
+        src/command/impl/lr322/OilTempCommandImpl.h
+        src/command/impl/lr322/GbTempCommandImpl.cpp
+        src/command/impl/lr322/GbTempCommandImpl.h
+        src/command/impl/lr322/TCTempCommandImpl.cpp
+        src/command/impl/lr322/TCTempCommandImpl.h
+        src/command/impl/lr322/RDTempCommandImpl.cpp
+        src/command/impl/lr322/RDTempCommandImpl.h
+        src/command/impl/lr322/ComprTempCommandImpl.cpp
+        src/command/impl/lr322/ComprTempCommandImpl.h
+        src/command/impl/lr322/IntakeAirTempCommandImpl.cpp
+        src/command/impl/lr322/IntakeAirTempCommandImpl.h
+        src/command/impl/lr322/AmbientAirTempCommandImpl.cpp
+        src/command/impl/lr322/AmbientAirTempCommandImpl.h
+        src/command/impl/lr322/FuelPressCommandImpl.cpp
+        src/command/impl/lr322/FuelPressCommandImpl.h
+        src/command/impl/lr322/BrakePressCommandImpl.cpp
+        src/command/impl/lr322/BrakePressCommandImpl.h
+        src/command/impl/lr322/OilLevelCommandImpl.cpp
+        src/command/impl/lr322/OilLevelCommandImpl.h
+        src/command/impl/lr322/OilVolumeCommandImpl.cpp
+        src/command/impl/lr322/OilVolumeCommandImpl.h
+        src/command/impl/lr322/FuelLevelCommandImpl.cpp
+        src/command/impl/lr322/FuelLevelCommandImpl.h
 )
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(DiscoDiag

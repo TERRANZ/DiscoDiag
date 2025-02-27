@@ -1,7 +1,7 @@
 #ifndef SELECTPROTOCOLOBDCOMMANDIMPL_H
 #define SELECTPROTOCOLOBDCOMMANDIMPL_H
 
-#include "src/command/abstractcommand.h"
+#include "src/command/AbstractCommand.h"
 
 class SelectProtocolObdCommandImpl : public AbstractCommand {
 public:
