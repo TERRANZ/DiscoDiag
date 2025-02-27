@@ -36,8 +36,8 @@ set(PROJECT_SOURCES
         src/ui/MainWindow.cpp
         src/ui/MainWindow.h
         src/ui/mainwindow.ui
-        src/bt/btbackend.cpp
-        src/bt/btbackend.h
+        src/bt/BtBackend.cpp
+        src/bt/BtBackend.h
         src/command/AbstractCommand.h
         src/command/commandIds.h
         src/obd/ObdService.cpp

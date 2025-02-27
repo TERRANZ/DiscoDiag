@@ -8,6 +8,10 @@
 
 
 class IntakeAirTempCommandImpl final : public AbstractCommand {
+public:
+    IntakeAirTempCommandImpl();
+
+    QString calculate(const QString &value) override;
 };
 
 

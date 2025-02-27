@@ -1,4 +1,4 @@
-#include "btbackend.h"
+#include "BtBackend.h"
 #include <cstdio>
 #include <qcontainerfwd.h>
 #include <qlogging.h>

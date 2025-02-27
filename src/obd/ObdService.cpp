@@ -5,12 +5,20 @@
 #include "src/command/impl/common/DisplayHeaderCommandImpl.h"
 #include "src/command/impl/common/ObdResetFixCommandImpl.h"
 #include "src/command/impl/common/SelectProtocolObdCommandImpl.h"
+#include "src/command/impl/lr322/AmbientAirTempCommandImpl.h"
 #include "src/command/impl/lr322/CoolantTempCommandImpl.h"
+#include "src/command/impl/lr322/GbTempCommandImpl.h"
+#include "src/command/impl/lr322/IntakeAirTempCommandImpl.h"
+#include "src/command/impl/lr322/OilTempCommandImpl.h"
 #include "src/ui/MainWindow.h"
 
 ObdService::ObdService(QObject *parent) : QObject(parent) {
     backend = new BtBackend(this);
     commands.insert(CMD_TEMP_COOLANT, new CoolantTempCommandImpl());
+    commands.insert(CMD_TEMP_AIR_AMBIENT, new AmbientAirTempCommandImpl());
+    commands.insert(CMD_TEMP_AIR_INTAKE, new IntakeAirTempCommandImpl());
+    commands.insert(CMD_TEMP_OIL, new OilTempCommandImpl());
+    commands.insert(CMD_TEMP_GB, new GbTempCommandImpl());
 }
 
 void ObdService::startService() {
@@ -53,12 +61,7 @@ void ObdService::processMessage(const QString &sender, const QString &message) {
             break;
         case INWORK: {
             const auto cmd = commands.value(sender);
-            const QString calculated = cmd->calculate(message);
-            qDebug() << "Command " << sender
-                    << " completed with result: " << calculated;
-            auto result = ObdResult();
-            result.rawValue = calculated;
-            emit updateUI(result);
+            processResult(cmd, message);
             QThread::msleep(1000);
         }
         break;
@@ -72,6 +75,19 @@ void ObdService::connected(const QString &name) {
     connectionState = CONNECTED;
 
     doObdLoop();
+}
+
+void ObdService::processResult(AbstractCommand *cmd, const QString &message) {
+    const QString calculated = cmd->calculate(message);
+    qDebug() << "Command " << cmd->getCmdId() << " completed with result: " << calculated;
+    auto result = ObdResult();
+    result.rawValue = calculated;
+    // switch (cmd->getCmdId()) {
+    //     case CMD_TEMP_COOLANT: result.tempCoolant = calculated;
+    //         break;
+    //     default: ;
+    // }
+    emit updateUI(result);
 }
 
 

@@ -8,6 +8,10 @@
 
 
 class AmbientAirTempCommandImpl final : public AbstractCommand {
+public:
+    AmbientAirTempCommandImpl();
+
+    QString calculate(const QString &value) override;
 };
 
 

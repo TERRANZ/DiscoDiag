@@ -4,7 +4,7 @@
 #include <QThread>
 
 #include "ObdResult.h"
-#include "src/bt/btbackend.h"
+#include "src/bt/BtBackend.h"
 #include "src/ui/RemoteSelector.h"
 
 class ObdService : public QObject {
@@ -37,6 +37,8 @@ private slots:
     void messageReceived(const QString &sender, const QString &message);
 
     void connected(const QString &name);
+
+    void processResult(AbstractCommand *cmd, const QString &message);
 
 private:
     BtBackend *backend;
