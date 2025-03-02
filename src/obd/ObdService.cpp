@@ -81,8 +81,7 @@ void ObdService::processResult(AbstractCommand *cmd, const QString &message) {
     const QString calculated = cmd->calculate(message);
     qDebug() << "Command " << cmd->getCmdId() << " completed with result: " << calculated;
     auto result = ObdResult();
-    // qDebug() << "CMD: " << cmd->getCmdId() << " Received result:" << message;
-    result.rawValue = calculated;
+    result.rawValue = cmd->getCmdId() + " = " + calculated;
     // switch (cmd->getCmdId()) {
     //     case CMD_TEMP_COOLANT: result.tempCoolant = calculated;
     //         break;

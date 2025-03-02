@@ -12,7 +12,5 @@ IntakeAirTempCommandImpl::IntakeAirTempCommandImpl(): AbstractCommand(
 }
 
 QString IntakeAirTempCommandImpl::calculate(const QString &value) {
-    const auto split = value.split('\n');
-    const auto &temp1 = split.at(1);
-    return QString::number(ObdParser::extractDigitA(temp1) - 40);
+    return QString::number(ObdParser::extractDigitA(value) - 40);
 }

@@ -10,9 +10,5 @@ CoolantTempCommandImpl::CoolantTempCommandImpl() : AbstractCommand(CMD_TEMP_COOL
 }
 
 QString CoolantTempCommandImpl::calculate(const QString &value) {
-    auto split = value.split('\n');
-    auto header = split.at(0);
-    auto temp1 = split.at(1);
-    auto temp2 = split.at(2);
-    return QString::number(ObdParser::extractDigitA(temp1) - 40);
+    return QString::number(ObdParser::extractDigitA(value) - 40);
 }

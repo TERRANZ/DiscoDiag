@@ -20,8 +20,9 @@ public:
         return getIntAtPos(data, 7);
     }
 
-    static int getIntAtPos(const QString &data, const int pos) {
-        if (const QStringList &split = data.split(QChar(' ')); split.size() <= pos) {
+    static int getIntAtPos(const QString &data, const int& pos) {
+        auto const split = data.split(' ');
+        if (split.size() >= pos) {
             const QString &result = split.at(pos);
             bool ok;
             return result.toInt(&ok, 16);
