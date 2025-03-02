@@ -81,6 +81,7 @@ void ObdService::processResult(AbstractCommand *cmd, const QString &message) {
     const QString calculated = cmd->calculate(message);
     qDebug() << "Command " << cmd->getCmdId() << " completed with result: " << calculated;
     auto result = ObdResult();
+    // qDebug() << "CMD: " << cmd->getCmdId() << " Received result:" << message;
     result.rawValue = calculated;
     // switch (cmd->getCmdId()) {
     //     case CMD_TEMP_COOLANT: result.tempCoolant = calculated;
@@ -95,10 +96,10 @@ void ObdService::doObdLoop() {
     doObdPreparationStep();
 
     if (connectionState == INWORK) {
-        // backend->sendCommand();
-        for (auto command: commands) {
-            backend->sendCommand(command);
-            QThread::msleep(200);
+        backend->sendCommand(commands.values().at(m_curr_cmd));
+        m_curr_cmd++;
+        if (m_curr_cmd >= commands.size()) {
+            m_curr_cmd = 0;
         }
     }
     if (connectionState == ERROR) {

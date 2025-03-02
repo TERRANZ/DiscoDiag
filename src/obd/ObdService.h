@@ -44,6 +44,7 @@ private:
     BtBackend *backend;
     ConnectionState connectionState = NC;
     QMap<QString, AbstractCommand *> commands = QMap<QString, AbstractCommand *>();
+    int m_curr_cmd = 0;
 
     void doObdLoop();
 

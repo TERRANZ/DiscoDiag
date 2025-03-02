@@ -55,6 +55,9 @@ void BtBackend::readSocket() {
 }
 
 void BtBackend::sendCommand(const AbstractCommand *command) {
+    if (!command) {
+        return;
+    }
     currCmdId = command->getCmdId();
     // qDebug() << "Writing command " << command.getCmdId() << " " << command.getCmdName() << " to socket";
     const auto cmd = QString(command->getCmdId() + "\r");

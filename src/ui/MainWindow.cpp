@@ -24,6 +24,6 @@ void MainWindow::on_action_exit_triggered() {
 
 void MainWindow::on_update_ui(ObdResult &result) {
     ui->textEdit->moveCursor(QTextCursor::End);
-    ui->textEdit->insertPlainText(result.rawValue);
+    ui->textEdit->insertPlainText(result.rawValue + "\n");
     ui->textEdit->moveCursor(QTextCursor::End);
 }
