@@ -78,15 +78,15 @@ void ObdService::connected(const QString &name) {
 }
 
 void ObdService::processResult(AbstractCommand *cmd, const QString &message) {
-    const QString calculated = cmd->calculate(message);
+    const auto calculated = cmd->calculate(message);
     qDebug() << "Command " << cmd->getCmdId() << " completed with result: " << calculated;
     auto result = ObdResult();
-    result.rawValue = cmd->getCmdId() + " = " + calculated;
-    // switch (cmd->getCmdId()) {
-    //     case CMD_TEMP_COOLANT: result.tempCoolant = calculated;
-    //         break;
-    //     default: ;
-    // }
+    result.rawValue = cmd->getCmdId() + " = " + QString::number(calculated);
+    if (cmd->getCmdId() == CMD_TEMP_COOLANT) { result.tempCoolant = calculated; }
+    if (cmd->getCmdId() == CMD_TEMP_AIR_AMBIENT) { result.tempAirAmb = calculated; }
+    if (cmd->getCmdId() == CMD_TEMP_AIR_INTAKE) { result.tempAirInt = calculated; }
+    if (cmd->getCmdId() == CMD_TEMP_OIL) { result.tempOil = calculated; }
+    if (cmd->getCmdId() == CMD_TEMP_GB) { result.tempGB = calculated; }
     emit updateUI(result);
 }
 

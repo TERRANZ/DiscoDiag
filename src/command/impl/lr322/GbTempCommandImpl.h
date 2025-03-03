@@ -11,7 +11,7 @@ class GbTempCommandImpl final : public AbstractCommand {
 public:
     GbTempCommandImpl();
 
-    QString calculate(const QString &value) override;
+    int calculate(const QString &value) override;
 };
 
 

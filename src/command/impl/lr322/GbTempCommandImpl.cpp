@@ -10,6 +10,6 @@ GbTempCommandImpl::GbTempCommandImpl() : AbstractCommand(
     CMD_TEMP_GB, "Gearbox temp command") {
 }
 
-QString GbTempCommandImpl::calculate(const QString &value) {
-    return QString::number(ObdParser::extractDigitA(value) - 40);
+int GbTempCommandImpl::calculate(const QString &value) {
+    return ObdParser::extractDigitA(value) - 40;
 }

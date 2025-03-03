@@ -11,7 +11,7 @@ class CoolantTempCommandImpl final : public AbstractCommand {
 public:
     CoolantTempCommandImpl();
 
-    QString calculate(const QString &value) override;
+    int calculate(const QString &value) override;
 };
 
 

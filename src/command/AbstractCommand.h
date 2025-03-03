@@ -14,7 +14,7 @@ public:
         m_cmdName = cmdName;
     }
 
-    virtual QString calculate(const QString &value) { return {""}; }
+    virtual int calculate(const QString &value) { return -1; }
 
     QString getCmdId() const { return m_cmdId; }
     QString getCmdName() const { return m_cmdName; }

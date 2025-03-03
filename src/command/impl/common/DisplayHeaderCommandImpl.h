@@ -6,8 +6,6 @@
 class DisplayHeaderCommandImpl : public AbstractCommand {
 public:
     DisplayHeaderCommandImpl();
-
-    QString calculate(const QString &value) override;
 };
 
 

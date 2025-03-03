@@ -9,6 +9,6 @@
 CoolantTempCommandImpl::CoolantTempCommandImpl() : AbstractCommand(CMD_TEMP_COOLANT, "Coolant temp command") {
 }
 
-QString CoolantTempCommandImpl::calculate(const QString &value) {
-    return QString::number(ObdParser::extractDigitA(value) - 40);
+int CoolantTempCommandImpl::calculate(const QString &value) {
+    return ObdParser::extractDigitA(value) - 40;
 }
