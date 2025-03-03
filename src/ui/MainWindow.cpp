@@ -1,25 +1,26 @@
 #include "MainWindow.h"
 #include "ui_mainwindow.h"
+#include "src/obd/ObdThread.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    service = new ObdService(this);
-    connect(service, SIGNAL(updateUI(ObdResult&)), this, SLOT(on_update_ui(ObdResult&)));
 }
 
 MainWindow::~MainWindow() {
-    service->stopService();
+    emit stop();
     delete ui;
 }
 
 void MainWindow::on_action_start_triggered() {
-    // auto *thread = new QThread;
-    // service->moveToThread(thread);
-    service->startService();
+    const auto obdThread = new ObdThread();
+    connect(this,SIGNAL(start()), obdThread, SLOT(start()));
+    connect(this,SIGNAL(stop()), obdThread, SLOT(stop()));
+    emit start();
 }
 
 void MainWindow::on_action_exit_triggered() {
+
 }
 
 void MainWindow::on_update_ui(ObdResult &result) {
@@ -38,5 +39,4 @@ void MainWindow::on_update_ui(ObdResult &result) {
     ui->dTempAirInt->setValue(result.tempAirInt);
     ui->dTempOil->setValue(result.tempOil);
     ui->dTempGb->setValue(result.tempGB);
-
 }

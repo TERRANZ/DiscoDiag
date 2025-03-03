@@ -20,6 +20,10 @@ public:
 
     ~MainWindow();
 
+signals:
+    void start();
+    void stop();
+
 private slots:
     void on_action_start_triggered();
 
@@ -29,7 +33,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    ObdService *service;
 };
 
 #endif // MAINWINDOW_H

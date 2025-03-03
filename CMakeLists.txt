@@ -83,6 +83,8 @@ set(PROJECT_SOURCES
         src/command/impl/lr322/OilVolumeCommandImpl.h
         src/command/impl/lr322/FuelLevelCommandImpl.cpp
         src/command/impl/lr322/FuelLevelCommandImpl.h
+        src/obd/ObdThread.cpp
+        src/obd/ObdThread.h
 )
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(DiscoDiag
