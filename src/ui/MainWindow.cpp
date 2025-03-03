@@ -23,7 +23,20 @@ void MainWindow::on_action_exit_triggered() {
 }
 
 void MainWindow::on_update_ui(ObdResult &result) {
-    ui->textEdit->moveCursor(QTextCursor::End);
-    ui->textEdit->insertPlainText(result.rawValue + "\n");
-    ui->textEdit->moveCursor(QTextCursor::End);
+    ui->teDebug->moveCursor(QTextCursor::End);
+    ui->teDebug->insertPlainText(result.rawValue + "\n");
+    ui->teDebug->moveCursor(QTextCursor::End);
+
+    ui->numTempCooland->display(result.tempCoolant);
+    ui->numTempAirAmb->display(result.tempAirAmb);
+    ui->numTempAirInt->display(result.tempAirInt);
+    ui->numTempOil->display(result.tempOil);
+    ui->numTempGb->display(result.tempGB);
+
+    ui->dTempCoolant->setValue(result.tempCoolant);
+    ui->dTempAirAmb->setValue(result.tempAirAmb);
+    ui->dTempAirInt->setValue(result.tempAirInt);
+    ui->dTempOil->setValue(result.tempOil);
+    ui->dTempGb->setValue(result.tempGB);
+
 }
