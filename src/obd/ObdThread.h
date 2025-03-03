@@ -12,24 +12,23 @@
 class ObdService;
 
 class ObdThread : public QThread {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    ObdThread();
+  ObdThread();
 
 signals:
-    void updateUI(ObdResult &result);
+  void updateUI(ObdResult &result);
 
 public slots:
-    void start();
+  void start();
 
-    void stop();
+  void stop();
 
-    void on_update_ui(ObdResult &result);
+  void on_update_ui(ObdResult &result);
 
 private:
-    ObdService *service;
+  ObdService *service;
 };
 
-
-#endif //OBDTHREAD_H
+#endif // OBDTHREAD_H

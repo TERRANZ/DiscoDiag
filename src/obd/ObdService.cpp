@@ -13,108 +13,120 @@
 #include "src/ui/MainWindow.h"
 
 ObdService::ObdService(QObject *parent) : QObject(parent) {
-    backend = new BtBackend(this);
-    commands.insert(CMD_TEMP_COOLANT, new CoolantTempCommandImpl());
-    commands.insert(CMD_TEMP_AIR_AMBIENT, new AmbientAirTempCommandImpl());
-    commands.insert(CMD_TEMP_AIR_INTAKE, new IntakeAirTempCommandImpl());
-    commands.insert(CMD_TEMP_OIL, new OilTempCommandImpl());
-    commands.insert(CMD_TEMP_GB, new GbTempCommandImpl());
+  backend = new BtBackend(this);
+  commands.insert(CMD_TEMP_COOLANT, new CoolantTempCommandImpl());
+  commands.insert(CMD_TEMP_AIR_AMBIENT, new AmbientAirTempCommandImpl());
+  commands.insert(CMD_TEMP_AIR_INTAKE, new IntakeAirTempCommandImpl());
+  commands.insert(CMD_TEMP_OIL, new OilTempCommandImpl());
+  commands.insert(CMD_TEMP_GB, new GbTempCommandImpl());
 }
 
 void ObdService::startService() {
-    if (QList<QBluetoothAddress> adapters = BtBackend::listAdapters(); adapters.empty()) {
-        qDebug() << "No adapters found";
-        emit serviceError("No adapters found");
-    } else {
-        backend = new BtBackend(this);
-        connect(backend, &BtBackend::messageReceived, this, &ObdService::messageReceived);
-        connect(backend, QOverload<const QString &>::of(&BtBackend::connected), this, &ObdService::connected);
-        connectionState = DEV_SELECTED;
-        backend->startClient();
-    }
+  if (QList<QBluetoothAddress> adapters = BtBackend::listAdapters();
+      adapters.empty()) {
+    qDebug() << "No adapters found";
+    emit serviceError("No adapters found");
+  } else {
+    backend = new BtBackend(this);
+    connect(backend, &BtBackend::messageReceived, this,
+            &ObdService::messageReceived);
+    connect(backend, QOverload<const QString &>::of(&BtBackend::connected),
+            this, &ObdService::connected);
+    connectionState = DEV_SELECTED;
+    backend->startClient();
+  }
 }
 
 void ObdService::stopService() { backend->stopClient(); }
 
 void ObdService::messageReceived(const QString &sender,
                                  const QString &message) {
-    qDebug() << sender << " : " << message;
+  qDebug() << sender << " : " << message;
 
-    processMessage(sender, message);
+  processMessage(sender, message);
 
-    doObdLoop();
+  doObdLoop();
 }
 
 void ObdService::processMessage(const QString &sender, const QString &message) {
-    switch (connectionState) {
-        case CONNECTED:
-            qDebug() << "Connection state CONNECTED => RESETTED";
-            connectionState = RESETTED;
-            break;
-        case RESETTED:
-            qDebug() << "Connection state RESETTED => DEV_CONFIG";
-            connectionState = DEV_CONFIG;
-            break;
-        case DEV_CONFIG:
-            qDebug() << "Connection state DEV_CONFIG => INWORK";
-            connectionState = INWORK;
-            break;
-        case INWORK: {
-            const auto cmd = commands.value(sender);
-            processResult(cmd, message);
-            QThread::msleep(1000);
-        }
-        break;
-        case ERROR:
-            break;
-    }
+  switch (connectionState) {
+  case CONNECTED:
+    qDebug() << "Connection state CONNECTED => RESETTED";
+    connectionState = RESETTED;
+    break;
+  case RESETTED:
+    qDebug() << "Connection state RESETTED => DEV_CONFIG";
+    connectionState = DEV_CONFIG;
+    break;
+  case DEV_CONFIG:
+    qDebug() << "Connection state DEV_CONFIG => INWORK";
+    connectionState = INWORK;
+    break;
+  case INWORK: {
+    const auto cmd = commands.value(sender);
+    processResult(cmd, message);
+    QThread::msleep(1000);
+  } break;
+  case ERROR:
+    break;
+  }
 }
 
 void ObdService::connected(const QString &name) {
-    qDebug() << "Connected to:" << name;
-    connectionState = CONNECTED;
+  qDebug() << "Connected to:" << name;
+  connectionState = CONNECTED;
 
-    doObdLoop();
+  doObdLoop();
 }
 
 void ObdService::processResult(AbstractCommand *cmd, const QString &message) {
-    const auto calculated = cmd->calculate(message);
-    qDebug() << "Command " << cmd->getCmdId() << " completed with result: " << calculated;
-    auto result = ObdResult();
-    result.rawValue = cmd->getCmdId() + " = " + QString::number(calculated);
-    if (cmd->getCmdId() == CMD_TEMP_COOLANT) { result.tempCoolant = calculated; }
-    if (cmd->getCmdId() == CMD_TEMP_AIR_AMBIENT) { result.tempAirAmb = calculated; }
-    if (cmd->getCmdId() == CMD_TEMP_AIR_INTAKE) { result.tempAirInt = calculated; }
-    if (cmd->getCmdId() == CMD_TEMP_OIL) { result.tempOil = calculated; }
-    if (cmd->getCmdId() == CMD_TEMP_GB) { result.tempGB = calculated; }
-    emit updateUI(result);
+  const auto calculated = cmd->calculate(message);
+  qDebug() << "Command " << cmd->getCmdId()
+           << " completed with result: " << calculated;
+  auto result = ObdResult();
+  result.rawValue = cmd->getCmdId() + " = " + QString::number(calculated);
+  if (cmd->getCmdId() == CMD_TEMP_COOLANT) {
+    result.tempCoolant = calculated;
+  }
+  if (cmd->getCmdId() == CMD_TEMP_AIR_AMBIENT) {
+    result.tempAirAmb = calculated;
+  }
+  if (cmd->getCmdId() == CMD_TEMP_AIR_INTAKE) {
+    result.tempAirInt = calculated;
+  }
+  if (cmd->getCmdId() == CMD_TEMP_OIL) {
+    result.tempOil = calculated;
+  }
+  if (cmd->getCmdId() == CMD_TEMP_GB) {
+    result.tempGB = calculated;
+  }
+  emit updateUI(result);
 }
 
-
 void ObdService::doObdLoop() {
-    doObdPreparationStep();
+  doObdPreparationStep();
 
-    if (connectionState == INWORK) {
-        backend->sendCommand(commands.values().at(m_curr_cmd));
-        m_curr_cmd++;
-        if (m_curr_cmd >= commands.size()) {
-            m_curr_cmd = 0;
-        }
+  if (connectionState == INWORK) {
+    backend->sendCommand(commands.values().at(m_curr_cmd));
+    m_curr_cmd++;
+    if (m_curr_cmd >= commands.size()) {
+      m_curr_cmd = 0;
     }
-    if (connectionState == ERROR) {
-    }
+  }
+  if (connectionState == ERROR) {
+  }
 }
 
 void ObdService::doObdPreparationStep() {
-    switch (connectionState) {
-        case CONNECTED:
-            backend->sendCommand(new ObdResetFixCommandImpl());
-            break;
-        case RESETTED:
-            backend->sendCommand(new DisplayHeaderCommandImpl());
-            break;
-        case DEV_CONFIG:
-            backend->sendCommand(new SelectProtocolObdCommandImpl());
-            break;
-    }
+  switch (connectionState) {
+  case CONNECTED:
+    backend->sendCommand(new ObdResetFixCommandImpl());
+    break;
+  case RESETTED:
+    backend->sendCommand(new DisplayHeaderCommandImpl());
+    break;
+  case DEV_CONFIG:
+    backend->sendCommand(new SelectProtocolObdCommandImpl());
+    break;
+  }
 }

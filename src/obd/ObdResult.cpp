@@ -1,4 +1,3 @@
 #include "ObdResult.h"
 
-ObdResult::ObdResult() {
-}
+ObdResult::ObdResult() {}

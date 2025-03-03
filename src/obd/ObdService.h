@@ -8,51 +8,52 @@
 #include "src/ui/RemoteSelector.h"
 
 class ObdService : public QObject {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    enum ConnectionState {
-        NC = 0,
-        DEV_SELECTED = 1,
-        DEV_CONFIG = 2,
-        CONNECTED = 3,
-        RESETTED = 4,
-        PROTOCOL_SELECTED = 5,
-        INWORK = 6,
-        ERROR = -1
-    };
+  enum ConnectionState {
+    NC = 0,
+    DEV_SELECTED = 1,
+    DEV_CONFIG = 2,
+    CONNECTED = 3,
+    RESETTED = 4,
+    PROTOCOL_SELECTED = 5,
+    INWORK = 6,
+    ERROR = -1
+  };
 
-    explicit ObdService(QObject *parent = nullptr);
+  explicit ObdService(QObject *parent = nullptr);
 
-    void startService();
+  void startService();
 
-    void stopService();
+  void stopService();
 
 signals:
-    void updateUI(ObdResult &result);
+  void updateUI(ObdResult &result);
 
-    void serviceError(QString reason);
+  void serviceError(QString reason);
 
 private slots:
-    void messageReceived(const QString &sender, const QString &message);
+  void messageReceived(const QString &sender, const QString &message);
 
-    void connected(const QString &name);
+  void connected(const QString &name);
 
-    void processResult(AbstractCommand *cmd, const QString &message);
+  void processResult(AbstractCommand *cmd, const QString &message);
 
 private:
-    BtBackend *backend;
-    ConnectionState connectionState = NC;
-    QMap<QString, AbstractCommand *> commands = QMap<QString, AbstractCommand *>();
-    int m_curr_cmd = 0;
+  BtBackend *backend;
+  ConnectionState connectionState = NC;
+  QMap<QString, AbstractCommand *> commands =
+      QMap<QString, AbstractCommand *>();
+  int m_curr_cmd = 0;
 
-    void doObdLoop();
+  void doObdLoop();
 
-    void doObdPreparationStep();
+  void doObdPreparationStep();
 
-    void sendDiscoCommands();
+  void sendDiscoCommands();
 
-    void processMessage(const QString &sender, const QString &message);
+  void processMessage(const QString &sender, const QString &message);
 };
 
 #endif // OBDSERVICE_H

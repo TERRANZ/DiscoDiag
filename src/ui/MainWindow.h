@@ -1,38 +1,37 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include "src/obd/ObdService.h"
 #include "src/obd/ObdResult.h"
+#include <QMainWindow>
 QT_BEGIN_NAMESPACE
 
 namespace Ui {
-    class MainWindow;
+class MainWindow;
 }
 
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+  MainWindow(QWidget *parent = nullptr);
 
-    ~MainWindow();
+  ~MainWindow();
 
 signals:
-    void start();
-    void stop();
+  void start();
+  void stop();
 
 private slots:
-    void on_action_start_triggered();
+  void on_action_start_triggered();
 
-    void on_action_exit_triggered();
+  void on_action_exit_triggered();
 
-    void on_update_ui(ObdResult &result);
+  void on_update_ui(ObdResult &result);
 
 private:
-    Ui::MainWindow *ui;
+  Ui::MainWindow *ui;
 };
 
 #endif // MAINWINDOW_H
