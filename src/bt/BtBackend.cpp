@@ -1,5 +1,4 @@
 #include "BtBackend.h"
-#include <cstddef>
 #include <cstdio>
 #include <qcontainerfwd.h>
 #include <qlogging.h>
@@ -40,7 +39,7 @@ void BtBackend::readSocket() {
   }
   if (readComplete) {
     qDebug() << "Read complete: " << line;
-    emit messageReceived(currCmdId, line);
+    emit messageReceived(line);
     line.clear();
     readComplete = false;
   }
@@ -50,10 +49,9 @@ void BtBackend::sendCommand(const AbstractCommand *command) {
   if (!command) {
     return;
   }
-  currCmdId = command->getCmdId();
   const auto cmd = QString(command->getCmdId() + "\r");
   const auto written = socket->write(cmd.toUtf8());
-  // qDebug() << "Written " << written << " bytes to socket";
+  qDebug() << "Written " << written << " bytes to socket";
 }
 
 void BtBackend::stopClient() {

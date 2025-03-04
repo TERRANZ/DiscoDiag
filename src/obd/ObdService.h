@@ -34,18 +34,19 @@ signals:
   void serviceError(QString reason);
 
 private slots:
-  void messageReceived(const QString &sender, const QString &message);
+  void messageReceived(const QString &message);
 
   void connected(const QString &name);
 
   void processResult(AbstractCommand *cmd, const QString &message);
 
 private:
-  BtBackend *backend;
-  ConnectionState connectionState = NC;
-  QMap<QString, AbstractCommand *> commands =
+  BtBackend *m_backend;
+  ConnectionState m_connectionState = NC;
+  QMap<QString, AbstractCommand *> m_commands =
       QMap<QString, AbstractCommand *>();
   int m_curr_cmd = 0;
+  ObdResult m_result = ObdResult();
 
   void doObdLoop();
 
@@ -53,7 +54,7 @@ private:
 
   void sendDiscoCommands();
 
-  void processMessage(const QString &sender, const QString &message);
+  void processMessage(const QString &message);
 };
 
 #endif // OBDSERVICE_H

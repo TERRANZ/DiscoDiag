@@ -5,7 +5,7 @@
 
 class ObdResult {
 public:
-  ObdResult();
+  ObdResult() = default;
 
   QString rawValue = "";
   int tempCoolant = 0;

@@ -27,7 +27,7 @@ public slots:
   void sendCommand(const AbstractCommand *command);
 
 signals:
-  void messageReceived(const QString &cmdId, const QString &message);
+  void messageReceived(const QString &message);
 
   void connected(const QString &name);
 
@@ -44,7 +44,6 @@ private slots:
 
 private:
   QBluetoothSocket *socket = nullptr;
-  QString currCmdId = "";
   QString line = "";
   bool readComplete = false;
 };

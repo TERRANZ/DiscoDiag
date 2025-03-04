@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "src/obd/ObdThread.h"
 #include "ui_mainwindow.h"
+#include <qobjectdefs.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -16,6 +17,7 @@ void MainWindow::on_action_start_triggered() {
   const auto obdThread = new ObdThread();
   connect(this, SIGNAL(start()), obdThread, SLOT(start()));
   connect(this, SIGNAL(stop()), obdThread, SLOT(stop()));
+  connect(obdThread, SIGNAL(updateUI(ObdResult&)), this, SLOT(on_update_ui(ObdResult&)));
   emit start();
 }
 

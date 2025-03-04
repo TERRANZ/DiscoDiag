@@ -42,7 +42,6 @@ set(PROJECT_SOURCES
         src/command/commandIds.h
         src/obd/ObdService.cpp
         src/obd/ObdService.h
-        src/obd/ObdResult.cpp
         src/obd/ObdResult.h
         src/ui/RemoteSelector.cpp
         src/ui/RemoteSelector.h
