@@ -8,6 +8,9 @@
 
 
 class FuelLevelCommandImpl final : public AbstractCommand {
+    FuelLevelCommandImpl();
+
+    int calculate(const QString &value) override;
 };
 
 
