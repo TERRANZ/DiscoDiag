@@ -6,9 +6,11 @@
 #define COMPRTEMPCOMMANDIMPL_H
 #include "src/command/AbstractCommand.h"
 
-
-class ComprTempCommandImpl final : public AbstractCommand {
+class ComprTempCommandImpl final : public AbstractCommand
+{
+public:
+    ComprTempCommandImpl();
+    int calculate(const QString &value) override;
 };
 
-
-#endif //COMPRTEMPCOMMANDIMPL_H
+#endif // COMPRTEMPCOMMANDIMPL_H
