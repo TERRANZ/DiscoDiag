@@ -124,6 +124,10 @@ void ObdService::processResult(AbstractCommand *cmd, const QString &message)
   {
     m_result.tempGB = calculated;
   }
+  if (cmd->getCmdId() == CMD_LVL_FUEL_LITRES)
+  {
+    m_result.lvlFuel = calculated;
+  }
   emit updateUI(m_result);
 }
 

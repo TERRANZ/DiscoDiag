@@ -3,10 +3,10 @@
 
 #include "src/command/AbstractCommand.h"
 
-class DisplayHeaderCommandImpl : public AbstractCommand {
+class DisplayHeaderCommandImpl : public AbstractCommand
+{
 public:
     DisplayHeaderCommandImpl();
 };
 
-
-#endif //DISCODIAG_DISPLAYHEADERCOMMANDIMPL_H
+#endif // DISCODIAG_DISPLAYHEADERCOMMANDIMPL_H

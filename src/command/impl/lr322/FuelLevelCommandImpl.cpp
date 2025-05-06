@@ -4,6 +4,7 @@
 
 #include "FuelLevelCommandImpl.h"
 #include <src/command/commandIds.h>
+#include <src/obd/ObdParser.h>
 
 FuelLevelCommandImpl::FuelLevelCommandImpl() : AbstractCommand(CMD_LVL_FUEL_LITRES, "Fuel Level Command")
 {
@@ -11,5 +12,5 @@ FuelLevelCommandImpl::FuelLevelCommandImpl() : AbstractCommand(CMD_LVL_FUEL_LITR
 
 int FuelLevelCommandImpl::calculate(const QString &value)
 {
-    return 0;
+    return (ObdParser::extractDigitA(value) * 100) / 255;
 }
