@@ -8,6 +8,10 @@
 
 
 class TCTempCommandImpl final : public AbstractCommand {
+public:
+    TCTempCommandImpl();
+
+    int calculate(const QString &value) override;
 };
 
 

@@ -54,24 +54,24 @@ set(PROJECT_SOURCES
         src/obd/ObdParser.h
         src/command/impl/common/DisplayHeaderCommandImpl.cpp
         src/command/impl/common/DisplayHeaderCommandImpl.h
-        src/command/impl/lr322/CoolantTempCommandImpl.cpp
-        src/command/impl/lr322/CoolantTempCommandImpl.h
+        src/command/impl/lr322/temperature/CoolantTempCommandImpl.cpp
+        src/command/impl/lr322/temperature/CoolantTempCommandImpl.h
         src/command/impl/common/ExtParamsCommandImpl.cpp
         src/command/impl/common/ExtParamsCommandImpl.h
-        src/command/impl/lr322/OilTempCommandImpl.cpp
-        src/command/impl/lr322/OilTempCommandImpl.h
-        src/command/impl/lr322/GbTempCommandImpl.cpp
-        src/command/impl/lr322/GbTempCommandImpl.h
-        src/command/impl/lr322/TCTempCommandImpl.cpp
-        src/command/impl/lr322/TCTempCommandImpl.h
-        src/command/impl/lr322/RDTempCommandImpl.cpp
-        src/command/impl/lr322/RDTempCommandImpl.h
-        src/command/impl/lr322/ComprTempCommandImpl.cpp
-        src/command/impl/lr322/ComprTempCommandImpl.h
-        src/command/impl/lr322/IntakeAirTempCommandImpl.cpp
-        src/command/impl/lr322/IntakeAirTempCommandImpl.h
-        src/command/impl/lr322/AmbientAirTempCommandImpl.cpp
-        src/command/impl/lr322/AmbientAirTempCommandImpl.h
+        src/command/impl/lr322/temperature/OilTempCommandImpl.cpp
+        src/command/impl/lr322/temperature/OilTempCommandImpl.h
+        src/command/impl/lr322/temperature/GbTempCommandImpl.cpp
+        src/command/impl/lr322/temperature/GbTempCommandImpl.h
+        src/command/impl/lr322/temperature/TCTempCommandImpl.cpp
+        src/command/impl/lr322/temperature/TCTempCommandImpl.h
+        src/command/impl/lr322/temperature/RDTempCommandImpl.cpp
+        src/command/impl/lr322/temperature/RDTempCommandImpl.h
+        src/command/impl/lr322/temperature/ComprTempCommandImpl.cpp
+        src/command/impl/lr322/temperature/ComprTempCommandImpl.h
+        src/command/impl/lr322/temperature/IntakeAirTempCommandImpl.cpp
+        src/command/impl/lr322/temperature/IntakeAirTempCommandImpl.h
+        src/command/impl/lr322/temperature/AmbientAirTempCommandImpl.cpp
+        src/command/impl/lr322/temperature/AmbientAirTempCommandImpl.h
         src/command/impl/lr322/FuelPressCommandImpl.cpp
         src/command/impl/lr322/FuelPressCommandImpl.h
         src/command/impl/lr322/BrakePressCommandImpl.cpp

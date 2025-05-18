@@ -3,7 +3,8 @@
 #include <qcontainerfwd.h>
 #include <qlogging.h>
 
-BtBackend::BtBackend(QObject *parent) : QObject(parent) {}
+BtBackend::BtBackend(QObject *parent) : QObject(parent) {
+}
 
 void BtBackend::startClient() {
   if (socket)
@@ -14,7 +15,7 @@ void BtBackend::startClient() {
   qDebug() << "Create socket";
   const auto address = QBluetoothAddress("10:21:3E:4A:3E:41");
   socket->connectToService(
-      address, QBluetoothUuid(QBluetoothUuid::ServiceClassUuid::SerialPort));
+    address, QBluetoothUuid(QBluetoothUuid::ServiceClassUuid::SerialPort));
   qDebug() << "ConnectToService done";
 
   connect(socket, &QBluetoothSocket::readyRead, this, &BtBackend::readSocket);
@@ -26,7 +27,9 @@ void BtBackend::startClient() {
           &BtBackend::onSocketErrorOccurred);
 }
 
-void BtBackend::connected() { emit connected(socket->peerName()); }
+void BtBackend::connected() {
+  emit connected(socket->peerName());
+}
 
 void BtBackend::readSocket() {
   if (!socket)
@@ -45,7 +48,7 @@ void BtBackend::readSocket() {
   }
 }
 
-void BtBackend::sendCommand(const AbstractCommand *command) {
+void BtBackend::sendCommand(const AbstractCommand *command) const {
   if (!command) {
     return;
   }
@@ -66,7 +69,7 @@ QList<QBluetoothAddress> BtBackend::listAdapters() {
   const auto devices = QBluetoothLocalDevice::allDevices();
   auto result = QList<QBluetoothAddress>();
   if (!devices.empty()) {
-    foreach (const auto info, devices) {
+    foreach(const auto info, devices) {
       result.append(info.address());
     }
   }
@@ -74,6 +77,6 @@ QList<QBluetoothAddress> BtBackend::listAdapters() {
 }
 
 void BtBackend::onSocketErrorOccurred(
-    const QBluetoothSocket::SocketError error) {
+  const QBluetoothSocket::SocketError error) {
   qDebug() << "ERROR" << error;
 }

@@ -1,283 +1,283 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>814</width>
-    <height>669</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>MainWindow</string>
-  </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="0">
-       <widget class="QLCDNumber" name="numTempCooland"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDial" name="dTempAirAmb">
-        <property name="minimum">
-         <number>-120</number>
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>814</width>
+                <height>669</height>
+            </rect>
         </property>
-        <property name="maximum">
-         <number>120</number>
+        <property name="windowTitle">
+            <string>MainWindow</string>
         </property>
-        <property name="pageStep">
-         <number>0</number>
-        </property>
-        <property name="tracking">
-         <bool>true</bool>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QLCDNumber" name="numTempOil"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QDial" name="dTempCoolant">
-        <property name="minimum">
-         <number>-120</number>
-        </property>
-        <property name="maximum">
-         <number>120</number>
-        </property>
-        <property name="pageStep">
-         <number>0</number>
-        </property>
-        <property name="tracking">
-         <bool>true</bool>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QDial" name="dTempOil">
-        <property name="minimum">
-         <number>-120</number>
-        </property>
-        <property name="maximum">
-         <number>120</number>
-        </property>
-        <property name="pageStep">
-         <number>0</number>
-        </property>
-        <property name="tracking">
-         <bool>true</bool>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <widget class="QDial" name="dTempGb">
-        <property name="minimum">
-         <number>-120</number>
-        </property>
-        <property name="maximum">
-         <number>120</number>
-        </property>
-        <property name="pageStep">
-         <number>0</number>
-        </property>
-        <property name="tracking">
-         <bool>true</bool>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="4">
-       <widget class="QLCDNumber" name="numTempGb"/>
-      </item>
-      <item row="1" column="2">
-       <widget class="QDial" name="dTempAirInt">
-        <property name="minimum">
-         <number>-120</number>
-        </property>
-        <property name="maximum">
-         <number>120</number>
-        </property>
-        <property name="pageStep">
-         <number>0</number>
-        </property>
-        <property name="tracking">
-         <bool>true</bool>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLCDNumber" name="numTempAirAmb"/>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLCDNumber" name="numTempAirInt"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="lblTempCoolant">
-        <property name="text">
-         <string>Температура охлаждайки</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="lblTempAmb">
-        <property name="text">
-         <string>Температура воздуха</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="lblTempAirInt">
-        <property name="text">
-         <string>Температура на впуске</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLabel" name="lblTempOil">
-        <property name="text">
-         <string>Температура масла</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="lblTempGb">
-        <property name="text">
-         <string>Температура коробки</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QPlainTextEdit" name="teDebug">
-      <property name="maximumSize">
-       <size>
-        <width>801</width>
-        <height>551</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>814</width>
-     <height>27</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>Диагностика</string>
-    </property>
-    <addaction name="action_start"/>
-    <addaction name="separator"/>
-    <addaction name="action_exit"/>
-   </widget>
-   <widget class="QMenu" name="menu_2">
-    <property name="title">
-     <string>Настройка</string>
-    </property>
-    <addaction name="action_2"/>
-   </widget>
-   <widget class="QMenu" name="menu_3">
-    <property name="title">
-     <string>Помощь</string>
-    </property>
-    <addaction name="action"/>
-   </widget>
-   <addaction name="menu"/>
-   <addaction name="menu_2"/>
-   <addaction name="menu_3"/>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <action name="action">
-   <property name="text">
-    <string>О программе...</string>
-   </property>
-  </action>
-  <action name="action_2">
-   <property name="text">
-    <string>Настройки приложения...</string>
-   </property>
-  </action>
-  <action name="action_start">
-   <property name="text">
-    <string>Запуск...</string>
-   </property>
-  </action>
-  <action name="action_exit">
-   <property name="text">
-    <string>Выход</string>
-   </property>
-  </action>
- </widget>
- <resources/>
- <connections>
-  <connection>
-   <sender>action_exit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+        <widget class="QWidget" name="centralwidget">
+            <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                    <layout class="QGridLayout" name="gridLayout">
+                        <item row="2" column="0">
+                            <widget class="QLCDNumber" name="numTempCooland"/>
+                        </item>
+                        <item row="1" column="1">
+                            <widget class="QDial" name="dTempAirAmb">
+                                <property name="minimum">
+                                    <number>-120</number>
+                                </property>
+                                <property name="maximum">
+                                    <number>120</number>
+                                </property>
+                                <property name="pageStep">
+                                    <number>0</number>
+                                </property>
+                                <property name="tracking">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Qt::Orientation::Horizontal</enum>
+                                </property>
+                                <property name="invertedAppearance">
+                                    <bool>false</bool>
+                                </property>
+                                <property name="invertedControls">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                        </item>
+                        <item row="2" column="3">
+                            <widget class="QLCDNumber" name="numTempOil"/>
+                        </item>
+                        <item row="1" column="0">
+                            <widget class="QDial" name="dTempCoolant">
+                                <property name="minimum">
+                                    <number>-120</number>
+                                </property>
+                                <property name="maximum">
+                                    <number>120</number>
+                                </property>
+                                <property name="pageStep">
+                                    <number>0</number>
+                                </property>
+                                <property name="tracking">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Qt::Orientation::Horizontal</enum>
+                                </property>
+                                <property name="invertedAppearance">
+                                    <bool>false</bool>
+                                </property>
+                                <property name="invertedControls">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                        </item>
+                        <item row="1" column="3">
+                            <widget class="QDial" name="dTempOil">
+                                <property name="minimum">
+                                    <number>-120</number>
+                                </property>
+                                <property name="maximum">
+                                    <number>120</number>
+                                </property>
+                                <property name="pageStep">
+                                    <number>0</number>
+                                </property>
+                                <property name="tracking">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Qt::Orientation::Horizontal</enum>
+                                </property>
+                                <property name="invertedAppearance">
+                                    <bool>false</bool>
+                                </property>
+                                <property name="invertedControls">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                        </item>
+                        <item row="1" column="4">
+                            <widget class="QDial" name="dTempGb">
+                                <property name="minimum">
+                                    <number>-120</number>
+                                </property>
+                                <property name="maximum">
+                                    <number>120</number>
+                                </property>
+                                <property name="pageStep">
+                                    <number>0</number>
+                                </property>
+                                <property name="tracking">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Qt::Orientation::Horizontal</enum>
+                                </property>
+                                <property name="invertedAppearance">
+                                    <bool>false</bool>
+                                </property>
+                                <property name="invertedControls">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                        </item>
+                        <item row="2" column="4">
+                            <widget class="QLCDNumber" name="numTempGb"/>
+                        </item>
+                        <item row="1" column="2">
+                            <widget class="QDial" name="dTempAirInt">
+                                <property name="minimum">
+                                    <number>-120</number>
+                                </property>
+                                <property name="maximum">
+                                    <number>120</number>
+                                </property>
+                                <property name="pageStep">
+                                    <number>0</number>
+                                </property>
+                                <property name="tracking">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Qt::Orientation::Horizontal</enum>
+                                </property>
+                                <property name="invertedAppearance">
+                                    <bool>false</bool>
+                                </property>
+                                <property name="invertedControls">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                        </item>
+                        <item row="2" column="1">
+                            <widget class="QLCDNumber" name="numTempAirAmb"/>
+                        </item>
+                        <item row="2" column="2">
+                            <widget class="QLCDNumber" name="numTempAirInt"/>
+                        </item>
+                        <item row="0" column="0">
+                            <widget class="QLabel" name="lblTempCoolant">
+                                <property name="text">
+                                    <string>Температура охлаждайки</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item row="0" column="1">
+                            <widget class="QLabel" name="lblTempAmb">
+                                <property name="text">
+                                    <string>Температура воздуха</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item row="0" column="2">
+                            <widget class="QLabel" name="lblTempAirInt">
+                                <property name="text">
+                                    <string>Температура на впуске</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item row="0" column="3">
+                            <widget class="QLabel" name="lblTempOil">
+                                <property name="text">
+                                    <string>Температура масла</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item row="0" column="4">
+                            <widget class="QLabel" name="lblTempGb">
+                                <property name="text">
+                                    <string>Температура коробки</string>
+                                </property>
+                            </widget>
+                        </item>
+                    </layout>
+                </item>
+                <item>
+                    <widget class="QPlainTextEdit" name="teDebug">
+                        <property name="maximumSize">
+                            <size>
+                                <width>801</width>
+                                <height>551</height>
+                            </size>
+                        </property>
+                    </widget>
+                </item>
+            </layout>
+        </widget>
+        <widget class="QMenuBar" name="menubar">
+            <property name="geometry">
+                <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>814</width>
+                    <height>27</height>
+                </rect>
+            </property>
+            <widget class="QMenu" name="menu">
+                <property name="title">
+                    <string>Диагностика</string>
+                </property>
+                <addaction name="action_start"/>
+                <addaction name="separator"/>
+                <addaction name="action_exit"/>
+            </widget>
+            <widget class="QMenu" name="menu_2">
+                <property name="title">
+                    <string>Настройка</string>
+                </property>
+                <addaction name="action_2"/>
+            </widget>
+            <widget class="QMenu" name="menu_3">
+                <property name="title">
+                    <string>Помощь</string>
+                </property>
+                <addaction name="action"/>
+            </widget>
+            <addaction name="menu"/>
+            <addaction name="menu_2"/>
+            <addaction name="menu_3"/>
+        </widget>
+        <widget class="QStatusBar" name="statusbar"/>
+        <action name="action">
+            <property name="text">
+                <string>О программе...</string>
+            </property>
+        </action>
+        <action name="action_2">
+            <property name="text">
+                <string>Настройки приложения...</string>
+            </property>
+        </action>
+        <action name="action_start">
+            <property name="text">
+                <string>Запуск...</string>
+            </property>
+        </action>
+        <action name="action_exit">
+            <property name="text">
+                <string>Выход</string>
+            </property>
+        </action>
+    </widget>
+    <resources/>
+    <connections>
+        <connection>
+            <sender>action_exit</sender>
+            <signal>triggered()</signal>
+            <receiver>MainWindow</receiver>
+            <slot>close()</slot>
+            <hints>
+                <hint type="sourcelabel">
+                    <x>-1</x>
+                    <y>-1</y>
+                </hint>
+                <hint type="destinationlabel">
+                    <x>399</x>
+                    <y>299</y>
+                </hint>
+            </hints>
+        </connection>
+    </connections>
 </ui>
