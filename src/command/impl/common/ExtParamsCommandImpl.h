@@ -9,7 +9,8 @@
 
 class ExtParamsCommandImpl final : public AbstractCommand {
 public:
-    ExtParamsCommandImpl();
+    ExtParamsCommandImpl() : AbstractCommand("", "Extended params command") {
+    }
 };
 
 

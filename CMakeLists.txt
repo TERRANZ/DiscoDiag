@@ -46,17 +46,13 @@ set(PROJECT_SOURCES
         src/ui/RemoteSelector.cpp
         src/ui/RemoteSelector.h
         src/ui/remoteselector.ui
-        src/command/impl/common/ObdResetFixCommandImpl.cpp
         src/command/impl/common/ObdResetFixCommandImpl.h
         ${TS_FILES}
-        src/command/impl/common/SelectProtocolObdCommandImpl.cpp
         src/command/impl/common/SelectProtocolObdCommandImpl.h
         src/obd/ObdParser.h
-        src/command/impl/common/DisplayHeaderCommandImpl.cpp
         src/command/impl/common/DisplayHeaderCommandImpl.h
         src/command/impl/lr322/temperature/CoolantTempCommandImpl.cpp
         src/command/impl/lr322/temperature/CoolantTempCommandImpl.h
-        src/command/impl/common/ExtParamsCommandImpl.cpp
         src/command/impl/common/ExtParamsCommandImpl.h
         src/command/impl/lr322/temperature/OilTempCommandImpl.cpp
         src/command/impl/lr322/temperature/OilTempCommandImpl.h

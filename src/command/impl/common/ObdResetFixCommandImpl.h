@@ -4,7 +4,8 @@
 
 class ObdResetFixCommandImpl : public AbstractCommand {
 public:
-    ObdResetFixCommandImpl();
+    ObdResetFixCommandImpl() : AbstractCommand("ATZ", "Obd Reset") {
+    }
 };
 
 #endif // OBDRESETFIXCOMMANDIMPL_H

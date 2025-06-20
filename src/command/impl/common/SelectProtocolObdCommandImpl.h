@@ -5,7 +5,8 @@
 
 class SelectProtocolObdCommandImpl : public AbstractCommand {
 public:
-    SelectProtocolObdCommandImpl();
+    SelectProtocolObdCommandImpl() : AbstractCommand("ATSP6", "Select Protocol Command") {
+    }
 };
 
 #endif //SELECTPROTOCOLOBDCOMMANDIMPL_H
