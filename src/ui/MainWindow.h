@@ -28,7 +28,9 @@ private slots:
 
   void on_action_exit_triggered();
 
-  void on_update_ui(ObdResult &result);
+  void update_ui(ObdResult &result);
+
+  void on_action_settings_triggered();
 
 private:
   Ui::MainWindow *ui;
