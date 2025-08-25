@@ -1,10 +1,7 @@
 #ifndef BTBACKEND_H
 #define BTBACKEND_H
 
-#include <QBluetoothAddress>
-#include <QBluetoothHostInfo>
 #include <QBluetoothLocalDevice>
-#include <QBluetoothServiceInfo>
 #include <QBluetoothSocket>
 #include <QList>
 #include <QObject>
@@ -12,40 +9,40 @@
 #include "src/command/AbstractCommand.h"
 
 class BtBackend : public QObject {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit BtBackend(QObject *parent = nullptr);
+    explicit BtBackend(QObject *parent = nullptr);
 
-  void startClient();
+    void startClient();
 
-  void stopClient();
+    void stopClient();
 
-  static QList<QBluetoothAddress> listAdapters();
+    static QList<QBluetoothAddress> listAdapters();
 
 public slots:
-  void sendCommand(const AbstractCommand *command) const;
+    void sendCommand(const AbstractCommand *command) const;
 
 signals:
-  void messageReceived(const QString &message);
+    void messageReceived(const QString &message);
 
-  void connected(const QString &name);
+    void connected(const QString &name);
 
-  void disconnected();
+    void disconnected();
 
-  void socketErrorOccurred(const QString &errorString);
+    void socketErrorOccurred(const QString &errorString);
 
 private slots:
-  void readSocket();
+    void readSocket();
 
-  void connected();
+    void connected();
 
-  static void onSocketErrorOccurred(QBluetoothSocket::SocketError error);
+    static void onSocketErrorOccurred(QBluetoothSocket::SocketError error);
 
 private:
-  QBluetoothSocket *socket = nullptr;
-  QString line = "";
-  bool readComplete = false;
+    QBluetoothSocket *socket = nullptr;
+    QString line = "";
+    bool readComplete = false;
 };
 
 #endif // BTBACKEND_H
