@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <qcontainerfwd.h>
 #include <qlogging.h>
+#include <QMessageBox>
 
 BtBackend::BtBackend(QObject *parent) : QObject(parent) {
 }
@@ -72,7 +73,10 @@ QList<QBluetoothAddress> BtBackend::listAdapters() {
     return result;
 }
 
-void BtBackend::onSocketErrorOccurred(
-    const QBluetoothSocket::SocketError error) {
+void BtBackend::onSocketErrorOccurred(const QBluetoothSocket::SocketError error) {
+    QMessageBox msgBox;
+    msgBox.setText("Error while connecting to bluetooth: " + QVariant::fromValue(error).toString());
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
     qDebug() << "ERROR" << error;
 }
