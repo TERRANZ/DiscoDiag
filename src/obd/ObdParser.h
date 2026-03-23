@@ -25,8 +25,8 @@ public:
     return -1;
   }
 
-  static QString extractCommandId(const QString &data) {
-    return data.split(QChar(' ')).at(0);
+  static CommandId extractCommandId(const QString &data) {
+    return data.split(QChar(' ')).at(0).toUInt();
   }
 };
 

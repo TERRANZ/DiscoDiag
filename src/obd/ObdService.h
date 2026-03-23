@@ -6,6 +6,7 @@
 #include "ObdResult.h"
 #include "src/bt/BtBackend.h"
 #include "src/ui/RemoteSelector.h"
+#include "src/command/commandIds.h"
 
 class ObdService : public QObject {
   Q_OBJECT
@@ -43,8 +44,7 @@ private slots:
 private:
   BtBackend *m_backend;
   ConnectionState m_connectionState = NC;
-  QMap<QString, AbstractCommand *> m_commands =
-      QMap<QString, AbstractCommand *>();
+  QMap<CommandId, AbstractCommand *> m_commands = QMap<CommandId, AbstractCommand *>();
   int m_curr_cmd = 0;
   ObdResult m_result = ObdResult();
 

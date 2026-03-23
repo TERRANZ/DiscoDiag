@@ -92,27 +92,34 @@ void ObdService::processResult(AbstractCommand *cmd, const QString &message) {
     qDebug() << "Command " << cmd->getCmdId()
             << " completed with result: " << calculated;
     m_result.rawValue = cmd->getCmdId() + " = " + QString::number(calculated);
-    if (cmd->getCmdId() == CMD_TEMP_COOLANT) {
-        m_result.tempCoolant = calculated;
+
+    switch (cmd->getCmdId()) {
+        case CMD_TEMP_COOLANT:
+            m_result.tempCoolant = calculated;
+            break;
+        case CMD_TEMP_AIR_AMBIENT:
+            m_result.tempAirAmb = calculated;
+            break;
+        case CMD_TEMP_AIR_INTAKE:
+            m_result.tempAirInt = calculated;
+            break;
+        case CMD_TEMP_OIL:
+            m_result.tempOil = calculated;
+            break;
+        case CMD_TEMP_GB:
+            m_result.tempGB = calculated;
+            break;
+        case CMD_LVL_FUEL_LITRES:
+            m_result.lvlFuel = calculated;
+            break;
+        case CMD_TEMP_COMPR:
+            m_result.tempCOMPR = calculated;
+            break;
+        default:
+            // Handle any other command IDs if necessary
+            break;
     }
-    if (cmd->getCmdId() == CMD_TEMP_AIR_AMBIENT) {
-        m_result.tempAirAmb = calculated;
-    }
-    if (cmd->getCmdId() == CMD_TEMP_AIR_INTAKE) {
-        m_result.tempAirInt = calculated;
-    }
-    if (cmd->getCmdId() == CMD_TEMP_OIL) {
-        m_result.tempOil = calculated;
-    }
-    if (cmd->getCmdId() == CMD_TEMP_GB) {
-        m_result.tempGB = calculated;
-    }
-    if (cmd->getCmdId() == CMD_LVL_FUEL_LITRES) {
-        m_result.lvlFuel = calculated;
-    }
-    if (cmd->getCmdId() == CMD_TEMP_COMPR) {
-        m_result.tempCOMPR = calculated;
-    }
+
     emit updateUI(m_result);
 }
 
