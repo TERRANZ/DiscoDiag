@@ -11,5 +11,5 @@ GbTempCommandImpl::GbTempCommandImpl() : AbstractCommand(
 }
 
 int GbTempCommandImpl::calculate(const QString &value) {
-    return ObdParser::extractDigitA(value) - 40;
+    return ObdParser::A(value) - 40;
 }

@@ -11,5 +11,5 @@ TCTempCommandImpl::TCTempCommandImpl(): AbstractCommand(CMD_TEMP_TC, "Transfer c
 }
 
 int TCTempCommandImpl::calculate(const QString &value) {
-    return ObdParser::extractDigitA(value) - 40;
+    return ObdParser::A(value) - 40;
 }

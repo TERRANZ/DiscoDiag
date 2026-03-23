@@ -14,5 +14,5 @@ OilTempCommandImpl::OilTempCommandImpl(): AbstractCommand(CMD_TEMP_OIL, "Oil tem
 }
 
 int OilTempCommandImpl::calculate(const QString &value) {
-    return ObdParser::extractDigitA(value) - 40;
+    return ObdParser::A(value) - 40;
 }

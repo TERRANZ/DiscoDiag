@@ -10,5 +10,5 @@ AmbientAirTempCommandImpl::AmbientAirTempCommandImpl()
     : AbstractCommand(CMD_TEMP_AIR_AMBIENT, "Ambient air temp command") {}
 
 int AmbientAirTempCommandImpl::calculate(const QString &value) {
-  return ObdParser::extractDigitA(value) - 40;
+  return ObdParser::A(value) - 40;
 }
