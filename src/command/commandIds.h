@@ -1,19 +1,20 @@
+#ifndef COMMANDIDS_H
+#define COMMANDIDS_H
+
 #include <QString>
 
-enum class CommandId {
-    CMD_TEMP_COOLANT = 0x22F405,
-    CMD_TEMP_OIL = 0x2203F3,
-    CMD_TEMP_GB = 0x221E69,
-    CMD_TEMP_TC = 0x22D11C,
-    CMD_TEMP_RD = 0x221E8A,
-    CMD_TEMP_COMPR = 0x22D11A,
-    CMD_TEMP_AIR_INTAKE = 0x22F40F,
-    CMD_TEMP_AIR_AMBIENT = 0x22F446,
-    CMD_PRESS_FUEL = 0x22F423,
-    CMD_PRESS_BRAKE = 0x222B0D,
-    CMD_LVL_OIL_VOL = 0x2203F2,
-    CMD_LVL_OIL = 0x2203E6,
-    CMD_LVL_FUEL_LITRES = 0x22F42F,
-    CMD_NO_VALUE = -1
-};
-Q_ENUM(CommandId)
+static const auto CMD_TEMP_COOLANT = QString("22F405");
+static const auto CMD_TEMP_OIL = QString("2203F3");
+static const auto CMD_TEMP_GB = QString("221E69");
+static const auto CMD_TEMP_TC = QString("22D11C");
+static const auto CMD_TEMP_RD = QString("221E8A");
+static const auto CMD_TEMP_COMPR = QString("22D11A");
+static const auto CMD_TEMP_AIR_INTAKE = QString("22F40F");
+static const auto CMD_TEMP_AIR_AMBIENT = QString("22F446");
+static const auto CMD_PRESS_FUEL = QString("22F423");
+static const auto CMD_PRESS_BRAKE = QString("222B0D");
+static const auto CMD_LVL_OIL_VOL = QString("2203F2");
+static const auto CMD_LVL_OIL = QString("2203E6");
+static const auto CMD_LVL_FUEL_LITRES = QString("22F42F");
+
+#endif // COMMANDIDS_H
