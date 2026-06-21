@@ -8,6 +8,10 @@
 
 
 class OilLevelCommandImpl final : public AbstractCommand {
+public:
+    OilLevelCommandImpl();
+
+    int calculate(const QString &value) override;
 };
 
 

@@ -8,6 +8,10 @@
 
 
 class RDTempCommandImpl final : public AbstractCommand {
+public:
+    RDTempCommandImpl();
+
+    int calculate(const QString &value) override;
 };
 
 

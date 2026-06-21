@@ -215,15 +215,16 @@ int TCTempCommandImpl::calculate(const QString &value) {
 | Параметр | Значение |
 |---|---|
 | **Command ID** | `221E8A` |
-| **Имя** | *(не задано)* |
+| **Имя** | `Rear diff temp command` |
 | **Переменная в ObdResult** | `tempRD` |
 | **Реализация** | [`src/command/impl/lr322/temperature/RDTempCommandImpl.h`](src/command/impl/lr322/temperature/RDTempCommandImpl.h) · [`RDTempCommandImpl.cpp`](src/command/impl/lr322/temperature/RDTempCommandImpl.cpp) |
-| **Статус** | ⚪ Заглушка (stub), не реализована |
+| **Статус** | ✅ Реализована |
 
 **Код:**
 ```cpp
-// .h — нет объявления calculate()
-// .cpp — только #include
+int RDTempCommandImpl::calculate(const QString &value) {
+    return ObdParser::A(value) - 40;
+}
 ```
 
 ---
@@ -393,33 +394,35 @@ int FuelLevelCommandImpl::calculate(const QString &value) {
 | Параметр | Значение |
 |---|---|
 | **Command ID** | `2203E6` |
-| **Имя** | *(не задано)* |
+| **Имя** | `Oil level command` |
 | **Переменная в ObdResult** | `lvlOil` |
 | **Реализация** | [`src/command/impl/lr322/OilLevelCommandImpl.h`](src/command/impl/lr322/OilLevelCommandImpl.h) · [`OilLevelCommandImpl.cpp`](src/command/impl/lr322/OilLevelCommandImpl.cpp) |
-| **Статус** | ⚪ Заглушка (stub), не реализована |
+| **Статус** | ✅ Реализована |
 
 **Код:**
 ```cpp
-// .h — класс без объявления calculate()
-// .cpp — только #include
+int OilLevelCommandImpl::calculate(const QString &value) {
+    return ObdParser::A(value);
+}
 ```
 
 ---
 
-#### 2203F2 — Объём масла (stub)
+#### 2203F2 — Объём масла
 
 | Параметр | Значение |
 |---|---|
 | **Command ID** | `2203F2` |
-| **Имя** | *(не задано)* |
+| **Имя** | `Oil Volume Command` |
 | **Переменная в ObdResult** | `lvlOilVol` |
 | **Реализация** | [`src/command/impl/lr322/OilVolumeCommandImpl.h`](src/command/impl/lr322/OilVolumeCommandImpl.h) · [`OilVolumeCommandImpl.cpp`](src/command/impl/lr322/OilVolumeCommandImpl.cpp) |
-| **Статус** | ⚪ Заглушка (stub), не реализована |
+| **Статус** | ✅ Реализована |
 
 **Код:**
 ```cpp
-// .h — класс без объявления calculate()
-// .cpp — только #include
+int OilVolumeCommandImpl::calculate(const QString &value) {
+    return ObdParser::A(value) / 10;
+}
 ```
 
 ---
@@ -516,15 +519,15 @@ int FuelLevelCommandImpl::calculate(const QString &value) {
 | `2203F3` | Масло | `OilTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `221E69` | Коробка передач | `GbTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22D11C` | Раздатка | `TCTempCommandImpl` | `A - 40` | ✅ | ❌ |
-| `221E8A` | Задний дифференциал | `RDTempCommandImpl` | *(stub)* | ⚪ | ❌ |
+| `221E8A` | Задний дифференциал | `RDTempCommandImpl` | `A - 40` | ✅ | ❌ |
 | `22D11A` | Компрессор | `ComprTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22F40F` | Воздух на впуске | `IntakeAirTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22F446` | Наружный воздух | `AmbientAirTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22F423` | Давление топлива | `FuelPressCommandImpl` | `(A × 256 + B) / 100` | ✅ | ❌ |
 | `222B0D` | Тормозная система | `BrakePressCommandImpl` | `A × 8533.3337 + B × 33.33` | ✅ | ❌ |
 | `22F42F` | Топливо (литры) | `FuelLevelCommandImpl` | `(A × 100) / 255` | ✅ | ❌ |
-| `2203E6` | Уровень масла | `OilLevelCommandImpl` | *(stub)* | ⚪ | ❌ |
-| `2203F2` | Объём масла | `OilVolumeCommandImpl` | *(stub)* | ⚪ | ❌ |
+| `2203E6` | Уровень масла | `OilLevelCommandImpl` | `A` | ✅ | ❌ |
+| `2203F2` | Объём масла | `OilVolumeCommandImpl` | `A / 10` | ✅ | ❌ |
 
 Легенда:
 - ✅ — реализована
