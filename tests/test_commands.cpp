@@ -46,6 +46,7 @@ private slots:
     void fuelLevel();
     void oilLevel();
     void oilVolume();
+    void resultFields();
 };
 
 void TestCommands::commandIds() {
@@ -145,6 +146,22 @@ void TestCommands::oilVolume() {
     // b6 / 10 = 0x96 / 10 = 150 / 10 = 15
     OilVolumeCommandImpl cmd;
     QCOMPARE(cmd.calculate(frame("2203F2", 0x96)), 15);
+}
+
+void TestCommands::resultFields() {
+    QVERIFY(CoolantTempCommandImpl().getResultField() == &ObdResult::tempCoolant);
+    QVERIFY(OilTempCommandImpl().getResultField() == &ObdResult::tempOil);
+    QVERIFY(GbTempCommandImpl().getResultField() == &ObdResult::tempGB);
+    QVERIFY(IntakeAirTempCommandImpl().getResultField() == &ObdResult::tempAirInt);
+    QVERIFY(AmbientAirTempCommandImpl().getResultField() == &ObdResult::tempAirAmb);
+    QVERIFY(ComprTempCommandImpl().getResultField() == &ObdResult::tempCOMPR);
+    QVERIFY(TCTempCommandImpl().getResultField() == &ObdResult::tempTC);
+    QVERIFY(RDTempCommandImpl().getResultField() == &ObdResult::tempRD);
+    QVERIFY(FuelPressCommandImpl().getResultField() == &ObdResult::pressFuel);
+    QVERIFY(BrakePressCommandImpl().getResultField() == &ObdResult::pressBrake);
+    QVERIFY(FuelLevelCommandImpl().getResultField() == &ObdResult::lvlFuel);
+    QVERIFY(OilLevelCommandImpl().getResultField() == &ObdResult::lvlOil);
+    QVERIFY(OilVolumeCommandImpl().getResultField() == &ObdResult::lvlOilVol);
 }
 
 QTEST_MAIN(TestCommands)

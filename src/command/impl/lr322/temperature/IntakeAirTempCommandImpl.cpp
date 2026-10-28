@@ -8,7 +8,7 @@
 #include "src/obd/ObdParser.h"
 
 IntakeAirTempCommandImpl::IntakeAirTempCommandImpl(): AbstractCommand(
-    CMD_TEMP_AIR_INTAKE, "Intake air temp command") {
+    CMD_TEMP_AIR_INTAKE, "Intake air temp command", &ObdResult::tempAirInt) {
 }
 
 int IntakeAirTempCommandImpl::calculate(const QString &value) const {

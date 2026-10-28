@@ -6,7 +6,7 @@
 #include <src/command/commandIds.h>
 #include <src/obd/ObdParser.h>
 
-OilVolumeCommandImpl::OilVolumeCommandImpl() : AbstractCommand(CMD_LVL_OIL_VOL, "Oil Volume Command")
+OilVolumeCommandImpl::OilVolumeCommandImpl() : AbstractCommand(CMD_LVL_OIL_VOL, "Oil Volume Command", &ObdResult::lvlOilVol)
 {
 }
 

@@ -3,10 +3,12 @@
 #include <QDebug>
 
 #include "src/bt/BtBackend.h"
-#include "src/command/commandIds.h"
 #include "src/command/impl/common/DisplayHeaderCommandImpl.h"
 #include "src/command/impl/common/ObdResetFixCommandImpl.h"
 #include "src/command/impl/common/SelectProtocolObdCommandImpl.h"
+#include "src/command/impl/lr322/BrakePressCommandImpl.h"
+#include "src/command/impl/lr322/FuelLevelCommandImpl.h"
+#include "src/command/impl/lr322/FuelPressCommandImpl.h"
 #include "src/command/impl/lr322/OilLevelCommandImpl.h"
 #include "src/command/impl/lr322/OilVolumeCommandImpl.h"
 #include "src/command/impl/lr322/temperature/AmbientAirTempCommandImpl.h"
@@ -35,6 +37,9 @@ ObdService::ObdService(QObject *parent)
   m_commands.emplace_back(std::make_unique<RDTempCommandImpl>());
   m_commands.emplace_back(std::make_unique<OilLevelCommandImpl>());
   m_commands.emplace_back(std::make_unique<OilVolumeCommandImpl>());
+  m_commands.emplace_back(std::make_unique<FuelPressCommandImpl>());
+  m_commands.emplace_back(std::make_unique<BrakePressCommandImpl>());
+  m_commands.emplace_back(std::make_unique<FuelLevelCommandImpl>());
 
   connect(m_backend, &BtBackend::messageReceived, this,
           &ObdService::messageReceived);
@@ -190,33 +195,8 @@ void ObdService::processResult(AbstractCommand *cmd, const QString &message) {
   m_result.rawValue =
       QStringLiteral("%1 => %2").arg(message, QString::number(calculated));
 
-  const auto id = cmd->getCmdId();
-  if (id == CMD_TEMP_COOLANT) {
-    m_result.tempCoolant = calculated;
-  } else if (id == CMD_TEMP_AIR_AMBIENT) {
-    m_result.tempAirAmb = calculated;
-  } else if (id == CMD_TEMP_AIR_INTAKE) {
-    m_result.tempAirInt = calculated;
-  } else if (id == CMD_TEMP_OIL) {
-    m_result.tempOil = calculated;
-  } else if (id == CMD_TEMP_GB) {
-    m_result.tempGB = calculated;
-  } else if (id == CMD_TEMP_COMPR) {
-    m_result.tempCOMPR = calculated;
-  } else if (id == CMD_TEMP_TC) {
-    m_result.tempTC = calculated;
-  } else if (id == CMD_TEMP_RD) {
-    m_result.tempRD = calculated;
-  } else if (id == CMD_LVL_OIL) {
-    m_result.lvlOil = calculated;
-  } else if (id == CMD_LVL_OIL_VOL) {
-    m_result.lvlOilVol = calculated;
-  } else if (id == CMD_PRESS_FUEL) {
-    m_result.pressFuel = calculated;
-  } else if (id == CMD_PRESS_BRAKE) {
-    m_result.pressBrake = calculated;
-  } else if (id == CMD_LVL_FUEL_LITRES) {
-    m_result.lvlFuel = calculated;
+  if (auto field = cmd->getResultField()) {
+    m_result.*field = calculated;
   }
 
   emit updateUI(m_result);

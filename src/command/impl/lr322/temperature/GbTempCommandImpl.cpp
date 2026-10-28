@@ -7,7 +7,7 @@
 #include "src/obd/ObdParser.h"
 
 GbTempCommandImpl::GbTempCommandImpl() : AbstractCommand(
-    CMD_TEMP_GB, "Gearbox temp command") {
+    CMD_TEMP_GB, "Gearbox temp command", &ObdResult::tempGB) {
 }
 
 int GbTempCommandImpl::calculate(const QString &value) const {

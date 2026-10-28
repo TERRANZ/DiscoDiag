@@ -7,7 +7,7 @@
 #include "src/obd/ObdParser.h"
 
 
-TCTempCommandImpl::TCTempCommandImpl(): AbstractCommand(CMD_TEMP_TC, "Transfer case temp command") {
+TCTempCommandImpl::TCTempCommandImpl(): AbstractCommand(CMD_TEMP_TC, "Transfer case temp command", &ObdResult::tempTC) {
 }
 
 int TCTempCommandImpl::calculate(const QString &value) const {

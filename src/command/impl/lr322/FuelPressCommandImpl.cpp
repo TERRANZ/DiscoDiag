@@ -6,7 +6,7 @@
 #include <src/command/commandIds.h>
 #include <src/obd/ObdParser.h>
 
-FuelPressCommandImpl::FuelPressCommandImpl() : AbstractCommand(CMD_PRESS_FUEL, "Fuel Pressure Command")
+FuelPressCommandImpl::FuelPressCommandImpl() : AbstractCommand(CMD_PRESS_FUEL, "Fuel Pressure Command", &ObdResult::pressFuel)
 {
 }
 

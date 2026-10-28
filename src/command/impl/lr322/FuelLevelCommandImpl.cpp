@@ -6,7 +6,7 @@
 #include <src/command/commandIds.h>
 #include <src/obd/ObdParser.h>
 
-FuelLevelCommandImpl::FuelLevelCommandImpl() : AbstractCommand(CMD_LVL_FUEL_LITRES, "Fuel Level Command")
+FuelLevelCommandImpl::FuelLevelCommandImpl() : AbstractCommand(CMD_LVL_FUEL_LITRES, "Fuel Level Command", &ObdResult::lvlFuel)
 {
 }
 

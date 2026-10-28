@@ -15,6 +15,12 @@ class TestAbstractCommand : public QObject {
 private slots:
     void defaultCalculateReturnsMinusOne();
     void gettersReturnConstructorValues();
+    void resultFieldIsStored();
+};
+
+class FieldCommand : public AbstractCommand {
+public:
+    FieldCommand() : AbstractCommand("FIELD", "field command", &ObdResult::tempCoolant) {}
 };
 
 void TestAbstractCommand::defaultCalculateReturnsMinusOne() {
@@ -27,6 +33,14 @@ void TestAbstractCommand::gettersReturnConstructorValues() {
     QCOMPARE(cmd.getCmdId(), QString("TESTCMD"));
     QCOMPARE(cmd.getCmdName(), QString("stub command"));
     QCOMPARE(cmd.getRawData(), QString());
+}
+
+void TestAbstractCommand::resultFieldIsStored() {
+    StubCommand plain;
+    QVERIFY(plain.getResultField() == nullptr);
+
+    FieldCommand withField;
+    QVERIFY(withField.getResultField() == &ObdResult::tempCoolant);
 }
 
 QTEST_MAIN(TestAbstractCommand)
