@@ -78,6 +78,9 @@ int main(int argc, char *argv[]) {
   QCoreApplication::setOrganizationName(QStringLiteral("terranz"));
   QCoreApplication::setApplicationName(QStringLiteral("DiscoDiag"));
 
+  qRegisterMetaType<ObdResult>("ObdResult");
+  qRegisterMetaType<QBluetoothAddress>("QBluetoothAddress");
+
   QTranslator translator;
   if (translator.load(QLocale(), QStringLiteral("DiscoDiag"),
                       QStringLiteral("_"), QStringLiteral(":/i18n"))) {

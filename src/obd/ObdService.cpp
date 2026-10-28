@@ -44,9 +44,10 @@ ObdService::ObdService(QObject *parent)
   connect(m_backend, &BtBackend::socketErrorOccurred, this,
           &ObdService::onSocketError);
 
-  m_pollTimer.setSingleShot(true);
-  m_pollTimer.setInterval(POLL_INTERVAL_MS);
-  connect(&m_pollTimer, &QTimer::timeout, this, &ObdService::sendNextCommand);
+  m_pollTimer = new QTimer(this);
+  m_pollTimer->setSingleShot(true);
+  m_pollTimer->setInterval(POLL_INTERVAL_MS);
+  connect(m_pollTimer, &QTimer::timeout, this, &ObdService::sendNextCommand);
 }
 
 ObdService::~ObdService() = default;
@@ -58,10 +59,12 @@ bool ObdService::startService(const QBluetoothAddress &address) {
   }
   if (address.isNull()) {
     emit serviceError(tr("Bluetooth device address is not configured"));
+    emit runningChanged(false);
     return false;
   }
   if (BtBackend::listAdapters().isEmpty()) {
     emit serviceError(tr("No Bluetooth adapters found"));
+    emit runningChanged(false);
     return false;
   }
 
@@ -69,7 +72,7 @@ bool ObdService::startService(const QBluetoothAddress &address) {
     stopService();
   }
 
-  m_pollTimer.stop();
+  m_pollTimer->stop();
   m_pendingCommand = nullptr;
   m_currCmd = 0;
   m_result = ObdResult();
@@ -77,18 +80,24 @@ bool ObdService::startService(const QBluetoothAddress &address) {
 
   if (!m_backend->startClient(address)) {
     m_connectionState = NC;
+    emit runningChanged(false);
     return false;
   }
 
   emit updateUI(m_result);
+  emit runningChanged(true);
   return true;
 }
 
 void ObdService::stopService() {
-  m_pollTimer.stop();
+  const bool wasRunning = isRunning();
+  m_pollTimer->stop();
   m_pendingCommand = nullptr;
   m_connectionState = NC;
   m_backend->stopClient();
+  if (wasRunning) {
+    emit runningChanged(false);
+  }
 }
 
 bool ObdService::isRunning() const {
@@ -158,7 +167,7 @@ void ObdService::processMessage(const QString &message) {
 
       m_pendingCommand = nullptr;
       if (m_connectionState == INWORK) {
-        m_pollTimer.start();
+        m_pollTimer->start();
       }
       break;
     }
@@ -272,9 +281,10 @@ void ObdService::fail(const QString &reason) {
   }
 
   qWarning() << "OBD service error:" << reason;
-  m_pollTimer.stop();
+  m_pollTimer->stop();
   m_pendingCommand = nullptr;
   m_connectionState = ERROR;
   m_backend->stopClient();
+  emit runningChanged(false);
   emit serviceError(reason);
 }

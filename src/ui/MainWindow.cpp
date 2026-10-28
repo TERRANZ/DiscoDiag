@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QStatusBar>
+#include <QThread>
 
 namespace {
 const QString DEFAULT_DEVICE_ADDRESS = QStringLiteral("10:21:3E:4A:3E:41");
@@ -26,28 +27,48 @@ MainWindow::MainWindow(QWidget *parent)
   m_deviceAddress = QBluetoothAddress(
       settings.value(DEVICE_ADDRESS_KEY, DEFAULT_DEVICE_ADDRESS).toString());
 
-  m_service = new ObdService(this);
+  m_service = new ObdService();
+  m_workerThread = new QThread(this);
+  m_service->moveToThread(m_workerThread);
+  connect(m_workerThread, &QThread::finished, m_service,
+          &QObject::deleteLater);
+  connect(this, &MainWindow::startRequested, m_service,
+          &ObdService::startService);
+  connect(this, &MainWindow::stopRequested, m_service,
+          &ObdService::stopService);
   connect(m_service, &ObdService::updateUI, this, &MainWindow::update_ui);
   connect(m_service, &ObdService::serviceError, this,
           &MainWindow::onServiceError);
+  connect(m_service, &ObdService::runningChanged, this,
+          [this](const bool running) {
+            m_running = running;
+            if (!running) {
+              statusBar()->showMessage(tr("Диагностика остановлена"));
+            }
+          });
+
+  m_workerThread->start();
 
   statusBar()->showMessage(tr("Готово"));
 }
 
 MainWindow::~MainWindow() {
-  m_service->stopService();
+  if (m_workerThread->isRunning()) {
+    QMetaObject::invokeMethod(m_service, &ObdService::stopService,
+                              Qt::BlockingQueuedConnection);
+    m_workerThread->quit();
+    m_workerThread->wait();
+  }
 }
 
 void MainWindow::on_action_start_triggered() {
-  if (m_service->isRunning()) {
+  if (m_running) {
     statusBar()->showMessage(tr("Диагностика уже запущена"));
     return;
   }
 
-  if (!m_service->startService(m_deviceAddress)) {
-    statusBar()->showMessage(tr("Не удалось запустить диагностику"));
-    return;
-  }
+  m_running = true;
+  emit startRequested(m_deviceAddress);
 
   appendDebug(tr("Запуск диагностики: %1").arg(m_deviceAddress.toString()));
   statusBar()->showMessage(
@@ -55,13 +76,13 @@ void MainWindow::on_action_start_triggered() {
 }
 
 void MainWindow::on_action_stop_triggered() {
-  m_service->stopService();
+  emit stopRequested();
   appendDebug(tr("Диагностика остановлена"));
   statusBar()->showMessage(tr("Диагностика остановлена"));
 }
 
 void MainWindow::on_action_exit_triggered() {
-  m_service->stopService();
+  emit stopRequested();
   close();
 }
 

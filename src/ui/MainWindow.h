@@ -17,6 +17,7 @@ class MainWindow;
 QT_END_NAMESPACE
 
 class ObdService;
+class QThread;
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -25,6 +26,11 @@ public:
   explicit MainWindow(QWidget *parent = nullptr);
 
   ~MainWindow() override;
+
+signals:
+  void startRequested(const QBluetoothAddress &address);
+
+  void stopRequested();
 
 private slots:
   void on_action_start_triggered();
@@ -45,8 +51,10 @@ private:
   void appendDebug(const QString &text);
 
   std::unique_ptr<Ui::MainWindow> ui;
+  QThread *m_workerThread = nullptr;
   ObdService *m_service = nullptr;
   QBluetoothAddress m_deviceAddress;
+  bool m_running = false;
 };
 
 #endif // MAINWINDOW_H

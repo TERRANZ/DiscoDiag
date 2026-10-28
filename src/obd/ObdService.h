@@ -42,6 +42,8 @@ signals:
 
   void serviceError(const QString &reason);
 
+  void runningChanged(bool running);
+
 private slots:
   void messageReceived(const QString &message);
 
@@ -70,7 +72,7 @@ private:
   int m_currCmd = 0;
   AbstractCommand *m_pendingCommand = nullptr;
   ObdResult m_result;
-  QTimer m_pollTimer;
+  QTimer *m_pollTimer = nullptr;
 };
 
 #endif // OBDSERVICE_H
