@@ -10,7 +10,7 @@ FuelPressCommandImpl::FuelPressCommandImpl() : AbstractCommand(CMD_PRESS_FUEL, "
 {
 }
 
-int FuelPressCommandImpl::calculate(const QString &value)
+int FuelPressCommandImpl::calculate(const QString &value) const
 {
     return ((ObdParser::A(value) * 256) + ObdParser::B(value)) / 100;
 }

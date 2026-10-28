@@ -1,6 +1,7 @@
 #ifndef OBDRESULT_H
 #define OBDRESULT_H
 
+#include <QMetaType>
 #include <QString>
 
 class ObdResult {
@@ -22,5 +23,7 @@ public:
   int lvlOil = 0;
   int lvlFuel = 0;
 };
+
+Q_DECLARE_METATYPE(ObdResult)
 
 #endif // OBDRESULT_H

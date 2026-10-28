@@ -1,12 +1,14 @@
 #include "RemoteSelector.h"
 #include "ui_remoteselector.h"
 
+#include <QDebug>
+
 RemoteSelector::RemoteSelector(const QBluetoothAddress &localAdapter,
                                QWidget *parent)
-    : QDialog(parent), ui(new Ui::RemoteSelector) {
+    : QDialog(parent), ui(std::make_unique<Ui::RemoteSelector>()) {
   ui->setupUi(this);
 
-  m_discoveryAgent = new QBluetoothServiceDiscoveryAgent(localAdapter);
+  m_discoveryAgent = new QBluetoothServiceDiscoveryAgent(localAdapter, this);
 
   connect(m_discoveryAgent, SIGNAL(serviceDiscovered(QBluetoothServiceInfo)),
           this, SLOT(serviceDiscovered(QBluetoothServiceInfo)));
@@ -16,10 +18,7 @@ RemoteSelector::RemoteSelector(const QBluetoothAddress &localAdapter,
           SLOT(discoveryFinished()));
 }
 
-RemoteSelector::~RemoteSelector() {
-  delete ui;
-  delete m_discoveryAgent;
-}
+RemoteSelector::~RemoteSelector() = default;
 
 void RemoteSelector::startDiscovery() {
   ui->status->setText(tr("Scanning..."));
@@ -27,6 +26,7 @@ void RemoteSelector::startDiscovery() {
     m_discoveryAgent->stop();
 
   ui->remoteDevices->clear();
+  m_discoveredServices.clear();
 
   m_discoveryAgent->start(QBluetoothServiceDiscoveryAgent::FullDiscovery);
 }
@@ -65,7 +65,7 @@ void RemoteSelector::serviceDiscovered(
 }
 
 void RemoteSelector::discoveryFinished() {
-  ui->status->setText(tr("Select the chat service to connect to."));
+  ui->status->setText(tr("Select the diagnostic service to connect to."));
 }
 
 void RemoteSelector::on_remoteDevices_itemActivated(QListWidgetItem *item) {

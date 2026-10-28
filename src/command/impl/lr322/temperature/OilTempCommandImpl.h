@@ -11,7 +11,7 @@ class OilTempCommandImpl final : public AbstractCommand {
 public:
     OilTempCommandImpl();
 
-    int calculate(const QString &value) override;
+    int calculate(const QString &value) const override;
 };
 
 

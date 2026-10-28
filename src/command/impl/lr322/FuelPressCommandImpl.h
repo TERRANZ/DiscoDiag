@@ -8,9 +8,10 @@
 
 class FuelPressCommandImpl final : public AbstractCommand
 {
+public:
     FuelPressCommandImpl();
 
-    int calculate(const QString &value) override;
+    int calculate(const QString &value) const override;
 };
 
 #endif // FUELPRESSCOMMANDIMPL_H

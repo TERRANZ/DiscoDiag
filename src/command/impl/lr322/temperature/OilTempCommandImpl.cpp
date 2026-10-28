@@ -13,6 +13,6 @@
 OilTempCommandImpl::OilTempCommandImpl(): AbstractCommand(CMD_TEMP_OIL, "Oil temp command") {
 }
 
-int OilTempCommandImpl::calculate(const QString &value) {
+int OilTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }

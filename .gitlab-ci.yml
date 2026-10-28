@@ -7,15 +7,25 @@ before_script:
 
 stages:
   - build
+  - test
   - pr_agent
 
 build:
   stage: build
   script:
-    - mkdir build && cd build && cmake .. && make -j
+    - cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+    - cmake --build build -j"$(nproc)"
   artifacts:
     paths:
-      - build/DiscoDiag
+      - build
+
+test:
+  stage: test
+  needs:
+    - build
+  script:
+    - ctest --test-dir build --output-on-failure
+
 pr_agent_job:
   stage: pr_agent
   image:
@@ -34,4 +44,4 @@ pr_agent_job:
     - python -m pr_agent.cli --pr_url="$MR_URL" review
     - python -m pr_agent.cli --pr_url="$MR_URL" improve
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'      
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'

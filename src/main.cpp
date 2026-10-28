@@ -2,51 +2,89 @@
 
 #include <QApplication>
 #include <QFile>
+#include <QLocale>
+#include <QMutex>
+#include <QMutexLocker>
 #include <QTextStream>
 #include <QTime>
+#include <QTranslator>
 #include <QtGlobal>
 
-const QString logFilePath = "debug.log";
-bool logToFile = false;
+#include <cstdio>
+#include <cstdlib>
+
+namespace {
+const QString LOG_FILE_PATH = QStringLiteral("debug.log");
+bool logToFile = true;
+
+QString levelName(QtMsgType type) {
+  switch (type) {
+    case QtDebugMsg:
+      return QStringLiteral("Debug");
+    case QtInfoMsg:
+      return QStringLiteral("Info");
+    case QtWarningMsg:
+      return QStringLiteral("Warning");
+    case QtCriticalMsg:
+      return QStringLiteral("Critical");
+    case QtFatalMsg:
+      return QStringLiteral("Fatal");
+  }
+  return QStringLiteral("Unknown");
+}
 
 void customMessageOutput(QtMsgType type, const QMessageLogContext &context,
                          const QString &msg) {
-  QHash<QtMsgType, QString> msgLevelHash({{QtDebugMsg, "Debug"},
-                                          {QtInfoMsg, "Info"},
-                                          {QtWarningMsg, "Warning"},
-                                          {QtCriticalMsg, "Critical"},
-                                          {QtFatalMsg, "Fatal"}});
-  const auto localMsg = msg.toLocal8Bit();
-  const auto time = QTime::currentTime();
-  const auto formattedTime = time.toString("hh:mm:ss.zzz");
-  const auto formattedTimeMsg = formattedTime.toLocal8Bit();
-  const auto logLevelName = msgLevelHash[type];
-  const auto logLevelMsg = logLevelName.toLocal8Bit();
+  const auto formattedTime = QTime::currentTime().toString("hh:mm:ss.zzz");
+  const auto level = levelName(type);
+  const auto file = context.file != nullptr ? context.file : "";
+  const auto line = context.line;
+
+  const auto text =
+      QStringLiteral("%1 %2: %3 (%4:%5)")
+          .arg(formattedTime, level, msg, QString::fromUtf8(file))
+          .arg(line);
+
+  fprintf(stderr, "%s %s: %s (%s:%u)\n", formattedTime.toLocal8Bit().constData(),
+          level.toLocal8Bit().constData(), msg.toLocal8Bit().constData(), file,
+          line);
+  fflush(stderr);
 
   if (logToFile) {
-    const auto txt = QString("%1 %2: %3 (%4)")
-                         .arg(formattedTime, logLevelName, msg, context.file);
-    QFile outFile(logFilePath);
-    outFile.open(QIODevice::WriteOnly | QIODevice::Append);
-    QTextStream ts(&outFile);
-    ts << txt << Qt::endl;
-    outFile.close();
-
-    fprintf(stderr, "%s %s: %s (%s:%u, %s)\n", formattedTimeMsg.constData(),
-            logLevelMsg.constData(), localMsg.constData(), context.file,
-            context.line, context.function);
-    fflush(stderr);
+    static QFile logFile(LOG_FILE_PATH);
+    static QMutex logMutex;
+    QMutexLocker locker(&logMutex);
+    if (!logFile.isOpen()) {
+      (void)logFile.open(QIODevice::WriteOnly | QIODevice::Append |
+                         QIODevice::Text);
+    }
+    if (logFile.isOpen()) {
+      QTextStream stream(&logFile);
+      stream << text << Qt::endl;
+      stream.flush();
+    }
   }
 
-  if (type == QtFatalMsg)
+  if (type == QtFatalMsg) {
     abort();
+  }
 }
+} // namespace
 
 int main(int argc, char *argv[]) {
-  logToFile = true;
   qInstallMessageHandler(customMessageOutput);
-  QApplication a(argc, argv);
-  MainWindow w;
-  w.show();
-  return a.exec();
+
+  QApplication app(argc, argv);
+  QCoreApplication::setOrganizationName(QStringLiteral("terranz"));
+  QCoreApplication::setApplicationName(QStringLiteral("DiscoDiag"));
+
+  QTranslator translator;
+  if (translator.load(QLocale(), QStringLiteral("DiscoDiag"),
+                      QStringLiteral("_"), QStringLiteral(":/i18n"))) {
+    QCoreApplication::installTranslator(&translator);
+  }
+
+  MainWindow window;
+  window.show();
+  return app.exec();
 }

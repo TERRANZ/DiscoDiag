@@ -5,28 +5,73 @@
 #include <QStringList>
 
 class ObdParser {
-  // <echo> ecu       cmd   A
-  // 22F405 7E8 04 62 F4 05 5C
-  // 22F446 7E8 04 62 F4 46 27
-  // 22F40F 7E8 04 62 F4 0F 4A
-  // 2203F3 7E8 04 62 03 F3 41
-  // 221E69 7E9 04 62 1E 69 44
+  // ELM327 responses can contain the command echo, the ECU header and the
+  // trailing ">" prompt. Token positions therefore must not be hard-coded
+  // without normalising the frame first.
+  //
+  // Examples of the same response:
+  //   22F405 7E8 04 62 F4 05 5C
+  //   22F405
+  //   7E8 04 62 F4 05 5C
+  //
+  // All sensor commands use OBD mode 22 (Read Data By Identifier), so the
+  // positive response marker 0x62 followed by the two PID bytes is a reliable
+  // anchor for the payload.
 public:
-  static int A(const QString &data) { return getIntAtPos(data, 6); }
+  static int A(const QString &data) { return payloadByte(data, 0); }
 
-  static int B(const QString &data) { return getIntAtPos(data, 7); }
+  static int B(const QString &data) { return payloadByte(data, 1); }
 
-  static int getIntAtPos(const QString &data, const int &pos) {
-    if (auto const split = data.split(' '); split.size() >= pos) {
-      const auto &result = split.at(pos);
-      bool ok;
-      return result.toInt(&ok, 16);
+  static int getIntAtPos(const QString &data, int pos) {
+    const auto tokens = tokenize(data);
+    return intAt(tokens, pos);
+  }
+
+  static QString extractCommandId(const QString &data) {
+    const auto tokens = tokenize(data);
+    return tokens.isEmpty() ? QString() : tokens.first();
+  }
+
+  // Returns true when the frame contains a positive mode 22 response and at
+  // least one data byte.
+  static bool hasPayload(const QString &data) {
+    const auto tokens = tokenize(data);
+    return payloadStart(tokens) >= 0;
+  }
+
+private:
+  static QStringList tokenize(const QString &data) {
+    QString normalized = data;
+    normalized.remove(QLatin1Char('>'));
+    return normalized.simplified().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+  }
+
+  static int intAt(const QStringList &tokens, int pos) {
+    if (pos < 0 || pos >= tokens.size()) {
+      return -1;
+    }
+    bool ok = false;
+    const auto value = tokens.at(pos).toInt(&ok, 16);
+    return ok ? value : -1;
+  }
+
+  // Index of the first data byte after "62 <pid hi> <pid lo>".
+  static int payloadStart(const QStringList &tokens) {
+    for (int i = 0; i + 3 < tokens.size(); ++i) {
+      if (intAt(tokens, i) == 0x62) {
+        return i + 3;
+      }
     }
     return -1;
   }
 
-  static QString extractCommandId(const QString &data) {
-    return data.split(QChar(' ')).at(0);
+  static int payloadByte(const QString &data, int index) {
+    const auto tokens = tokenize(data);
+    const int start = payloadStart(tokens);
+    if (start < 0) {
+      return -1;
+    }
+    return intAt(tokens, start + index);
   }
 };
 

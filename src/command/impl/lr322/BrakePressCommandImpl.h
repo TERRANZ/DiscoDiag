@@ -10,7 +10,7 @@ class BrakePressCommandImpl final : public AbstractCommand
 {
 public:
   BrakePressCommandImpl();
-  int calculate(const QString &value) override;
+  int calculate(const QString &value) const override;
 };
 
 #endif // BRAKEPRESSCOMMANDIMPL_H

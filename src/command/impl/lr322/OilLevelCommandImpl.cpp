@@ -9,6 +9,6 @@
 OilLevelCommandImpl::OilLevelCommandImpl() : AbstractCommand(CMD_LVL_OIL, "Oil level command") {
 }
 
-int OilLevelCommandImpl::calculate(const QString &value) {
+int OilLevelCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value);
 }

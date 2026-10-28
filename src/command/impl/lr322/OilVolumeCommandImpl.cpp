@@ -10,7 +10,7 @@ OilVolumeCommandImpl::OilVolumeCommandImpl() : AbstractCommand(CMD_LVL_OIL_VOL, 
 {
 }
 
-int OilVolumeCommandImpl::calculate(const QString &value)
+int OilVolumeCommandImpl::calculate(const QString &value) const
 {
     return ObdParser::A(value) / 10;
 }

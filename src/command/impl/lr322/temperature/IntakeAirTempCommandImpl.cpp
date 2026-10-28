@@ -11,6 +11,6 @@ IntakeAirTempCommandImpl::IntakeAirTempCommandImpl(): AbstractCommand(
     CMD_TEMP_AIR_INTAKE, "Intake air temp command") {
 }
 
-int IntakeAirTempCommandImpl::calculate(const QString &value) {
+int IntakeAirTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }

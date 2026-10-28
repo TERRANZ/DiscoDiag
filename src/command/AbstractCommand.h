@@ -2,29 +2,31 @@
 #define ABSTRACTCOMMAND_H
 
 #include <QString>
+#include <utility>
 
 class AbstractCommand {
 public:
+  AbstractCommand() = default;
+
+  AbstractCommand(QString cmdId, QString cmdName)
+      : m_cmdId(std::move(cmdId)), m_cmdName(std::move(cmdName)) {}
+
   virtual ~AbstractCommand() = default;
 
-  AbstractCommand();
+  AbstractCommand(const AbstractCommand &) = delete;
+  AbstractCommand &operator=(const AbstractCommand &) = delete;
 
-  AbstractCommand(const QString &cmdId, const QString &cmdName) {
-    m_cmdId = cmdId;
-    m_cmdName = cmdName;
-  }
-
-  virtual int calculate(const QString &value) { return -1; }
+  virtual int calculate(const QString &) const { return -1; }
 
   QString getCmdId() const { return m_cmdId; }
   QString getCmdName() const { return m_cmdName; }
   QString getRawData() const { return m_rawData; }
 
-  void setCmdName(const QString &value);
+  void setCmdName(const QString &value) { m_cmdName = value; }
 
-  void setCmdId(const QString &value);
+  void setCmdId(const QString &value) { m_cmdId = value; }
 
-  void setRawData(const QString &value);
+  void setRawData(const QString &value) { m_rawData = value; }
 
 protected:
   QString m_cmdId;

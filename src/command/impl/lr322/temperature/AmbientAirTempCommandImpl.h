@@ -11,7 +11,7 @@ class AmbientAirTempCommandImpl final : public AbstractCommand {
 public:
     AmbientAirTempCommandImpl();
 
-    int calculate(const QString &value) override;
+    int calculate(const QString &value) const override;
 };
 
 

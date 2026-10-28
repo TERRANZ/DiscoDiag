@@ -10,7 +10,7 @@
 BrakePressCommandImpl::BrakePressCommandImpl()
     : AbstractCommand(CMD_PRESS_BRAKE, "Brake pressure command") {}
 
-int BrakePressCommandImpl::calculate(const QString &value) {
+int BrakePressCommandImpl::calculate(const QString &value) const {
   return ObdParser::A(value) * 8533.3337 +
          ObdParser::B(value) * 33.33;
 }

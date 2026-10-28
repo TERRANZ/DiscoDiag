@@ -1,33 +1,22 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 
 project(DiscoDiag LANGUAGES CXX)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-find_package(QT NAMES Qt6 COMPONENTS
+find_package(Qt6 6.2 REQUIRED COMPONENTS
         Widgets
         LinguistTools
         Bluetooth
-        SerialPort
-        Network
         Core
-        REQUIRED)
-
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
-        Widgets
-        LinguistTools
-        Bluetooth
-        SerialPort
-        Network
-        Core
-        REQUIRED)
+)
 
 set(TS_FILES DiscoDiag_ru_RU.ts)
 
@@ -42,18 +31,17 @@ set(PROJECT_SOURCES
         src/command/commandIds.h
         src/obd/ObdService.cpp
         src/obd/ObdService.h
+        src/obd/ObdParser.h
         src/obd/ObdResult.h
         src/ui/RemoteSelector.cpp
         src/ui/RemoteSelector.h
         src/ui/remoteselector.ui
         src/command/impl/common/ObdResetFixCommandImpl.h
-        ${TS_FILES}
         src/command/impl/common/SelectProtocolObdCommandImpl.h
-        src/obd/ObdParser.h
         src/command/impl/common/DisplayHeaderCommandImpl.h
+        src/command/impl/common/ExtParamsCommandImpl.h
         src/command/impl/lr322/temperature/CoolantTempCommandImpl.cpp
         src/command/impl/lr322/temperature/CoolantTempCommandImpl.h
-        src/command/impl/common/ExtParamsCommandImpl.h
         src/command/impl/lr322/temperature/OilTempCommandImpl.cpp
         src/command/impl/lr322/temperature/OilTempCommandImpl.h
         src/command/impl/lr322/temperature/GbTempCommandImpl.cpp
@@ -78,27 +66,28 @@ set(PROJECT_SOURCES
         src/command/impl/lr322/OilVolumeCommandImpl.h
         src/command/impl/lr322/FuelLevelCommandImpl.cpp
         src/command/impl/lr322/FuelLevelCommandImpl.h
-        src/obd/ObdThread.cpp
-        src/obd/ObdThread.h
+        ${TS_FILES}
 )
-if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(DiscoDiag
-            ${PROJECT_SOURCES}
-    )
 
-    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-else ()
-    if (ANDROID)
-        add_library(DiscoDiag SHARED
-                ${PROJECT_SOURCES}
-        )
-    else ()
-        add_executable(DiscoDiag
-                ${PROJECT_SOURCES}
-        )
-    endif ()
+qt_add_executable(DiscoDiag ${PROJECT_SOURCES})
 
-    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-endif ()
+target_include_directories(DiscoDiag PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(DiscoDiag PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Bluetooth)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(DiscoDiag PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+
+target_link_libraries(DiscoDiag PRIVATE
+        Qt6::Widgets
+        Qt6::Bluetooth
+)
+
+# Embeds the compiled catalogs under :/i18n and adds update_translations /
+# release_translations targets.
+qt_add_translations(DiscoDiag
+        TS_FILES ${TS_FILES}
+        RESOURCE_PREFIX /i18n
+)
+
+enable_testing()
+add_subdirectory(tests)

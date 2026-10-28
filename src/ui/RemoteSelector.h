@@ -9,6 +9,8 @@
 #include <QListWidgetItem>
 #include <QMap>
 
+#include <memory>
+
 namespace Ui {
     class RemoteSelector;
 }
@@ -27,9 +29,9 @@ public:
     QBluetoothServiceInfo service() const;
 
 private:
-    Ui::RemoteSelector *ui;
+    std::unique_ptr<Ui::RemoteSelector> ui;
 
-    QBluetoothServiceDiscoveryAgent *m_discoveryAgent;
+    QBluetoothServiceDiscoveryAgent *m_discoveryAgent = nullptr;
     QBluetoothServiceInfo m_service;
     QMap<QListWidgetItem *, QBluetoothServiceInfo> m_discoveredServices;
 

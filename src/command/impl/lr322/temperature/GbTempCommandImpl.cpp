@@ -10,6 +10,6 @@ GbTempCommandImpl::GbTempCommandImpl() : AbstractCommand(
     CMD_TEMP_GB, "Gearbox temp command") {
 }
 
-int GbTempCommandImpl::calculate(const QString &value) {
+int GbTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }

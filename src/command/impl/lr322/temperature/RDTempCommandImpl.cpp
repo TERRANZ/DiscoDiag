@@ -9,6 +9,6 @@
 RDTempCommandImpl::RDTempCommandImpl() : AbstractCommand(CMD_TEMP_RD, "Rear diff temp command") {
 }
 
-int RDTempCommandImpl::calculate(const QString &value) {
+int RDTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }

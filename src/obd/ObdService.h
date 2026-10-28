@@ -1,11 +1,17 @@
 #ifndef OBDSERVICE_H
 #define OBDSERVICE_H
 
-#include <QThread>
+#include <QBluetoothAddress>
+#include <QObject>
+#include <QTimer>
+
+#include <memory>
+#include <vector>
 
 #include "ObdResult.h"
-#include "src/bt/BtBackend.h"
-#include "src/ui/RemoteSelector.h"
+#include "src/command/AbstractCommand.h"
+
+class BtBackend;
 
 class ObdService : public QObject {
   Q_OBJECT
@@ -17,44 +23,54 @@ public:
     DEV_CONFIG = 2,
     CONNECTED = 3,
     RESETTED = 4,
-    PROTOCOL_SELECTED = 5,
     INWORK = 6,
     ERROR = -1
   };
 
   explicit ObdService(QObject *parent = nullptr);
 
-  void startService();
+  ~ObdService() override;
+
+  bool startService(const QBluetoothAddress &address);
 
   void stopService();
 
-signals:
-  void updateUI(ObdResult &result);
+  bool isRunning() const;
 
-  void serviceError(QString reason);
+signals:
+  void updateUI(const ObdResult &result);
+
+  void serviceError(const QString &reason);
 
 private slots:
   void messageReceived(const QString &message);
 
   void connected(const QString &name);
 
-  void processResult(AbstractCommand *cmd, const QString &message);
+  void onDisconnected();
+
+  void onSocketError(const QString &reason);
+
+  void sendNextCommand();
 
 private:
-  BtBackend *m_backend;
-  ConnectionState m_connectionState = NC;
-  QMap<QString, AbstractCommand *> m_commands =
-      QMap<QString, AbstractCommand *>();
-  int m_curr_cmd = 0;
-  ObdResult m_result = ObdResult();
-
-  void doObdLoop();
-
-  void doObdPreparationStep();
-
-  void sendDiscoCommands();
-
   void processMessage(const QString &message);
+
+  void processResult(AbstractCommand *cmd, const QString &message);
+
+  bool sendCommand(const AbstractCommand &command);
+
+  bool expectOk(const QString &message);
+
+  void fail(const QString &reason);
+
+  BtBackend *m_backend = nullptr;
+  ConnectionState m_connectionState = NC;
+  std::vector<std::unique_ptr<AbstractCommand>> m_commands;
+  int m_currCmd = 0;
+  AbstractCommand *m_pendingCommand = nullptr;
+  ObdResult m_result;
+  QTimer m_pollTimer;
 };
 
 #endif // OBDSERVICE_H

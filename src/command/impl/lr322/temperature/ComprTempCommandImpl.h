@@ -10,7 +10,7 @@ class ComprTempCommandImpl final : public AbstractCommand
 {
 public:
     ComprTempCommandImpl();
-    int calculate(const QString &value) override;
+    int calculate(const QString &value) const override;
 };
 
 #endif // COMPRTEMPCOMMANDIMPL_H

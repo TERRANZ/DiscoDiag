@@ -3,18 +3,18 @@
 
 #include <QString>
 
-static const auto CMD_TEMP_COOLANT = QString("22F405");
-static const auto CMD_TEMP_OIL = QString("2203F3");
-static const auto CMD_TEMP_GB = QString("221E69");
-static const auto CMD_TEMP_TC = QString("22D11C");
-static const auto CMD_TEMP_RD = QString("221E8A");
-static const auto CMD_TEMP_COMPR = QString("22D11A");
-static const auto CMD_TEMP_AIR_INTAKE = QString("22F40F");
-static const auto CMD_TEMP_AIR_AMBIENT = QString("22F446");
-static const auto CMD_PRESS_FUEL = QString("22F423");
-static const auto CMD_PRESS_BRAKE = QString("222B0D");
-static const auto CMD_LVL_OIL_VOL = QString("2203F2");
-static const auto CMD_LVL_OIL = QString("2203E6");
-static const auto CMD_LVL_FUEL_LITRES = QString("22F42F");
+inline const QString CMD_TEMP_COOLANT = QStringLiteral("22F405");
+inline const QString CMD_TEMP_OIL = QStringLiteral("2203F3");
+inline const QString CMD_TEMP_GB = QStringLiteral("221E69");
+inline const QString CMD_TEMP_TC = QStringLiteral("22D11C");
+inline const QString CMD_TEMP_RD = QStringLiteral("221E8A");
+inline const QString CMD_TEMP_COMPR = QStringLiteral("22D11A");
+inline const QString CMD_TEMP_AIR_INTAKE = QStringLiteral("22F40F");
+inline const QString CMD_TEMP_AIR_AMBIENT = QStringLiteral("22F446");
+inline const QString CMD_PRESS_FUEL = QStringLiteral("22F423");
+inline const QString CMD_PRESS_BRAKE = QStringLiteral("222B0D");
+inline const QString CMD_LVL_OIL_VOL = QStringLiteral("2203F2");
+inline const QString CMD_LVL_OIL = QStringLiteral("2203E6");
+inline const QString CMD_LVL_FUEL_LITRES = QStringLiteral("22F42F");
 
 #endif // COMMANDIDS_H
