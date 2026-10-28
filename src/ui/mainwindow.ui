@@ -374,6 +374,79 @@
      </layout>
     </item>
     <item>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="lblPressFuel">
+        <property name="text">
+         <string>Давление топлива</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="lblPressBrake">
+        <property name="text">
+         <string>Давление тормозов</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="lblLvlFuel">
+        <property name="text">
+         <string>Уровень топлива</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QDial" name="dPressFuel">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>700</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDial" name="dPressBrake">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>20000</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QDial" name="dlvlFuel">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLCDNumber" name="numPressFuel"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLCDNumber" name="numPressBrake"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLCDNumber" name="numLvlFuel"/>
+      </item>
+     </layout>
+    </item>
+    <item>
      <widget class="QPlainTextEdit" name="teDebug">
       <property name="maximumSize">
        <size>

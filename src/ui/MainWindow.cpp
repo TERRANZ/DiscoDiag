@@ -135,6 +135,9 @@ void MainWindow::update_ui(const ObdResult &result) {
   ui->numTempTc->display(result.tempTC);
   ui->numTempRd->display(result.tempRD);
   ui->numVolOil->display(result.lvlOilVol);
+  ui->numPressFuel->display(result.pressFuel);
+  ui->numPressBrake->display(result.pressBrake);
+  ui->numLvlFuel->display(result.lvlFuel);
 
   ui->dTempCoolant->setValue(result.tempCoolant);
   ui->dTempAirAmb->setValue(result.tempAirAmb);
@@ -145,6 +148,9 @@ void MainWindow::update_ui(const ObdResult &result) {
   ui->dTempTc->setValue(result.tempTC);
   ui->dTempRd->setValue(result.tempRD);
   ui->dlvlOil->setValue(result.lvlOil);
+  ui->dPressFuel->setValue(result.pressFuel);
+  ui->dPressBrake->setValue(result.pressBrake);
+  ui->dlvlFuel->setValue(result.lvlFuel);
 
   if (!result.rawValue.isEmpty()) {
     appendDebug(result.rawValue);

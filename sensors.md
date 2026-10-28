@@ -298,7 +298,7 @@ int AmbientAirTempCommandImpl::calculate(const QString &value) const {
 | **Имя** | `Fuel Pressure Command` |
 | **Переменная в ObdResult** | `pressFuel` |
 | **Реализация** | [`src/command/impl/lr322/FuelPressCommandImpl.h`](src/command/impl/lr322/FuelPressCommandImpl.h) · [`FuelPressCommandImpl.cpp`](src/command/impl/lr322/FuelPressCommandImpl.cpp) |
-| **Статус** | ✅ Реализована, НЕ в цикле опроса |
+| **Статус** | ✅ Реализована, в цикле опроса |
 
 **Формула:**
 
@@ -329,7 +329,7 @@ int FuelPressCommandImpl::calculate(const QString &value) const {
 | **Имя** | `Brake pressure command` |
 | **Переменная в ObdResult** | `pressBrake` |
 | **Реализация** | [`src/command/impl/lr322/BrakePressCommandImpl.h`](src/command/impl/lr322/BrakePressCommandImpl.h) · [`BrakePressCommandImpl.cpp`](src/command/impl/lr322/BrakePressCommandImpl.cpp) |
-| **Статус** | ✅ Реализована, НЕ в цикле опроса |
+| **Статус** | ✅ Реализована, в цикле опроса |
 
 **Формула:**
 
@@ -365,7 +365,7 @@ int BrakePressCommandImpl::calculate(const QString &value) const {
 | **Имя** | `Fuel Level Command` |
 | **Переменная в ObdResult** | `lvlFuel` |
 | **Реализация** | [`src/command/impl/lr322/FuelLevelCommandImpl.h`](src/command/impl/lr322/FuelLevelCommandImpl.h) · [`FuelLevelCommandImpl.cpp`](src/command/impl/lr322/FuelLevelCommandImpl.cpp) |
-| **Статус** | ✅ Реализована, НЕ в цикле опроса |
+| **Статус** | ✅ Реализована, в цикле опроса |
 
 **Формула:**
 
@@ -541,9 +541,9 @@ ELM327 может добавлять эхо команды и переводы �
 | `22D11A` | Компрессор | `ComprTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22F40F` | Воздух на впуске | `IntakeAirTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22F446` | Наружный воздух | `AmbientAirTempCommandImpl` | `A - 40` | ✅ | ✅ |
-| `22F423` | Давление топлива | `FuelPressCommandImpl` | `(A × 256 + B) / 100` | ✅ | ❌ |
-| `222B0D` | Тормозная система | `BrakePressCommandImpl` | `A × 8533.3337 + B × 33.33` | ✅ | ❌ |
-| `22F42F` | Топливо (литры) | `FuelLevelCommandImpl` | `(A × 100) / 255` | ✅ | ❌ |
+| `22F423` | Давление топлива | `FuelPressCommandImpl` | `(A × 256 + B) / 100` | ✅ | ✅ |
+| `222B0D` | Тормозная система | `BrakePressCommandImpl` | `A × 8533.3337 + B × 33.33` | ✅ | ✅ |
+| `22F42F` | Топливо (литры) | `FuelLevelCommandImpl` | `(A × 100) / 255` | ✅ | ✅ |
 | `2203E6` | Уровень масла | `OilLevelCommandImpl` | `A` | ✅ | ✅ |
 | `2203F2` | Объём масла | `OilVolumeCommandImpl` | `A / 10` | ✅ | ✅ |
 
