@@ -13,6 +13,7 @@ BtBackend::BtBackend(QObject *parent) : QObject(parent) {
 
 bool BtBackend::startClient(const QBluetoothAddress &address) {
     if (m_socket != nullptr) {
+        emit socketErrorOccurred(tr("Bluetooth client is already connected"));
         return false;
     }
     if (address.isNull()) {
