@@ -24,7 +24,7 @@
 ```cpp
 class AbstractCommand {
 public:
-    virtual int calculate(const QString &value);
+    virtual int calculate(const QString &value) const;
     // По умолчанию возвращает -1.
     // Переопределяется в подклассах для преобразования сырых hex-данных ответа ЭБУ
     // в осмысленное целочисленное значение.
@@ -38,19 +38,19 @@ public:
 Константы всех идентификаторов команд определены в [`src/command/commandIds.h`](src/command/commandIds.h):
 
 ```cpp
-static const auto CMD_TEMP_COOLANT = QString("22F405");       // Температура охлаждающей жидкости
-static const auto CMD_TEMP_OIL = QString("2203F3");            // Температура масла
-static const auto CMD_TEMP_GB = QString("221E69");             // Температура коробки передач
-static const auto CMD_TEMP_TC = QString("22D11C");             // Температура раздаточной коробки
-static const auto CMD_TEMP_RD = QString("221E8A");             // Температура заднего дифференциала
-static const auto CMD_TEMP_COMPR = QString("22D11A");          // Температура компрессора
-static const auto CMD_TEMP_AIR_INTAKE = QString("22F40F");     // Температура воздуха на впуске
-static const auto CMD_TEMP_AIR_AMBIENT = QString("22F446");    // Температура наружного воздуха
-static const auto CMD_PRESS_FUEL = QString("22F423");          // Давление топлива
-static const auto CMD_PRESS_BRAKE = QString("222B0D");         // Давление тормозной системы
-static const auto CMD_LVL_OIL_VOL = QString("2203F2");         // Объём масла
-static const auto CMD_LVL_OIL = QString("2203E6");             // Уровень масла
-static const auto CMD_LVL_FUEL_LITRES = QString("22F42F");     // Уровень топлива (литры)
+inline const QString CMD_TEMP_COOLANT = QStringLiteral("22F405");       // Температура охлаждающей жидкости
+inline const QString CMD_TEMP_OIL = QStringLiteral("2203F3");            // Температура масла
+inline const QString CMD_TEMP_GB = QStringLiteral("221E69");             // Температура коробки передач
+inline const QString CMD_TEMP_TC = QStringLiteral("22D11C");             // Температура раздаточной коробки
+inline const QString CMD_TEMP_RD = QStringLiteral("221E8A");             // Температура заднего дифференциала
+inline const QString CMD_TEMP_COMPR = QStringLiteral("22D11A");          // Температура компрессора
+inline const QString CMD_TEMP_AIR_INTAKE = QStringLiteral("22F40F");     // Температура воздуха на впуске
+inline const QString CMD_TEMP_AIR_AMBIENT = QStringLiteral("22F446");    // Температура наружного воздуха
+inline const QString CMD_PRESS_FUEL = QStringLiteral("22F423");          // Давление топлива
+inline const QString CMD_PRESS_BRAKE = QStringLiteral("222B0D");         // Давление тормозной системы
+inline const QString CMD_LVL_OIL_VOL = QStringLiteral("2203F2");         // Объём масла
+inline const QString CMD_LVL_OIL = QStringLiteral("2203E6");             // Уровень масла
+inline const QString CMD_LVL_FUEL_LITRES = QStringLiteral("22F42F");     // Уровень топлива (литры)
 ```
 
 ---
@@ -97,7 +97,7 @@ static const auto CMD_LVL_FUEL_LITRES = QString("22F42F");     // Уровень
 | **Формула** | Нет (команда управления) |
 | **Статус** | ✅ Реализована |
 
-**Описание:** Устанавливает OBD2-протокол 6 (KWP2000 Fast Init). Отправляется последним в последовательности инициализации. После успешного выполнения начинается циклический опрос датчиков.
+**Описание:** Устанавливает протокол ELM327 №6 — ISO 15765-4 CAN (11-битный идентификатор, 500 кбит/с). Это штатный протокол для L322 2010+. Отправляется последним в последовательности инициализации; после успешного выполнения начинается циклический опрос датчиков.
 
 ---
 
@@ -127,7 +127,7 @@ static const auto CMD_LVL_FUEL_LITRES = QString("22F42F");     // Уровень
 result = ObdParser::A(value) - 40
 ```
 
-Где `ObdParser::A(value)` извлекает байт данных из позиции 6 hex-строки ответа ЭБУ.
+Где `ObdParser::A(value)` извлекает первый байт данных после маркера `62 <PID hi> <PID lo>`.
 
 Вычитание 40 — стандартный OBD2-сдвиг для температуры:
 - Диапазон поддерживаемых значений: **-40 °C … +215 °C** (сырой байт 0x00 … 0xFF)
@@ -146,7 +146,7 @@ result = ObdParser::A(value) - 40
 
 **Код:**
 ```cpp
-int CoolantTempCommandImpl::calculate(const QString &value) {
+int CoolantTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }
 ```
@@ -165,7 +165,7 @@ int CoolantTempCommandImpl::calculate(const QString &value) {
 
 **Код:**
 ```cpp
-int OilTempCommandImpl::calculate(const QString &value) {
+int OilTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }
 ```
@@ -184,7 +184,7 @@ int OilTempCommandImpl::calculate(const QString &value) {
 
 **Код:**
 ```cpp
-int GbTempCommandImpl::calculate(const QString &value) {
+int GbTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }
 ```
@@ -199,11 +199,11 @@ int GbTempCommandImpl::calculate(const QString &value) {
 | **Имя** | `Transfer case temp command` |
 | **Переменная в ObdResult** | `tempTC` |
 | **Реализация** | [`src/command/impl/lr322/temperature/TCTempCommandImpl.h`](src/command/impl/lr322/temperature/TCTempCommandImpl.h) · [`TCTempCommandImpl.cpp`](src/command/impl/lr322/temperature/TCTempCommandImpl.cpp) |
-| **Статус** | ✅ Реализована, НЕ в цикле опроса, данные не обновляются в UI |
+| **Статус** | ✅ Реализована, в цикле опроса |
 
 **Код:**
 ```cpp
-int TCTempCommandImpl::calculate(const QString &value) {
+int TCTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }
 ```
@@ -218,11 +218,11 @@ int TCTempCommandImpl::calculate(const QString &value) {
 | **Имя** | `Rear diff temp command` |
 | **Переменная в ObdResult** | `tempRD` |
 | **Реализация** | [`src/command/impl/lr322/temperature/RDTempCommandImpl.h`](src/command/impl/lr322/temperature/RDTempCommandImpl.h) · [`RDTempCommandImpl.cpp`](src/command/impl/lr322/temperature/RDTempCommandImpl.cpp) |
-| **Статус** | ✅ Реализована |
+| **Статус** | ✅ Реализована, в цикле опроса |
 
 **Код:**
 ```cpp
-int RDTempCommandImpl::calculate(const QString &value) {
+int RDTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }
 ```
@@ -234,19 +234,17 @@ int RDTempCommandImpl::calculate(const QString &value) {
 | Параметр | Значение |
 |---|---|
 | **Command ID** | `22D11A` |
-| **Имя** | `Ambient air temp command` ⚠️ |
+| **Имя** | `Compressor temp command` |
 | **Переменная в ObdResult** | `tempCOMPR` |
 | **Реализация** | [`src/command/impl/lr322/temperature/ComprTempCommandImpl.h`](src/command/impl/lr322/temperature/ComprTempCommandImpl.h) · [`ComprTempCommandImpl.cpp`](src/command/impl/lr322/temperature/ComprTempCommandImpl.cpp) |
 | **Статус** | ✅ Реализована, в цикле опроса |
 
 **Код:**
 ```cpp
-int ComprTempCommandImpl::calculate(const QString &value) {
+int ComprTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }
 ```
-
-> ⚠️ **Баг:** Имя команды в конструкторе — `"Ambient air temp command"`, хотя это датчик компрессора.
 
 ---
 
@@ -262,7 +260,7 @@ int ComprTempCommandImpl::calculate(const QString &value) {
 
 **Код:**
 ```cpp
-int IntakeAirTempCommandImpl::calculate(const QString &value) {
+int IntakeAirTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }
 ```
@@ -281,7 +279,7 @@ int IntakeAirTempCommandImpl::calculate(const QString &value) {
 
 **Код:**
 ```cpp
-int AmbientAirTempCommandImpl::calculate(const QString &value) {
+int AmbientAirTempCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) - 40;
 }
 ```
@@ -309,14 +307,14 @@ result = ((ObdParser::A(value) * 256) + ObdParser::B(value)) / 100
 ```
 
 Где:
-- `ObdParser::A(value)` — байт данных из позиции 6 (старший байт)
-- `ObdParser::B(value)` — байт данных из позиции 7 (младший байт)
+- `ObdParser::A(value)` — первый байт данных (старший байт)
+- `ObdParser::B(value)` — второй байт данных (младший байт)
 
 Метод объединяет два байта в 16-битное значение, делит на 100. Результат — давление в kPa (с двумя знаками после запятой, но возвращается как `int`).
 
 **Код:**
 ```cpp
-int FuelPressCommandImpl::calculate(const QString &value) {
+int FuelPressCommandImpl::calculate(const QString &value) const {
     return ((ObdParser::A(value) * 256) + ObdParser::B(value)) / 100;
 }
 ```
@@ -340,14 +338,14 @@ result = ObdParser::A(value) * 8533.3337 + ObdParser::B(value) * 33.33
 ```
 
 Где:
-- `ObdParser::A(value)` — байт данных из позиции 6 (коэффициент масштабирования старшего байта)
-- `ObdParser::B(value)` — байт данных из позиции 7 (коэффициент масштабирования младшего байта)
+- `ObdParser::A(value)` — первый байт данных (коэффициент масштабирования старшего байта)
+- `ObdParser::B(value)` — второй байт данных (коэффициент масштабирования младшего байта)
 
 Результат — давление в kPa.
 
 **Код:**
 ```cpp
-int BrakePressCommandImpl::calculate(const QString &value) {
+int BrakePressCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) * 8533.3337 +
            ObdParser::B(value) * 33.33;
 }
@@ -382,14 +380,14 @@ result = (ObdParser::A(value) * 100) / 255
 
 **Код:**
 ```cpp
-int FuelLevelCommandImpl::calculate(const QString &value) {
+int FuelLevelCommandImpl::calculate(const QString &value) const {
     return (ObdParser::A(value) * 100) / 255;
 }
 ```
 
 ---
 
-#### 2203E6 — Уровень масла (stub)
+#### 2203E6 — Уровень масла
 
 | Параметр | Значение |
 |---|---|
@@ -397,11 +395,11 @@ int FuelLevelCommandImpl::calculate(const QString &value) {
 | **Имя** | `Oil level command` |
 | **Переменная в ObdResult** | `lvlOil` |
 | **Реализация** | [`src/command/impl/lr322/OilLevelCommandImpl.h`](src/command/impl/lr322/OilLevelCommandImpl.h) · [`OilLevelCommandImpl.cpp`](src/command/impl/lr322/OilLevelCommandImpl.cpp) |
-| **Статус** | ✅ Реализована |
+| **Статус** | ✅ Реализована, в цикле опроса |
 
 **Код:**
 ```cpp
-int OilLevelCommandImpl::calculate(const QString &value) {
+int OilLevelCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value);
 }
 ```
@@ -416,11 +414,11 @@ int OilLevelCommandImpl::calculate(const QString &value) {
 | **Имя** | `Oil Volume Command` |
 | **Переменная в ObdResult** | `lvlOilVol` |
 | **Реализация** | [`src/command/impl/lr322/OilVolumeCommandImpl.h`](src/command/impl/lr322/OilVolumeCommandImpl.h) · [`OilVolumeCommandImpl.cpp`](src/command/impl/lr322/OilVolumeCommandImpl.cpp) |
-| **Статус** | ✅ Реализована |
+| **Статус** | ✅ Реализована, в цикле опроса |
 
 **Код:**
 ```cpp
-int OilVolumeCommandImpl::calculate(const QString &value) {
+int OilVolumeCommandImpl::calculate(const QString &value) const {
     return ObdParser::A(value) / 10;
 }
 ```
@@ -429,33 +427,41 @@ int OilVolumeCommandImpl::calculate(const QString &value) {
 
 ## Структура OBD2-ответа
 
-Все команды датчиков используют режим OBD2 `22` (Read Data By Identifier) с 3-байтным PID.
+Все команды датчиков используют режим OBD2 `22` (Read Data By Identifier) с 2-байтным PID (DID).
 
 ### Формат ответа (после `ATH1`)
 
+ELM327 может добавлять эхо команды и переводы строк; `BtBackend` разбивает
+поток по терминатору `>`, а `ObdParser` нормализует пробелы и находит маркер
+`62`.
+
 ```
 22F405 7E8 04 62 F4 05 5C
-│    │   │   │  │  │  │
-│    │   │   │  │  │  └── 0x5C — контрольная сумма (checksum)
-│    │   │   │  │  └───── 0x05 — байт данных (позиция 7 = ObdParser::B)
-│    │   │   │  └──────── 0xF4 — байт данных (позиция 6 = ObdParser::A)
-│    │   │   └─────────── 0x62 — SID подтверждающего ответа (Positive Response)
-│    │   └─────────────── 0x04 — количество данных байт
-│    └─────────────────── 0x7E8 — идентификатор ЭБУ (ECU identifier)
-└──────────────────────── эхо отправленной команды (22F405)
+│      │   │  │  │  │  └── 0x5C — первый байт данных (A)
+│      │   │  │  │  └───── 0x05 — младший байт PID
+│      │   │  │  └──────── 0xF4 — старший байт PID
+│      │   │  └─────────── 0x62 — SID положительного ответа на mode 22
+│      │   └────────────── 0x04 — количество байт данных
+│      └────────────────── 0x7E8 — идентификатор ЭБУ (ECU identifier)
+└───────────────────────── эхо отправленной команды (22F405)
 ```
+
+`ObdParser` не опирается на абсолютные индексы: он находит токен `62`,
+пропускает два байта PID и читает следующий байт как `A`, а следующий за ним
+как `B`. Поэтому парсер работает и без эха, и с заголовками ЭБУ.
 
 ### Разделение позиций
 
-| Токен (по пробелам) | Позиция | Содержание |
+| Токен (по пробелам) | Пример | Содержание |
 |---|---|---|
-| 0 | `22F405` | Эхо команды |
-| 1 | `7E8` | ECU identifier |
+| 0 | `22F405` | Эхо команды (может отсутствовать) |
+| 1 | `7E8` | ECU identifier (может отсутствовать) |
 | 2 | `04` | Длина данных |
-| 3 | `62` | SID (0x62 = подтверждающий ответ) |
-| 4 | `F4` | Параметр байт 1 |
-| 5 | `05` | Параметр байт 2 |
-| 6 | `5C` | Checksum |
+| 3 | `62` | SID (0x62 = положительный ответ) |
+| 4 | `F4` | Старший байт PID |
+| 5 | `05` | Младший байт PID |
+| 6 | `5C` | Первый байт данных (`A`) |
+| 7 | … | Второй байт данных (`B`), если есть |
 
 ---
 
@@ -465,7 +471,7 @@ int OilVolumeCommandImpl::calculate(const QString &value) {
 
 ### `ObdParser::A(const QString &data)`
 
-Извлекает целочисленное значение из **позиции 6** (шестой токен, разделённый пробелами) — байт данных датчика.
+Извлекает первый байт данных после `62 <PID hi> <PID lo>`.
 
 ```cpp
 // Пример:
@@ -473,33 +479,45 @@ int OilVolumeCommandImpl::calculate(const QString &value) {
 //   ObdParser::A(data) → 0x5C → 92 (в десятичной)
 ```
 
-Используется всеми температурными командами и как старший байт в командах давления/уровня.
+Используется всеми температурными командами, уровнем/объёмом масла и как
+старший байт в командах давления.
 
 ---
 
 ### `ObdParser::B(const QString &data)`
 
-Извлекает целочисленное значение из **позиции 7** — второй байт данных датчика.
+Извлекает второй байт данных после `62 <PID hi> <PID lo>`.
 
 ```cpp
 // Пример:
-//   data = "22F405 7E8 04 62 F4 05 5C"
-//   ObdParser::B(data) → 0x05 → 5 (в десятичной)
+//   data = "22F423 7E8 04 62 F4 23 03 E8"
+//   ObdParser::A(data) → 0x03
+//   ObdParser::B(data) → 0xE8 → 232 (в десятичной)
 ```
 
 Используется как младший байт в командах давления топлива и тормозов.
+Если второго байта нет, возвращается `-1`.
 
 ---
 
 ### `ObdParser::getIntAtPos(const QString &data, int pos)`
 
-Общий метод извлечения hex-значения по произвольной позиции (индекс токена, разделённых пробелами).
+Общий метод извлечения hex-значения по произвольной позиции (индекс токена,
+разделённого пробелами). Для выхода за границы и невалидного hex возвращает
+`-1`.
+
+---
+
+### `ObdParser::hasPayload(const QString &data)`
+
+Возвращает `true`, если в ответе найден положительный ответ `62` и после
+двух байтов PID есть хотя бы один байт данных.
 
 ---
 
 ### `ObdParser::extractCommandId(const QString &data)`
 
-Извлекает ID команды из первого токена строки ответа.
+Извлекает ID команды из первого непустого токена строки ответа.
 
 ```cpp
 //   data = "22F405 7E8 04 62 F4 05 5C"
@@ -518,16 +536,16 @@ int OilVolumeCommandImpl::calculate(const QString &value) {
 | `22F405` | Охлаждающая жидкость | `CoolantTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `2203F3` | Масло | `OilTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `221E69` | Коробка передач | `GbTempCommandImpl` | `A - 40` | ✅ | ✅ |
-| `22D11C` | Раздатка | `TCTempCommandImpl` | `A - 40` | ✅ | ❌ |
-| `221E8A` | Задний дифференциал | `RDTempCommandImpl` | `A - 40` | ✅ | ❌ |
+| `22D11C` | Раздатка | `TCTempCommandImpl` | `A - 40` | ✅ | ✅ |
+| `221E8A` | Задний дифференциал | `RDTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22D11A` | Компрессор | `ComprTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22F40F` | Воздух на впуске | `IntakeAirTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22F446` | Наружный воздух | `AmbientAirTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22F423` | Давление топлива | `FuelPressCommandImpl` | `(A × 256 + B) / 100` | ✅ | ❌ |
 | `222B0D` | Тормозная система | `BrakePressCommandImpl` | `A × 8533.3337 + B × 33.33` | ✅ | ❌ |
 | `22F42F` | Топливо (литры) | `FuelLevelCommandImpl` | `(A × 100) / 255` | ✅ | ❌ |
-| `2203E6` | Уровень масла | `OilLevelCommandImpl` | `A` | ✅ | ❌ |
-| `2203F2` | Объём масла | `OilVolumeCommandImpl` | `A / 10` | ✅ | ❌ |
+| `2203E6` | Уровень масла | `OilLevelCommandImpl` | `A` | ✅ | ✅ |
+| `2203F2` | Объём масла | `OilVolumeCommandImpl` | `A / 10` | ✅ | ✅ |
 
 Легенда:
 - ✅ — реализована
