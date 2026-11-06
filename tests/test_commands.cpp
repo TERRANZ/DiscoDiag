@@ -131,9 +131,9 @@ void TestCommands::brakePress() {
 }
 
 void TestCommands::fuelLevel() {
-    // (0xFF * 100) / 255 = 25500 / 255 = 100
+    // (0xFF * 105) / 255 = 26775 / 255 = 105 (tank capacity, litres)
     FuelLevelCommandImpl cmd;
-    QCOMPARE(cmd.calculate(frame("22F42F", 0xFF)), 100);
+    QCOMPARE(cmd.calculate(frame("22F42F", 0xFF)), 105);
 }
 
 void TestCommands::oilLevel() {
