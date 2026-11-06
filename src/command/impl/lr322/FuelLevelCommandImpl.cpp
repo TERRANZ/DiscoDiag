@@ -12,5 +12,5 @@ FuelLevelCommandImpl::FuelLevelCommandImpl() : AbstractCommand(CMD_LVL_FUEL_LITR
 
 int FuelLevelCommandImpl::calculate(const QString &value) const
 {
-    return (ObdParser::A(value) * 100) / 255;
+    return (ObdParser::A(value) * 105) / 255;
 }

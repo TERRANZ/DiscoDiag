@@ -66,6 +66,42 @@ set(PROJECT_SOURCES
         src/command/impl/lr322/OilVolumeCommandImpl.h
         src/command/impl/lr322/FuelLevelCommandImpl.cpp
         src/command/impl/lr322/FuelLevelCommandImpl.h
+        src/command/impl/lr322/SpeedCommandImpl.cpp
+        src/command/impl/lr322/SpeedCommandImpl.h
+        src/command/impl/lr322/BoostCommandImpl.cpp
+        src/command/impl/lr322/BoostCommandImpl.h
+        src/command/impl/lr322/IntPressCommandImpl.cpp
+        src/command/impl/lr322/IntPressCommandImpl.h
+        src/command/impl/lr322/MainPressCommandImpl.cpp
+        src/command/impl/lr322/MainPressCommandImpl.h
+        src/command/impl/lr322/MafCommandImpl.cpp
+        src/command/impl/lr322/MafCommandImpl.h
+        src/command/impl/lr322/MileageCommandImpl.cpp
+        src/command/impl/lr322/MileageCommandImpl.h
+        src/command/impl/lr322/UTrCaseCommandImpl.cpp
+        src/command/impl/lr322/UTrCaseCommandImpl.h
+        src/command/impl/lr322/UAbsCommandImpl.cpp
+        src/command/impl/lr322/UAbsCommandImpl.h
+        src/command/impl/lr322/AbsFLCommandImpl.cpp
+        src/command/impl/lr322/AbsFLCommandImpl.h
+        src/command/impl/lr322/AbsFRCommandImpl.cpp
+        src/command/impl/lr322/AbsFRCommandImpl.h
+        src/command/impl/lr322/AbsRLCommandImpl.cpp
+        src/command/impl/lr322/AbsRLCommandImpl.h
+        src/command/impl/lr322/AbsRRCommandImpl.cpp
+        src/command/impl/lr322/AbsRRCommandImpl.h
+        src/command/impl/lr322/HeightFLCommandImpl.cpp
+        src/command/impl/lr322/HeightFLCommandImpl.h
+        src/command/impl/lr322/HeightFRCommandImpl.cpp
+        src/command/impl/lr322/HeightFRCommandImpl.h
+        src/command/impl/lr322/HeightRLCommandImpl.cpp
+        src/command/impl/lr322/HeightRLCommandImpl.h
+        src/command/impl/lr322/HeightRRCommandImpl.cpp
+        src/command/impl/lr322/HeightRRCommandImpl.h
+        src/command/impl/lr322/AccelerCommandImpl.cpp
+        src/command/impl/lr322/AccelerCommandImpl.h
+        src/command/impl/lr322/RDifLockCommandImpl.cpp
+        src/command/impl/lr322/RDifLockCommandImpl.h
         ${TS_FILES}
 )
 

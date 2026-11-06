@@ -10,6 +10,8 @@ class TestObdParser : public QObject {
 private slots:
   void getIntAtPosValid();
   void AandB();
+  void payloadC();
+  void signedByte();
   void AandBWithoutEcho();
   void AandBWithMultilineEcho();
   void AandBWithCrLfAndPrompt();
@@ -35,6 +37,22 @@ void TestObdParser::AandB() {
   const QString frame = "22F423 7E8 05 62 F4 23 03 E8";
   QCOMPARE(ObdParser::A(frame), 0x03);
   QCOMPARE(ObdParser::B(frame), 0xE8);
+}
+
+void TestObdParser::payloadC() {
+  // Three data bytes after the 62 <pid hi> <pid lo> anchor.
+  const QString frame = "22DD01 7E8 06 62 DD 01 01 02 03";
+  QCOMPARE(ObdParser::A(frame), 0x01);
+  QCOMPARE(ObdParser::B(frame), 0x02);
+  QCOMPARE(ObdParser::C(frame), 0x03);
+}
+
+void TestObdParser::signedByte() {
+  // Values in 0..127 are unchanged, 128..255 wrap into the negative range.
+  QCOMPARE(ObdParser::SIGNED(0), 0);
+  QCOMPARE(ObdParser::SIGNED(127), 127);
+  QCOMPARE(ObdParser::SIGNED(128), -128);
+  QCOMPARE(ObdParser::SIGNED(255), -1);
 }
 
 void TestObdParser::AandBWithoutEcho() {

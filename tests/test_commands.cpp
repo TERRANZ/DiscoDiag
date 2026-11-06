@@ -17,6 +17,24 @@
 #include "src/command/impl/lr322/FuelLevelCommandImpl.h"
 #include "src/command/impl/lr322/OilLevelCommandImpl.h"
 #include "src/command/impl/lr322/OilVolumeCommandImpl.h"
+#include "src/command/impl/lr322/BoostCommandImpl.h"
+#include "src/command/impl/lr322/IntPressCommandImpl.h"
+#include "src/command/impl/lr322/SpeedCommandImpl.h"
+#include "src/command/impl/lr322/AbsFLCommandImpl.h"
+#include "src/command/impl/lr322/AbsFRCommandImpl.h"
+#include "src/command/impl/lr322/AbsRLCommandImpl.h"
+#include "src/command/impl/lr322/AbsRRCommandImpl.h"
+#include "src/command/impl/lr322/HeightFLCommandImpl.h"
+#include "src/command/impl/lr322/HeightFRCommandImpl.h"
+#include "src/command/impl/lr322/HeightRLCommandImpl.h"
+#include "src/command/impl/lr322/HeightRRCommandImpl.h"
+#include "src/command/impl/lr322/MainPressCommandImpl.h"
+#include "src/command/impl/lr322/UTrCaseCommandImpl.h"
+#include "src/command/impl/lr322/UAbsCommandImpl.h"
+#include "src/command/impl/lr322/MafCommandImpl.h"
+#include "src/command/impl/lr322/MileageCommandImpl.h"
+#include "src/command/impl/lr322/AccelerCommandImpl.h"
+#include "src/command/impl/lr322/RDifLockCommandImpl.h"
 
 // Realistic ELM327 response: command echo, CR-separated data line, prompt.
 // The parser must not depend on absolute token positions.
@@ -46,6 +64,18 @@ private slots:
     void fuelLevel();
     void oilLevel();
     void oilVolume();
+    void boost();
+    void intPres();
+    void speed();
+    void absWheelSpeed();
+    void suspensionHeight();
+    void mainPres();
+    void uTrCase();
+    void uAbs();
+    void maf();
+    void mileage();
+    void acceler();
+    void rdifLock();
     void resultFields();
 };
 
@@ -63,6 +93,24 @@ void TestCommands::commandIds() {
     QCOMPARE(CMD_LVL_OIL_VOL, QString("2203F2"));
     QCOMPARE(CMD_LVL_OIL, QString("2203E6"));
     QCOMPARE(CMD_LVL_FUEL_LITRES, QString("22F42F"));
+    QCOMPARE(CMD_BOOST, QString("22033E"));
+    QCOMPARE(CMD_INT_PRES, QString("22F40B"));
+    QCOMPARE(CMD_SPEED, QString("22F40D"));
+    QCOMPARE(CMD_ABS_FL, QString("222B06"));
+    QCOMPARE(CMD_ABS_FR, QString("222B07"));
+    QCOMPARE(CMD_ABS_RL, QString("222B08"));
+    QCOMPARE(CMD_ABS_RR, QString("222B09"));
+    QCOMPARE(CMD_HEIGHT_FL, QString("223B03"));
+    QCOMPARE(CMD_HEIGHT_FR, QString("223B04"));
+    QCOMPARE(CMD_HEIGHT_RL, QString("223B05"));
+    QCOMPARE(CMD_HEIGHT_RR, QString("223B06"));
+    QCOMPARE(CMD_MAIN_PRES, QString("223B07"));
+    QCOMPARE(CMD_U_TRCASE, QString("22197C"));
+    QCOMPARE(CMD_U_ABS, QString("22D112"));
+    QCOMPARE(CMD_MAF, QString("22F410"));
+    QCOMPARE(CMD_MILEAGE, QString("22DD01"));
+    QCOMPARE(CMD_ACCELER, QString("222B12"));
+    QCOMPARE(CMD_RDIF_LOCK, QString("22D120"));
 }
 
 void TestCommands::getCmdId() {
@@ -128,12 +176,14 @@ void TestCommands::brakePress() {
     // 0x01 * 8533.3337 + 0x00 * 33.33 -> 8533.33 -> truncated to 8533
     BrakePressCommandImpl cmd;
     QCOMPARE(cmd.calculate(frame("222B0D", 0x01, 0x00)), 8533);
+    // A is signed: 0xFF -> -1, so -1 * 8533.3337 + 2 * 33.33 -> -8466.67 -> -8466
+    QCOMPARE(cmd.calculate(frame("222B0D", 0xFF, 0x02)), -8466);
 }
 
 void TestCommands::fuelLevel() {
-    // (0xFF * 100) / 255 = 25500 / 255 = 100
+    // (0xFF * 105) / 255 = 26775 / 255 = 105 (tank capacity, litres)
     FuelLevelCommandImpl cmd;
-    QCOMPARE(cmd.calculate(frame("22F42F", 0xFF)), 100);
+    QCOMPARE(cmd.calculate(frame("22F42F", 0xFF)), 105);
 }
 
 void TestCommands::oilLevel() {
@@ -146,6 +196,89 @@ void TestCommands::oilVolume() {
     // b6 / 10 = 0x96 / 10 = 150 / 10 = 15
     OilVolumeCommandImpl cmd;
     QCOMPARE(cmd.calculate(frame("2203F2", 0x96)), 15);
+}
+
+void TestCommands::boost() {
+    // identity: b6 = 0x32 = 50
+    BoostCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("22033E", 0x32)), 50);
+}
+
+void TestCommands::intPres() {
+    // identity: b6 = 0x64 = 100
+    IntPressCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("22F40B", 0x64)), 100);
+}
+
+void TestCommands::speed() {
+    // identity: b6 = 0x2A = 42
+    SpeedCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("22F40D", 0x2A)), 42);
+}
+
+void TestCommands::absWheelSpeed() {
+    // identity on all four wheels, distinct values
+    QCOMPARE(AbsFLCommandImpl().calculate(frame("222B06", 0x10)), 16);
+    QCOMPARE(AbsFRCommandImpl().calculate(frame("222B07", 0x20)), 32);
+    QCOMPARE(AbsRLCommandImpl().calculate(frame("222B08", 0x30)), 48);
+    QCOMPARE(AbsRRCommandImpl().calculate(frame("222B09", 0x40)), 64);
+}
+
+void TestCommands::suspensionHeight() {
+    // ((A*256) + B) / 10 - 20
+    QCOMPARE(HeightFLCommandImpl().calculate(frame("223B03", 0x00, 0x00)), -20);
+    QCOMPARE(HeightFRCommandImpl().calculate(frame("223B04", 0x01, 0x2C)), 10);
+    QCOMPARE(HeightRLCommandImpl().calculate(frame("223B05", 0x00, 0x32)), -15);
+    QCOMPARE(HeightRRCommandImpl().calculate(frame("223B06", 0x00, 0x96)), -5);
+}
+
+void TestCommands::mainPres() {
+    // (0x01 * 256) + 0x2C = 256 + 44 = 300
+    MainPressCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("223B07", 0x01, 0x2C)), 300);
+}
+
+void TestCommands::uTrCase() {
+    // 0x28 / 4 = 40 / 4 = 10
+    UTrCaseCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("22197C", 0x28)), 10);
+}
+
+void TestCommands::uAbs() {
+    // 0xFF * 20.4 / 255 = 20.4 -> 20 ; 0x80 * 20.4 / 255 = 10.24 -> 10
+    UAbsCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("22D112", 0xFF)), 20);
+    QCOMPARE(cmd.calculate(frame("22D112", 0x80)), 10);
+}
+
+void TestCommands::maf() {
+    // 1 * 25.6 + 100 * 0.01 = 26.6 -> 26
+    MafCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("22F410", 0x01, 0x64)), 26);
+}
+
+void TestCommands::mileage() {
+    // Three payload bytes: A=01, B=02, C=03 -> 1*65536 + 2*256 + 3 = 66051
+    const QString threeByteFrame =
+        QStringLiteral("22DD01\r\r7E8 04 62 DD 01 01 02 03\r\r>");
+    MileageCommandImpl cmd;
+    QCOMPARE(cmd.calculate(threeByteFrame), 66051);
+}
+
+void TestCommands::acceler() {
+    // SIGNED(A) is -128 for 0x80: -128*32.8/255 + 100/100 = -15.46 -> -15
+    AccelerCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("222B12", 0x80, 0x64)), -15);
+    // positive: 0 + 255/100 = 2
+    QCOMPARE(cmd.calculate(frame("222B12", 0x00, 0xFF)), 2);
+}
+
+void TestCommands::rdifLock() {
+    // 1 - ((A >> 1) & 1): bit 1 of A inverted
+    RDifLockCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("22D120", 0x02)), 0);
+    QCOMPARE(cmd.calculate(frame("22D120", 0x00)), 1);
+    QCOMPARE(cmd.calculate(frame("22D120", 0x01)), 1);
 }
 
 void TestCommands::resultFields() {
@@ -162,6 +295,24 @@ void TestCommands::resultFields() {
     QVERIFY(FuelLevelCommandImpl().getResultField() == &ObdResult::lvlFuel);
     QVERIFY(OilLevelCommandImpl().getResultField() == &ObdResult::lvlOil);
     QVERIFY(OilVolumeCommandImpl().getResultField() == &ObdResult::lvlOilVol);
+    QVERIFY(BoostCommandImpl().getResultField() == &ObdResult::boost);
+    QVERIFY(IntPressCommandImpl().getResultField() == &ObdResult::intPres);
+    QVERIFY(SpeedCommandImpl().getResultField() == &ObdResult::speed);
+    QVERIFY(AbsFLCommandImpl().getResultField() == &ObdResult::absFL);
+    QVERIFY(AbsFRCommandImpl().getResultField() == &ObdResult::absFR);
+    QVERIFY(AbsRLCommandImpl().getResultField() == &ObdResult::absRL);
+    QVERIFY(AbsRRCommandImpl().getResultField() == &ObdResult::absRR);
+    QVERIFY(HeightFLCommandImpl().getResultField() == &ObdResult::heightFL);
+    QVERIFY(HeightFRCommandImpl().getResultField() == &ObdResult::heightFR);
+    QVERIFY(HeightRLCommandImpl().getResultField() == &ObdResult::heightRL);
+    QVERIFY(HeightRRCommandImpl().getResultField() == &ObdResult::heightRR);
+    QVERIFY(MainPressCommandImpl().getResultField() == &ObdResult::mainPres);
+    QVERIFY(UTrCaseCommandImpl().getResultField() == &ObdResult::uTrCase);
+    QVERIFY(UAbsCommandImpl().getResultField() == &ObdResult::uAbs);
+    QVERIFY(MafCommandImpl().getResultField() == &ObdResult::maf);
+    QVERIFY(MileageCommandImpl().getResultField() == &ObdResult::mileage);
+    QVERIFY(AccelerCommandImpl().getResultField() == &ObdResult::acceler);
+    QVERIFY(RDifLockCommandImpl().getResultField() == &ObdResult::rdifLock);
 }
 
 QTEST_MAIN(TestCommands)

@@ -51,6 +51,24 @@ inline const QString CMD_PRESS_BRAKE = QStringLiteral("222B0D");         // Да
 inline const QString CMD_LVL_OIL_VOL = QStringLiteral("2203F2");         // Объём масла
 inline const QString CMD_LVL_OIL = QStringLiteral("2203E6");             // Уровень масла
 inline const QString CMD_LVL_FUEL_LITRES = QStringLiteral("22F42F");     // Уровень топлива (литры)
+inline const QString CMD_BOOST = QStringLiteral("22033E");               // Наддув
+inline const QString CMD_INT_PRES = QStringLiteral("22F40B");            // Абс. давление в коллекторе
+inline const QString CMD_SPEED = QStringLiteral("22F40D");               // Скорость автомобиля
+inline const QString CMD_ABS_FL = QStringLiteral("222B06");              // ABS скор. перед. лев.
+inline const QString CMD_ABS_FR = QStringLiteral("222B07");              // ABS скор. перед. прав.
+inline const QString CMD_ABS_RL = QStringLiteral("222B08");              // ABS скор. зад. лев.
+inline const QString CMD_ABS_RR = QStringLiteral("222B09");              // ABS скор. зад. прав.
+inline const QString CMD_HEIGHT_FL = QStringLiteral("223B03");           // Высота подвески FL
+inline const QString CMD_HEIGHT_FR = QStringLiteral("223B04");           // Высота подвески FR
+inline const QString CMD_HEIGHT_RL = QStringLiteral("223B05");           // Высота подвески RL
+inline const QString CMD_HEIGHT_RR = QStringLiteral("223B06");           // Высота подвески RR
+inline const QString CMD_MAIN_PRES = QStringLiteral("223B07");           // Магистральное давление
+inline const QString CMD_U_TRCASE = QStringLiteral("22197C");            // Напряжение датч. раздатки
+inline const QString CMD_U_ABS = QStringLiteral("22D112");               // Напряжение блока ABS
+inline const QString CMD_MAF = QStringLiteral("22F410");                 // Массовый расход воздуха
+inline const QString CMD_MILEAGE = QStringLiteral("22DD01");             // Общий пробег
+inline const QString CMD_ACCELER = QStringLiteral("222B12");             // Продольное ускорение
+inline const QString CMD_RDIF_LOCK = QStringLiteral("22D120");           // Блокировка зад. диф.
 ```
 
 ---
@@ -334,11 +352,11 @@ int FuelPressCommandImpl::calculate(const QString &value) const {
 **Формула:**
 
 ```
-result = ObdParser::A(value) * 8533.3337 + ObdParser::B(value) * 33.33
+result = ObdParser::SIGNED(ObdParser::A(value)) * 8533.3337 + ObdParser::B(value) * 33.33
 ```
 
 Где:
-- `ObdParser::A(value)` — первый байт данных (коэффициент масштабирования старшего байта)
+- `ObdParser::A(value)` — первый байт данных, **знаковый** (дополнительный код), переведённый через `SIGNED()` в диапазон -128..127
 - `ObdParser::B(value)` — второй байт данных (коэффициент масштабирования младшего байта)
 
 Результат — давление в kPa.
@@ -346,7 +364,7 @@ result = ObdParser::A(value) * 8533.3337 + ObdParser::B(value) * 33.33
 **Код:**
 ```cpp
 int BrakePressCommandImpl::calculate(const QString &value) const {
-    return ObdParser::A(value) * 8533.3337 +
+    return ObdParser::SIGNED(ObdParser::A(value)) * 8533.3337 +
            ObdParser::B(value) * 33.33;
 }
 ```
@@ -370,18 +388,18 @@ int BrakePressCommandImpl::calculate(const QString &value) const {
 **Формула:**
 
 ```
-result = (ObdParser::A(value) * 100) / 255
+result = (ObdParser::A(value) * 105) / 255
 ```
 
 Где:
 - `ObdParser::A(value)` — сырое значение (0–255)
 
-Метод конвертирует 8-битное сырое значение датчика уровня топлива в литры. Диапазон: 0–100 литров (при сырых 0–255).
+Метод конвертирует 8-битное сырое значение датчика уровня топлива в литры. Диапазон: 0–105 литров (при сырых 0–255) — соответствует ёмкости бака в 105 л.
 
 **Код:**
 ```cpp
 int FuelLevelCommandImpl::calculate(const QString &value) const {
-    return (ObdParser::A(value) * 100) / 255;
+    return (ObdParser::A(value) * 105) / 255;
 }
 ```
 
@@ -500,6 +518,39 @@ ELM327 может добавлять эхо команды и переводы �
 
 ---
 
+### `ObdParser::C(const QString &data)`
+
+Извлекает третий байт данных после `62 <PID hi> <PID lo>`.
+
+```cpp
+// Пример:
+//   data = "22DD01 7E8 04 62 DD 01 01 02 03"
+//   ObdParser::C(data) → 0x03 → 3 (в десятичной)
+```
+
+Используется пробегом (`22DD01`), где значение занимает три байта. Если
+третьего байта нет, возвращается `-1`.
+
+---
+
+### `ObdParser::SIGNED(int v)`
+
+Конвертирует беззнаковый байт `0..255` в знаковое значение `-128..127`
+(дополнительный код). Чистая функция, не читает данные ответа.
+
+```cpp
+ObdParser::SIGNED(0)   → 0
+ObdParser::SIGNED(127) → 127
+ObdParser::SIGNED(128) → -128
+ObdParser::SIGNED(255) → -1
+```
+
+Используется там, где старший байт датчика знаковый: давление тормозной
+системы (`222B0D`) и продольное ускорение (`222B12`). Применяется как
+`ObdParser::SIGNED(ObdParser::A(value))`.
+
+---
+
 ### `ObdParser::getIntAtPos(const QString &data, int pos)`
 
 Общий метод извлечения hex-значения по произвольной позиции (индекс токена,
@@ -542,10 +593,28 @@ ELM327 может добавлять эхо команды и переводы �
 | `22F40F` | Воздух на впуске | `IntakeAirTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22F446` | Наружный воздух | `AmbientAirTempCommandImpl` | `A - 40` | ✅ | ✅ |
 | `22F423` | Давление топлива | `FuelPressCommandImpl` | `(A × 256 + B) / 100` | ✅ | ✅ |
-| `222B0D` | Тормозная система | `BrakePressCommandImpl` | `A × 8533.3337 + B × 33.33` | ✅ | ✅ |
-| `22F42F` | Топливо (литры) | `FuelLevelCommandImpl` | `(A × 100) / 255` | ✅ | ✅ |
+| `222B0D` | Тормозная система | `BrakePressCommandImpl` | `SIGNED(A) × 8533.3337 + B × 33.33` | ✅ | ✅ |
+| `22F42F` | Топливо (литры) | `FuelLevelCommandImpl` | `(A × 105) / 255` | ✅ | ✅ |
 | `2203E6` | Уровень масла | `OilLevelCommandImpl` | `A` | ✅ | ✅ |
 | `2203F2` | Объём масла | `OilVolumeCommandImpl` | `A / 10` | ✅ | ✅ |
+| `22033E` | Наддув | `BoostCommandImpl` | `A` | ✅ | ✅ |
+| `22F40B` | Абс. давление в коллекторе | `IntPressCommandImpl` | `A` | ✅ | ✅ |
+| `22F40D` | Скорость автомобиля | `SpeedCommandImpl` | `A` | ✅ | ✅ |
+| `222B06` | ABS скор. перед. лев. | `AbsFLCommandImpl` | `A` | ✅ | ✅ |
+| `222B07` | ABS скор. перед. прав. | `AbsFRCommandImpl` | `A` | ✅ | ✅ |
+| `222B08` | ABS скор. зад. лев. | `AbsRLCommandImpl` | `A` | ✅ | ✅ |
+| `222B09` | ABS скор. зад. прав. | `AbsRRCommandImpl` | `A` | ✅ | ✅ |
+| `223B03` | Высота подвески FL | `HeightFLCommandImpl` | `(A × 256 + B) / 10 - 20` | ✅ | ✅ |
+| `223B04` | Высота подвески FR | `HeightFRCommandImpl` | `(A × 256 + B) / 10 - 20` | ✅ | ✅ |
+| `223B05` | Высота подвески RL | `HeightRLCommandImpl` | `(A × 256 + B) / 10 - 20` | ✅ | ✅ |
+| `223B06` | Высота подвески RR | `HeightRRCommandImpl` | `(A × 256 + B) / 10 - 20` | ✅ | ✅ |
+| `223B07` | Магистральное давление | `MainPressCommandImpl` | `A × 256 + B` | ✅ | ✅ |
+| `22197C` | Напряжение датч. раздатки | `UTrCaseCommandImpl` | `A / 4` | ✅ | ✅ |
+| `22D112` | Напряжение блока ABS | `UAbsCommandImpl` | `A × 20.4 / 255` | ✅ | ✅ |
+| `22F410` | Массовый расход воздуха | `MafCommandImpl` | `A × 25.6 + B × 0.01` | ✅ | ✅ |
+| `22DD01` | Общий пробег | `MileageCommandImpl` | `A × 65536 + B × 256 + C` | ✅ | ✅ |
+| `222B12` | Продольное ускорение | `AccelerCommandImpl` | `SIGNED(A) × 32.8 / 255 + B / 100` | ✅ | ✅ |
+| `22D120` | Блокировка зад. диф. | `RDifLockCommandImpl` | `1 - ((A >> 1) & 1)` | ✅ | ✅ |
 
 Легенда:
 - ✅ — реализована

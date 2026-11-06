@@ -22,6 +22,13 @@ public:
 
   static int B(const QString &data) { return payloadByte(data, 1); }
 
+  static int C(const QString &data) { return payloadByte(data, 2); }
+
+  // Reinterprets an unsigned byte 0..255 as a two's-complement signed value
+  // -128..127. Needed for sensors whose most-significant byte is signed
+  // (e.g. brake pressure 222B0D, longitudinal acceleration 222B12).
+  static int SIGNED(int v) { return v > 127 ? v - 256 : v; }
+
   static int getIntAtPos(const QString &data, int pos) {
     const auto tokens = tokenize(data);
     return intAt(tokens, pos);

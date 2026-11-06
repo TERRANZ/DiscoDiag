@@ -8,7 +8,7 @@ before_script:
 stages:
   - build
   - test
-  - pr_agent
+  - review
 
 build:
   stage: build
@@ -26,22 +26,32 @@ test:
   script:
     - ctest --test-dir build --output-on-failure
 
-pr_agent_job:
-  stage: pr_agent
-  image:
-    name: pragent/pr-agent:latest
-    entrypoint: [""]
-  script:
-    - echo "Running PR Agent action step"
-    - export MR_URL="$CI_MERGE_REQUEST_PROJECT_URL/merge_requests/$CI_MERGE_REQUEST_IID"
-    - echo "MR_URL=$MR_URL"
-    - export gitlab__url=$CI_SERVER_PROTOCOL://$CI_SERVER_FQDN
-    - export gitlab__PERSONAL_ACCESS_TOKEN=$GITLAB_PERSONAL_ACCESS_TOKEN
-    - export config__git_provider="gitlab"
-    - export openai__key=test
-    - export OPENAI__API_BASE=http://192.168.3.1:11434/v1
-    - python -m pr_agent.cli --pr_url="$MR_URL" describe
-    - python -m pr_agent.cli --pr_url="$MR_URL" review
-    - python -m pr_agent.cli --pr_url="$MR_URL" improve
+ai-review:
+  stage: review
+  image: nikitafilonov/ai-review:latest
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_MERGE_REQUEST_IID'
+      when: manual
+  script:
+    - ai-review run
+  variables:
+    # --- Mandatory ---
+    GIT_DEPTH: "0"
+
+    # --- LLM configuration ---
+    LLM__PROVIDER: "OPENAI"
+    LLM__META__MODEL: "gpt-4o-mini"
+    LLM__META__MAX_TOKENS: "15000"
+    LLM__META__TEMPERATURE: "0.3"
+    LLM__HTTP_CLIENT__API_URL: "$LLM_API_URL"
+    LLM__HTTP_CLIENT__API_TOKEN: "test"
+
+    # --- GitLab integration ---
+    VCS__PROVIDER: "GITLAB"
+    VCS__PIPELINE__PROJECT_ID: "$CI_PROJECT_ID"
+    VCS__PIPELINE__MERGE_REQUEST_ID: "$CI_MERGE_REQUEST_IID"
+    VCS__HTTP_CLIENT__API_URL: "$CI_SERVER_URL"
+    VCS__HTTP_CLIENT__PROXY_URL: "$VCS_PROXY"
+    VCS__HTTP_CLIENT__API_TOKEN: "$AI_REVIEW_TOKEN"
+  allow_failure: true  # Optional: don't block pipeline if AI review fails
+
