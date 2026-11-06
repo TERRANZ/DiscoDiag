@@ -128,6 +128,8 @@ void TestCommands::brakePress() {
     // 0x01 * 8533.3337 + 0x00 * 33.33 -> 8533.33 -> truncated to 8533
     BrakePressCommandImpl cmd;
     QCOMPARE(cmd.calculate(frame("222B0D", 0x01, 0x00)), 8533);
+    // A is signed: 0xFF -> -1, so -1 * 8533.3337 + 2 * 33.33 -> -8466.67 -> -8466
+    QCOMPARE(cmd.calculate(frame("222B0D", 0xFF, 0x02)), -8466);
 }
 
 void TestCommands::fuelLevel() {

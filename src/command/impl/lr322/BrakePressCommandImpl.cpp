@@ -11,6 +11,6 @@ BrakePressCommandImpl::BrakePressCommandImpl()
                       &ObdResult::pressBrake) {}
 
 int BrakePressCommandImpl::calculate(const QString &value) const {
-  return ObdParser::A(value) * 8533.3337 +
+  return ObdParser::SIGNED(ObdParser::A(value)) * 8533.3337 +
          ObdParser::B(value) * 33.33;
 }
