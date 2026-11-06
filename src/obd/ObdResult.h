@@ -34,6 +34,9 @@ public:
   int heightRL = 0;
   int heightRR = 0;
   int mainPres = 0;
+  int uTrCase = 0;
+  int uAbs = 0;
+  int maf = 0;
 };
 
 Q_DECLARE_METATYPE(ObdResult)

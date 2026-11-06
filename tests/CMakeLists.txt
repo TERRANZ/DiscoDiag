@@ -26,6 +26,9 @@ set(COMMAND_SOURCES
         ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/HeightRLCommandImpl.cpp
         ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/HeightRRCommandImpl.cpp
         ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/MainPressCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/UTrCaseCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/UAbsCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/MafCommandImpl.cpp
 )
 
 add_executable(test_obdparser test_obdparser.cpp)

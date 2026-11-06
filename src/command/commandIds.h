@@ -28,5 +28,8 @@ inline const QString CMD_HEIGHT_FR = QStringLiteral("223B04");
 inline const QString CMD_HEIGHT_RL = QStringLiteral("223B05");
 inline const QString CMD_HEIGHT_RR = QStringLiteral("223B06");
 inline const QString CMD_MAIN_PRES = QStringLiteral("223B07");
+inline const QString CMD_U_TRCASE = QStringLiteral("22197C");
+inline const QString CMD_U_ABS = QStringLiteral("22D112");
+inline const QString CMD_MAF = QStringLiteral("22F410");
 
 #endif // COMMANDIDS_H
