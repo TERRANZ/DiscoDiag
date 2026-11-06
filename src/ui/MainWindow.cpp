@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(std::make_unique<Ui::MainWindow>()) {
   ui->setupUi(this);
   ui->teDebug->setMaximumBlockCount(DEBUG_HISTORY_LINES);
+  ui->chkRDifLock->setFocusPolicy(Qt::NoFocus);
+  ui->chkRDifLock->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
   QSettings settings;
   m_deviceAddress = QBluetoothAddress(
@@ -139,6 +141,26 @@ void MainWindow::update_ui(const ObdResult &result) {
   ui->numPressBrake->display(result.pressBrake);
   ui->numLvlFuel->display(result.lvlFuel);
 
+  ui->numSpeed->display(result.speed);
+  ui->numBoost->display(result.boost);
+  ui->numIntPres->display(result.intPres);
+  ui->numMainPres->display(result.mainPres);
+  ui->numMaf->display(result.maf);
+  ui->numMileage->display(result.mileage);
+  ui->numAcceler->display(result.acceler);
+  ui->numUTrCase->display(result.uTrCase);
+  ui->numUAbs->display(result.uAbs);
+  ui->chkRDifLock->setChecked(result.rdifLock != 0);
+
+  ui->numAbsFL->display(result.absFL);
+  ui->numAbsFR->display(result.absFR);
+  ui->numAbsRL->display(result.absRL);
+  ui->numAbsRR->display(result.absRR);
+  ui->numHeightFL->display(result.heightFL);
+  ui->numHeightFR->display(result.heightFR);
+  ui->numHeightRL->display(result.heightRL);
+  ui->numHeightRR->display(result.heightRR);
+
   ui->dTempCoolant->setValue(result.tempCoolant);
   ui->dTempAirAmb->setValue(result.tempAirAmb);
   ui->dTempAirInt->setValue(result.tempAirInt);
@@ -151,6 +173,24 @@ void MainWindow::update_ui(const ObdResult &result) {
   ui->dPressFuel->setValue(result.pressFuel);
   ui->dPressBrake->setValue(result.pressBrake);
   ui->dlvlFuel->setValue(result.lvlFuel);
+
+  ui->dSpeed->setValue(result.speed);
+  ui->dBoost->setValue(result.boost);
+  ui->dIntPres->setValue(result.intPres);
+  ui->dMainPres->setValue(result.mainPres);
+  ui->dMaf->setValue(result.maf);
+  ui->dAcceler->setValue(result.acceler);
+  ui->dUTrCase->setValue(result.uTrCase);
+  ui->dUAbs->setValue(result.uAbs);
+
+  ui->dAbsFL->setValue(result.absFL);
+  ui->dAbsFR->setValue(result.absFR);
+  ui->dAbsRL->setValue(result.absRL);
+  ui->dAbsRR->setValue(result.absRR);
+  ui->dHeightFL->setValue(result.heightFL);
+  ui->dHeightFR->setValue(result.heightFR);
+  ui->dHeightRL->setValue(result.heightRL);
+  ui->dHeightRR->setValue(result.heightRR);
 
   if (!result.rawValue.isEmpty()) {
     appendDebug(result.rawValue);

@@ -6,49 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>814</width>
-    <height>669</height>
+    <width>900</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>DiscoDiag</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="2">
-       <widget class="QLabel" name="lblTempAirInt">
+     <widget class="QTabWidget" name="mainTabs">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabMain">
+       <attribute name="title">
+        <string>Основное</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="tabMainLayout">
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="lblTempCoolant">
         <property name="text">
-         <string>Температура на впуске</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLCDNumber" name="numTempCoolant"/>
-      </item>
-      <item row="1" column="4">
-       <widget class="QDial" name="dTempGb">
-        <property name="minimum">
-         <number>-120</number>
-        </property>
-        <property name="maximum">
-         <number>120</number>
-        </property>
-        <property name="pageStep">
-         <number>0</number>
-        </property>
-        <property name="tracking">
-         <bool>true</bool>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
+         <string>Температура охлаждайки</string>
         </property>
        </widget>
       </item>
@@ -69,44 +51,18 @@
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
-        </property>
        </widget>
       </item>
-      <item row="2" column="3">
-       <widget class="QLCDNumber" name="numTempOil"/>
-      </item>
-      <item row="1" column="2">
-       <widget class="QDial" name="dTempAirInt">
-        <property name="minimum">
-         <number>-120</number>
-        </property>
-        <property name="maximum">
-         <number>120</number>
-        </property>
-        <property name="pageStep">
-         <number>0</number>
-        </property>
-        <property name="tracking">
-         <bool>true</bool>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
-        </property>
+      <item row="2" column="0">
+       <widget class="QLCDNumber" name="numTempCoolant">
        </widget>
       </item>
-      <item row="2" column="2">
-       <widget class="QLCDNumber" name="numTempAirInt"/>
+      <item row="0" column="1">
+       <widget class="QLabel" name="lblTempAmb">
+        <property name="text">
+         <string>Температура воздуха</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="1">
        <widget class="QDial" name="dTempAirAmb">
@@ -125,33 +81,40 @@
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLCDNumber" name="numTempAirAmb">
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="lblTempAirInt">
+        <property name="text">
+         <string>Температура на впуске</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="lblTempGb">
-        <property name="text">
-         <string>Температура коробки</string>
+      <item row="1" column="2">
+       <widget class="QDial" name="dTempAirInt">
+        <property name="minimum">
+         <number>-120</number>
+        </property>
+        <property name="maximum">
+         <number>120</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="lblTempAmb">
-        <property name="text">
-         <string>Температура воздуха</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="lblTempCoolant">
-        <property name="text">
-         <string>Температура охлаждайки</string>
-        </property>
+      <item row="2" column="2">
+       <widget class="QLCDNumber" name="numTempAirInt">
        </widget>
       </item>
       <item row="0" column="3">
@@ -160,9 +123,6 @@
          <string>Температура масла</string>
         </property>
        </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLCDNumber" name="numTempAirAmb"/>
       </item>
       <item row="1" column="3">
        <widget class="QDial" name="dTempOil">
@@ -181,33 +141,21 @@
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
-        </property>
        </widget>
       </item>
-      <item row="2" column="4">
-       <widget class="QLCDNumber" name="numTempGb"/>
+      <item row="2" column="3">
+       <widget class="QLCDNumber" name="numTempOil">
+       </widget>
       </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="2">
-       <widget class="QLabel" name="lblTempCompr">
+      <item row="0" column="4">
+       <widget class="QLabel" name="lblTempGb">
         <property name="text">
-         <string>Температура компр</string>
+         <string>Температура коробки</string>
         </property>
        </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLCDNumber" name="numTempRd"/>
       </item>
       <item row="1" column="4">
-       <widget class="QDial" name="dPressOil">
+       <widget class="QDial" name="dTempGb">
         <property name="minimum">
          <number>-120</number>
         </property>
@@ -223,11 +171,20 @@
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
+       </widget>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLCDNumber" name="numTempGb">
+       </widget>
+      </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="lblTempRd">
+        <property name="text">
+         <string>Температура ЗД</string>
         </property>
        </widget>
       </item>
@@ -248,44 +205,18 @@
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
-        </property>
        </widget>
       </item>
-      <item row="2" column="3">
-       <widget class="QLCDNumber" name="numVolOil"/>
-      </item>
-      <item row="1" column="2">
-       <widget class="QDial" name="dTempCompr">
-        <property name="minimum">
-         <number>-120</number>
-        </property>
-        <property name="maximum">
-         <number>120</number>
-        </property>
-        <property name="pageStep">
-         <number>0</number>
-        </property>
-        <property name="tracking">
-         <bool>true</bool>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
-        </property>
+      <item row="2" column="0">
+       <widget class="QLCDNumber" name="numTempRd">
        </widget>
       </item>
-      <item row="2" column="2">
-       <widget class="QLCDNumber" name="numTempCompr"/>
+      <item row="0" column="1">
+       <widget class="QLabel" name="lblTempTc">
+        <property name="text">
+         <string>Температура Раздатки</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="1">
        <widget class="QDial" name="dTempTc">
@@ -304,33 +235,40 @@
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
-        </property>
-        <property name="invertedControls">
-         <bool>false</bool>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLCDNumber" name="numTempTc">
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="lblTempCompr">
+        <property name="text">
+         <string>Температура компр</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="lblPressOil">
-        <property name="text">
-         <string>Давление масла</string>
+      <item row="1" column="2">
+       <widget class="QDial" name="dTempCompr">
+        <property name="minimum">
+         <number>-120</number>
+        </property>
+        <property name="maximum">
+         <number>120</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="lblTempTc">
-        <property name="text">
-         <string>Температура Раздатки</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="lblTempRd">
-        <property name="text">
-         <string>Температура ЗД</string>
-        </property>
+      <item row="2" column="2">
+       <widget class="QLCDNumber" name="numTempCompr">
        </widget>
       </item>
       <item row="0" column="3">
@@ -339,9 +277,6 @@
          <string>Уровень масла</string>
         </property>
        </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLCDNumber" name="numTempTc"/>
       </item>
       <item row="1" column="3">
        <widget class="QDial" name="dlvlOil">
@@ -360,39 +295,50 @@
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
-        <property name="invertedAppearance">
-         <bool>false</bool>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLCDNumber" name="numVolOil">
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="lblPressOil">
+        <property name="text">
+         <string>Давление масла</string>
         </property>
-        <property name="invertedControls">
-         <bool>false</bool>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QDial" name="dPressOil">
+        <property name="minimum">
+         <number>-120</number>
+        </property>
+        <property name="maximum">
+         <number>120</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="2" column="4">
-       <widget class="QLCDNumber" name="numPressOil"/>
+       <widget class="QLCDNumber" name="numPressOil">
+       </widget>
       </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QGridLayout" name="gridLayout_3">
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
        <widget class="QLabel" name="lblPressFuel">
         <property name="text">
          <string>Давление топлива</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="lblPressBrake">
-        <property name="text">
-         <string>Давление тормозов</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="lblLvlFuel">
-        <property name="text">
-         <string>Уровень топлива</string>
         </property>
        </widget>
       </item>
@@ -404,8 +350,25 @@
         <property name="maximum">
          <number>700</number>
         </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLCDNumber" name="numPressFuel">
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="lblPressBrake">
+        <property name="text">
+         <string>Давление тормозов</string>
         </property>
        </widget>
       </item>
@@ -417,8 +380,25 @@
         <property name="maximum">
          <number>20000</number>
         </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLCDNumber" name="numPressBrake">
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="lblLvlFuel">
+        <property name="text">
+         <string>Уровень топлива, л</string>
         </property>
        </widget>
       </item>
@@ -428,7 +408,54 @@
          <number>0</number>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>105</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLCDNumber" name="numLvlFuel">
+       </widget>
+      </item>
+       </layout>
+      </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabEngine">
+       <attribute name="title">
+        <string>Двигатель</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="tabEngineLayout">
+      <item>
+       <layout class="QGridLayout" name="gridEngine">
+      <item row="0" column="0">
+       <widget class="QLabel" name="lblSpeed">
+        <property name="text">
+         <string>Скорость, км/ч</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QDial" name="dSpeed">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>255</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
         </property>
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
@@ -436,15 +463,506 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLCDNumber" name="numPressFuel"/>
+       <widget class="QLCDNumber" name="numSpeed">
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="lblBoost">
+        <property name="text">
+         <string>Наддув, кПа</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDial" name="dBoost">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>255</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLCDNumber" name="numPressBrake"/>
+       <widget class="QLCDNumber" name="numBoost">
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="lblIntPres">
+        <property name="text">
+         <string>Абс. давление в коллекторе</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QDial" name="dIntPres">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>255</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
       </item>
       <item row="2" column="2">
-       <widget class="QLCDNumber" name="numLvlFuel"/>
+       <widget class="QLCDNumber" name="numIntPres">
+       </widget>
       </item>
-     </layout>
+      <item row="0" column="3">
+       <widget class="QLabel" name="lblMainPres">
+        <property name="text">
+         <string>Магистральное давление, кПа</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDial" name="dMainPres">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>65535</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLCDNumber" name="numMainPres">
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="lblMaf">
+        <property name="text">
+         <string>Массовый расход воздуха, г/с</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QDial" name="dMaf">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>65535</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLCDNumber" name="numMaf">
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="lblMileage">
+        <property name="text">
+         <string>Общий пробег, км</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" rowspan="2">
+       <widget class="QLCDNumber" name="numMileage">
+        <property name="digitCount">
+         <number>7</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="lblAcceler">
+        <property name="text">
+         <string>Продольное ускорение, G</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QDial" name="dAcceler">
+        <property name="minimum">
+         <number>-5</number>
+        </property>
+        <property name="maximum">
+         <number>5</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLCDNumber" name="numAcceler">
+        <property name="digitCount">
+         <number>4</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="lblUTrCase">
+        <property name="text">
+         <string>Напряжение датчика раздатки, В</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QDial" name="dUTrCase">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>64</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLCDNumber" name="numUTrCase">
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLabel" name="lblUAbs">
+        <property name="text">
+         <string>Напряжение блока ABS, В</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QDial" name="dUAbs">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>21</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <widget class="QLCDNumber" name="numUAbs">
+       </widget>
+      </item>
+      <item row="3" column="4">
+       <widget class="QLabel" name="lblRDifLock">
+        <property name="text">
+         <string>Блокировка заднего диф.</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="4" rowspan="2">
+       <widget class="QCheckBox" name="chkRDifLock">
+        <property name="text">
+         <string>Заблокирован</string>
+        </property>
+       </widget>
+      </item>
+       </layout>
+      </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabChassis">
+       <attribute name="title">
+        <string>Шасси</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="tabChassisLayout">
+      <item>
+       <layout class="QGridLayout" name="gridChassis">
+      <item row="0" column="0">
+       <widget class="QLabel" name="lblAbsFL">
+        <property name="text">
+         <string>ABS скорость перед. лев., км/ч</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QDial" name="dAbsFL">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>255</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLCDNumber" name="numAbsFL">
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="lblAbsFR">
+        <property name="text">
+         <string>ABS скорость перед. прав., км/ч</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDial" name="dAbsFR">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>255</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLCDNumber" name="numAbsFR">
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="lblAbsRL">
+        <property name="text">
+         <string>ABS скорость зад. лев., км/ч</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QDial" name="dAbsRL">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>255</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLCDNumber" name="numAbsRL">
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="lblAbsRR">
+        <property name="text">
+         <string>ABS скорость зад. прав., км/ч</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDial" name="dAbsRR">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>255</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLCDNumber" name="numAbsRR">
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="lblHeightFL">
+        <property name="text">
+         <string>Высота подвески FL, см</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QDial" name="dHeightFL">
+        <property name="minimum">
+         <number>-20</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLCDNumber" name="numHeightFL">
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="lblHeightFR">
+        <property name="text">
+         <string>Высота подвески FR, см</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QDial" name="dHeightFR">
+        <property name="minimum">
+         <number>-20</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLCDNumber" name="numHeightFR">
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="lblHeightRL">
+        <property name="text">
+         <string>Высота подвески RL, см</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QDial" name="dHeightRL">
+        <property name="minimum">
+         <number>-20</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLCDNumber" name="numHeightRL">
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="lblHeightRR">
+        <property name="text">
+         <string>Высота подвески RR, см</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QDial" name="dHeightRR">
+        <property name="minimum">
+         <number>-20</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLCDNumber" name="numHeightRR">
+       </widget>
+      </item>
+       </layout>
+      </item>
+       </layout>
+      </widget>
+     </widget>
     </item>
     <item>
      <widget class="QPlainTextEdit" name="teDebug">
@@ -463,7 +981,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>814</width>
+     <width>900</width>
      <height>27</height>
     </rect>
    </property>
@@ -520,5 +1038,4 @@
   </action>
  </widget>
  <resources/>
-
 </ui>
