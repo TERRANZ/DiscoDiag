@@ -33,6 +33,7 @@ public:
   int heightFR = 0;
   int heightRL = 0;
   int heightRR = 0;
+  int mainPres = 0;
 };
 
 Q_DECLARE_METATYPE(ObdResult)

@@ -28,6 +28,7 @@
 #include "src/command/impl/lr322/HeightFRCommandImpl.h"
 #include "src/command/impl/lr322/HeightRLCommandImpl.h"
 #include "src/command/impl/lr322/HeightRRCommandImpl.h"
+#include "src/command/impl/lr322/MainPressCommandImpl.h"
 
 // Realistic ELM327 response: command echo, CR-separated data line, prompt.
 // The parser must not depend on absolute token positions.
@@ -62,6 +63,7 @@ private slots:
     void speed();
     void absWheelSpeed();
     void suspensionHeight();
+    void mainPres();
     void resultFields();
 };
 
@@ -90,6 +92,7 @@ void TestCommands::commandIds() {
     QCOMPARE(CMD_HEIGHT_FR, QString("223B04"));
     QCOMPARE(CMD_HEIGHT_RL, QString("223B05"));
     QCOMPARE(CMD_HEIGHT_RR, QString("223B06"));
+    QCOMPARE(CMD_MAIN_PRES, QString("223B07"));
 }
 
 void TestCommands::getCmdId() {
@@ -211,6 +214,12 @@ void TestCommands::suspensionHeight() {
     QCOMPARE(HeightRRCommandImpl().calculate(frame("223B06", 0x00, 0x96)), -5);
 }
 
+void TestCommands::mainPres() {
+    // (0x01 * 256) + 0x2C = 256 + 44 = 300
+    MainPressCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("223B07", 0x01, 0x2C)), 300);
+}
+
 void TestCommands::resultFields() {
     QVERIFY(CoolantTempCommandImpl().getResultField() == &ObdResult::tempCoolant);
     QVERIFY(OilTempCommandImpl().getResultField() == &ObdResult::tempOil);
@@ -236,6 +245,7 @@ void TestCommands::resultFields() {
     QVERIFY(HeightFRCommandImpl().getResultField() == &ObdResult::heightFR);
     QVERIFY(HeightRLCommandImpl().getResultField() == &ObdResult::heightRL);
     QVERIFY(HeightRRCommandImpl().getResultField() == &ObdResult::heightRR);
+    QVERIFY(MainPressCommandImpl().getResultField() == &ObdResult::mainPres);
 }
 
 QTEST_MAIN(TestCommands)
