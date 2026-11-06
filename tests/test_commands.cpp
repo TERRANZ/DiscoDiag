@@ -17,6 +17,13 @@
 #include "src/command/impl/lr322/FuelLevelCommandImpl.h"
 #include "src/command/impl/lr322/OilLevelCommandImpl.h"
 #include "src/command/impl/lr322/OilVolumeCommandImpl.h"
+#include "src/command/impl/lr322/BoostCommandImpl.h"
+#include "src/command/impl/lr322/IntPressCommandImpl.h"
+#include "src/command/impl/lr322/SpeedCommandImpl.h"
+#include "src/command/impl/lr322/AbsFLCommandImpl.h"
+#include "src/command/impl/lr322/AbsFRCommandImpl.h"
+#include "src/command/impl/lr322/AbsRLCommandImpl.h"
+#include "src/command/impl/lr322/AbsRRCommandImpl.h"
 
 // Realistic ELM327 response: command echo, CR-separated data line, prompt.
 // The parser must not depend on absolute token positions.
@@ -46,6 +53,10 @@ private slots:
     void fuelLevel();
     void oilLevel();
     void oilVolume();
+    void boost();
+    void intPres();
+    void speed();
+    void absWheelSpeed();
     void resultFields();
 };
 
@@ -63,6 +74,13 @@ void TestCommands::commandIds() {
     QCOMPARE(CMD_LVL_OIL_VOL, QString("2203F2"));
     QCOMPARE(CMD_LVL_OIL, QString("2203E6"));
     QCOMPARE(CMD_LVL_FUEL_LITRES, QString("22F42F"));
+    QCOMPARE(CMD_BOOST, QString("22033E"));
+    QCOMPARE(CMD_INT_PRES, QString("22F40B"));
+    QCOMPARE(CMD_SPEED, QString("22F40D"));
+    QCOMPARE(CMD_ABS_FL, QString("222B06"));
+    QCOMPARE(CMD_ABS_FR, QString("222B07"));
+    QCOMPARE(CMD_ABS_RL, QString("222B08"));
+    QCOMPARE(CMD_ABS_RR, QString("222B09"));
 }
 
 void TestCommands::getCmdId() {
@@ -150,6 +168,32 @@ void TestCommands::oilVolume() {
     QCOMPARE(cmd.calculate(frame("2203F2", 0x96)), 15);
 }
 
+void TestCommands::boost() {
+    // identity: b6 = 0x32 = 50
+    BoostCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("22033E", 0x32)), 50);
+}
+
+void TestCommands::intPres() {
+    // identity: b6 = 0x64 = 100
+    IntPressCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("22F40B", 0x64)), 100);
+}
+
+void TestCommands::speed() {
+    // identity: b6 = 0x2A = 42
+    SpeedCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("22F40D", 0x2A)), 42);
+}
+
+void TestCommands::absWheelSpeed() {
+    // identity on all four wheels, distinct values
+    QCOMPARE(AbsFLCommandImpl().calculate(frame("222B06", 0x10)), 16);
+    QCOMPARE(AbsFRCommandImpl().calculate(frame("222B07", 0x20)), 32);
+    QCOMPARE(AbsRLCommandImpl().calculate(frame("222B08", 0x30)), 48);
+    QCOMPARE(AbsRRCommandImpl().calculate(frame("222B09", 0x40)), 64);
+}
+
 void TestCommands::resultFields() {
     QVERIFY(CoolantTempCommandImpl().getResultField() == &ObdResult::tempCoolant);
     QVERIFY(OilTempCommandImpl().getResultField() == &ObdResult::tempOil);
@@ -164,6 +208,13 @@ void TestCommands::resultFields() {
     QVERIFY(FuelLevelCommandImpl().getResultField() == &ObdResult::lvlFuel);
     QVERIFY(OilLevelCommandImpl().getResultField() == &ObdResult::lvlOil);
     QVERIFY(OilVolumeCommandImpl().getResultField() == &ObdResult::lvlOilVol);
+    QVERIFY(BoostCommandImpl().getResultField() == &ObdResult::boost);
+    QVERIFY(IntPressCommandImpl().getResultField() == &ObdResult::intPres);
+    QVERIFY(SpeedCommandImpl().getResultField() == &ObdResult::speed);
+    QVERIFY(AbsFLCommandImpl().getResultField() == &ObdResult::absFL);
+    QVERIFY(AbsFRCommandImpl().getResultField() == &ObdResult::absFR);
+    QVERIFY(AbsRLCommandImpl().getResultField() == &ObdResult::absRL);
+    QVERIFY(AbsRRCommandImpl().getResultField() == &ObdResult::absRR);
 }
 
 QTEST_MAIN(TestCommands)

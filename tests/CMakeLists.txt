@@ -14,6 +14,13 @@ set(COMMAND_SOURCES
         ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/FuelLevelCommandImpl.cpp
         ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/OilLevelCommandImpl.cpp
         ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/OilVolumeCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/BoostCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/IntPressCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/SpeedCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/AbsFLCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/AbsFRCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/AbsRLCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/AbsRRCommandImpl.cpp
 )
 
 add_executable(test_obdparser test_obdparser.cpp)

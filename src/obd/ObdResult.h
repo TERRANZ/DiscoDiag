@@ -22,6 +22,13 @@ public:
   int lvlOilVol = 0;
   int lvlOil = 0;
   int lvlFuel = 0;
+  int boost = 0;
+  int intPres = 0;
+  int speed = 0;
+  int absFL = 0;
+  int absFR = 0;
+  int absRL = 0;
+  int absRR = 0;
 };
 
 Q_DECLARE_METATYPE(ObdResult)
