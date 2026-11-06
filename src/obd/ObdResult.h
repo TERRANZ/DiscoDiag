@@ -37,6 +37,9 @@ public:
   int uTrCase = 0;
   int uAbs = 0;
   int maf = 0;
+  int mileage = 0;
+  int acceler = 0;
+  int rdifLock = 0;
 };
 
 Q_DECLARE_METATYPE(ObdResult)

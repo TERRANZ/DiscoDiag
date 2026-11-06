@@ -29,6 +29,9 @@ set(COMMAND_SOURCES
         ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/UTrCaseCommandImpl.cpp
         ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/UAbsCommandImpl.cpp
         ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/MafCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/MileageCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/AccelerCommandImpl.cpp
+        ${CMAKE_SOURCE_DIR}/src/command/impl/lr322/RDifLockCommandImpl.cpp
 )
 
 add_executable(test_obdparser test_obdparser.cpp)

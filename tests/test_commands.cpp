@@ -32,6 +32,9 @@
 #include "src/command/impl/lr322/UTrCaseCommandImpl.h"
 #include "src/command/impl/lr322/UAbsCommandImpl.h"
 #include "src/command/impl/lr322/MafCommandImpl.h"
+#include "src/command/impl/lr322/MileageCommandImpl.h"
+#include "src/command/impl/lr322/AccelerCommandImpl.h"
+#include "src/command/impl/lr322/RDifLockCommandImpl.h"
 
 // Realistic ELM327 response: command echo, CR-separated data line, prompt.
 // The parser must not depend on absolute token positions.
@@ -70,6 +73,9 @@ private slots:
     void uTrCase();
     void uAbs();
     void maf();
+    void mileage();
+    void acceler();
+    void rdifLock();
     void resultFields();
 };
 
@@ -102,6 +108,9 @@ void TestCommands::commandIds() {
     QCOMPARE(CMD_U_TRCASE, QString("22197C"));
     QCOMPARE(CMD_U_ABS, QString("22D112"));
     QCOMPARE(CMD_MAF, QString("22F410"));
+    QCOMPARE(CMD_MILEAGE, QString("22DD01"));
+    QCOMPARE(CMD_ACCELER, QString("222B12"));
+    QCOMPARE(CMD_RDIF_LOCK, QString("22D120"));
 }
 
 void TestCommands::getCmdId() {
@@ -248,6 +257,30 @@ void TestCommands::maf() {
     QCOMPARE(cmd.calculate(frame("22F410", 0x01, 0x64)), 26);
 }
 
+void TestCommands::mileage() {
+    // Three payload bytes: A=01, B=02, C=03 -> 1*65536 + 2*256 + 3 = 66051
+    const QString threeByteFrame =
+        QStringLiteral("22DD01\r\r7E8 04 62 DD 01 01 02 03\r\r>");
+    MileageCommandImpl cmd;
+    QCOMPARE(cmd.calculate(threeByteFrame), 66051);
+}
+
+void TestCommands::acceler() {
+    // SIGNED(A) is -128 for 0x80: -128*32.8/255 + 100/100 = -15.46 -> -15
+    AccelerCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("222B12", 0x80, 0x64)), -15);
+    // positive: 0 + 255/100 = 2
+    QCOMPARE(cmd.calculate(frame("222B12", 0x00, 0xFF)), 2);
+}
+
+void TestCommands::rdifLock() {
+    // 1 - ((A >> 1) & 1): bit 1 of A inverted
+    RDifLockCommandImpl cmd;
+    QCOMPARE(cmd.calculate(frame("22D120", 0x02)), 0);
+    QCOMPARE(cmd.calculate(frame("22D120", 0x00)), 1);
+    QCOMPARE(cmd.calculate(frame("22D120", 0x01)), 1);
+}
+
 void TestCommands::resultFields() {
     QVERIFY(CoolantTempCommandImpl().getResultField() == &ObdResult::tempCoolant);
     QVERIFY(OilTempCommandImpl().getResultField() == &ObdResult::tempOil);
@@ -277,6 +310,9 @@ void TestCommands::resultFields() {
     QVERIFY(UTrCaseCommandImpl().getResultField() == &ObdResult::uTrCase);
     QVERIFY(UAbsCommandImpl().getResultField() == &ObdResult::uAbs);
     QVERIFY(MafCommandImpl().getResultField() == &ObdResult::maf);
+    QVERIFY(MileageCommandImpl().getResultField() == &ObdResult::mileage);
+    QVERIFY(AccelerCommandImpl().getResultField() == &ObdResult::acceler);
+    QVERIFY(RDifLockCommandImpl().getResultField() == &ObdResult::rdifLock);
 }
 
 QTEST_MAIN(TestCommands)

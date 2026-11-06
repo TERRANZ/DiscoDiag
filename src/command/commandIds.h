@@ -31,5 +31,8 @@ inline const QString CMD_MAIN_PRES = QStringLiteral("223B07");
 inline const QString CMD_U_TRCASE = QStringLiteral("22197C");
 inline const QString CMD_U_ABS = QStringLiteral("22D112");
 inline const QString CMD_MAF = QStringLiteral("22F410");
+inline const QString CMD_MILEAGE = QStringLiteral("22DD01");
+inline const QString CMD_ACCELER = QStringLiteral("222B12");
+inline const QString CMD_RDIF_LOCK = QStringLiteral("22D120");
 
 #endif // COMMANDIDS_H
