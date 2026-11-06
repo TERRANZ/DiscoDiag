@@ -6,11 +6,29 @@
 #include "src/command/impl/common/DisplayHeaderCommandImpl.h"
 #include "src/command/impl/common/ObdResetFixCommandImpl.h"
 #include "src/command/impl/common/SelectProtocolObdCommandImpl.h"
+#include "src/command/impl/lr322/AbsFLCommandImpl.h"
+#include "src/command/impl/lr322/AbsFRCommandImpl.h"
+#include "src/command/impl/lr322/AbsRLCommandImpl.h"
+#include "src/command/impl/lr322/AbsRRCommandImpl.h"
+#include "src/command/impl/lr322/AccelerCommandImpl.h"
+#include "src/command/impl/lr322/BoostCommandImpl.h"
 #include "src/command/impl/lr322/BrakePressCommandImpl.h"
 #include "src/command/impl/lr322/FuelLevelCommandImpl.h"
 #include "src/command/impl/lr322/FuelPressCommandImpl.h"
+#include "src/command/impl/lr322/HeightFLCommandImpl.h"
+#include "src/command/impl/lr322/HeightFRCommandImpl.h"
+#include "src/command/impl/lr322/HeightRLCommandImpl.h"
+#include "src/command/impl/lr322/HeightRRCommandImpl.h"
+#include "src/command/impl/lr322/IntPressCommandImpl.h"
+#include "src/command/impl/lr322/MainPressCommandImpl.h"
+#include "src/command/impl/lr322/MafCommandImpl.h"
+#include "src/command/impl/lr322/MileageCommandImpl.h"
 #include "src/command/impl/lr322/OilLevelCommandImpl.h"
 #include "src/command/impl/lr322/OilVolumeCommandImpl.h"
+#include "src/command/impl/lr322/RDifLockCommandImpl.h"
+#include "src/command/impl/lr322/SpeedCommandImpl.h"
+#include "src/command/impl/lr322/UAbsCommandImpl.h"
+#include "src/command/impl/lr322/UTrCaseCommandImpl.h"
 #include "src/command/impl/lr322/temperature/AmbientAirTempCommandImpl.h"
 #include "src/command/impl/lr322/temperature/ComprTempCommandImpl.h"
 #include "src/command/impl/lr322/temperature/CoolantTempCommandImpl.h"
@@ -40,6 +58,28 @@ ObdService::ObdService(QObject *parent)
   m_commands.emplace_back(std::make_unique<FuelPressCommandImpl>());
   m_commands.emplace_back(std::make_unique<BrakePressCommandImpl>());
   m_commands.emplace_back(std::make_unique<FuelLevelCommandImpl>());
+
+  m_commands.emplace_back(std::make_unique<SpeedCommandImpl>());
+  m_commands.emplace_back(std::make_unique<BoostCommandImpl>());
+  m_commands.emplace_back(std::make_unique<IntPressCommandImpl>());
+  m_commands.emplace_back(std::make_unique<MainPressCommandImpl>());
+  m_commands.emplace_back(std::make_unique<MafCommandImpl>());
+  m_commands.emplace_back(std::make_unique<MileageCommandImpl>());
+  m_commands.emplace_back(std::make_unique<UTrCaseCommandImpl>());
+  m_commands.emplace_back(std::make_unique<UAbsCommandImpl>());
+
+  m_commands.emplace_back(std::make_unique<AbsFLCommandImpl>());
+  m_commands.emplace_back(std::make_unique<AbsFRCommandImpl>());
+  m_commands.emplace_back(std::make_unique<AbsRLCommandImpl>());
+  m_commands.emplace_back(std::make_unique<AbsRRCommandImpl>());
+
+  m_commands.emplace_back(std::make_unique<HeightFLCommandImpl>());
+  m_commands.emplace_back(std::make_unique<HeightFRCommandImpl>());
+  m_commands.emplace_back(std::make_unique<HeightRLCommandImpl>());
+  m_commands.emplace_back(std::make_unique<HeightRRCommandImpl>());
+
+  m_commands.emplace_back(std::make_unique<AccelerCommandImpl>());
+  m_commands.emplace_back(std::make_unique<RDifLockCommandImpl>());
 
   connect(m_backend, &BtBackend::messageReceived, this,
           &ObdService::messageReceived);
