@@ -24,6 +24,10 @@
 #include "src/command/impl/lr322/AbsFRCommandImpl.h"
 #include "src/command/impl/lr322/AbsRLCommandImpl.h"
 #include "src/command/impl/lr322/AbsRRCommandImpl.h"
+#include "src/command/impl/lr322/HeightFLCommandImpl.h"
+#include "src/command/impl/lr322/HeightFRCommandImpl.h"
+#include "src/command/impl/lr322/HeightRLCommandImpl.h"
+#include "src/command/impl/lr322/HeightRRCommandImpl.h"
 
 // Realistic ELM327 response: command echo, CR-separated data line, prompt.
 // The parser must not depend on absolute token positions.
@@ -57,6 +61,7 @@ private slots:
     void intPres();
     void speed();
     void absWheelSpeed();
+    void suspensionHeight();
     void resultFields();
 };
 
@@ -81,6 +86,10 @@ void TestCommands::commandIds() {
     QCOMPARE(CMD_ABS_FR, QString("222B07"));
     QCOMPARE(CMD_ABS_RL, QString("222B08"));
     QCOMPARE(CMD_ABS_RR, QString("222B09"));
+    QCOMPARE(CMD_HEIGHT_FL, QString("223B03"));
+    QCOMPARE(CMD_HEIGHT_FR, QString("223B04"));
+    QCOMPARE(CMD_HEIGHT_RL, QString("223B05"));
+    QCOMPARE(CMD_HEIGHT_RR, QString("223B06"));
 }
 
 void TestCommands::getCmdId() {
@@ -194,6 +203,14 @@ void TestCommands::absWheelSpeed() {
     QCOMPARE(AbsRRCommandImpl().calculate(frame("222B09", 0x40)), 64);
 }
 
+void TestCommands::suspensionHeight() {
+    // ((A*256) + B) / 10 - 20
+    QCOMPARE(HeightFLCommandImpl().calculate(frame("223B03", 0x00, 0x00)), -20);
+    QCOMPARE(HeightFRCommandImpl().calculate(frame("223B04", 0x01, 0x2C)), 10);
+    QCOMPARE(HeightRLCommandImpl().calculate(frame("223B05", 0x00, 0x32)), -15);
+    QCOMPARE(HeightRRCommandImpl().calculate(frame("223B06", 0x00, 0x96)), -5);
+}
+
 void TestCommands::resultFields() {
     QVERIFY(CoolantTempCommandImpl().getResultField() == &ObdResult::tempCoolant);
     QVERIFY(OilTempCommandImpl().getResultField() == &ObdResult::tempOil);
@@ -215,6 +232,10 @@ void TestCommands::resultFields() {
     QVERIFY(AbsFRCommandImpl().getResultField() == &ObdResult::absFR);
     QVERIFY(AbsRLCommandImpl().getResultField() == &ObdResult::absRL);
     QVERIFY(AbsRRCommandImpl().getResultField() == &ObdResult::absRR);
+    QVERIFY(HeightFLCommandImpl().getResultField() == &ObdResult::heightFL);
+    QVERIFY(HeightFRCommandImpl().getResultField() == &ObdResult::heightFR);
+    QVERIFY(HeightRLCommandImpl().getResultField() == &ObdResult::heightRL);
+    QVERIFY(HeightRRCommandImpl().getResultField() == &ObdResult::heightRR);
 }
 
 QTEST_MAIN(TestCommands)

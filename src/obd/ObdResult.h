@@ -29,6 +29,10 @@ public:
   int absFR = 0;
   int absRL = 0;
   int absRR = 0;
+  int heightFL = 0;
+  int heightFR = 0;
+  int heightRL = 0;
+  int heightRR = 0;
 };
 
 Q_DECLARE_METATYPE(ObdResult)

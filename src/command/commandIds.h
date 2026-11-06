@@ -23,5 +23,9 @@ inline const QString CMD_ABS_FL = QStringLiteral("222B06");
 inline const QString CMD_ABS_FR = QStringLiteral("222B07");
 inline const QString CMD_ABS_RL = QStringLiteral("222B08");
 inline const QString CMD_ABS_RR = QStringLiteral("222B09");
+inline const QString CMD_HEIGHT_FL = QStringLiteral("223B03");
+inline const QString CMD_HEIGHT_FR = QStringLiteral("223B04");
+inline const QString CMD_HEIGHT_RL = QStringLiteral("223B05");
+inline const QString CMD_HEIGHT_RR = QStringLiteral("223B06");
 
 #endif // COMMANDIDS_H
